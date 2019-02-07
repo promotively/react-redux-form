@@ -1,0 +1,13 @@
+build/
+example/
+src/
+test/
+node_modules/
+.DS_Store
+.babelrc
+.eslintrc
+.gitignore
+.yarnignore
+jest.config.js
+webpack.config.js
+yarn-error.log
