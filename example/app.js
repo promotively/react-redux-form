@@ -7,13 +7,13 @@
  * @license MIT
  */
 
-import FormLogin from './containers/form-login';
+import LoginForm from './containers/login-form';
 import { Provider } from 'react-redux';
 import React from 'react';
 
 const createReactApp = (store) => (
   <Provider store={store}>
-    <FormLogin id="login-form-demo" />
+    <LoginForm id="login-form-demo" />
   </Provider>
 );
 

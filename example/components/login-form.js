@@ -13,7 +13,7 @@ import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 import React from 'react';
 
-const FormLogin = (props) => (
+const LoginForm = (props) => (
   <React.Fragment>
     <h1>react-redux-form Example</h1>
     <FormContainer id={props.id} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
@@ -32,4 +32,4 @@ const FormLogin = (props) => (
   </React.Fragment>
 );
 
-export default FormLogin;
+export default LoginForm;

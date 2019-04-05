@@ -10,7 +10,7 @@
 /* eslint-disable no-alert */
 
 import { createFormDisabledSelector } from '../../src/index';
-import FormLogin from '../components/form-login';
+import LoginForm from '../components/login-form';
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
 
@@ -55,8 +55,8 @@ const handleSubmit = (data) => new Promise((resolve, reject) => {
   }, 1000);
 });
 
-const FormLoginContainer = withRedux(mapStateToProps)((props) => (
-  <FormLogin
+const LoginFormContainer = withRedux(mapStateToProps)((props) => (
+  <LoginForm
     id={props.id}
     onValidateForm={handleFormValidation}
     onValidateFormInput={handleFormInputValidation}
@@ -65,4 +65,4 @@ const FormLoginContainer = withRedux(mapStateToProps)((props) => (
   />
 ));
 
-export default FormLoginContainer;
+export default LoginFormContainer;
