@@ -8,7 +8,7 @@ Universal react.js/redux.js library for building forms.
 * You are frustrated with using redux-form.
 * You want an easy yet powerful way to build forms.
 * You are building a new app and want to use redux.js to handle your form state.
-* You have a bunch of repetitive form related react.js/redux.js boilerplate that has become a major time sink.
+* You have a bunch of repetitive form related react.js/redux.js boilerplate you wish didn't exist.
 * You want a proper form abstraction layer but don't have the time to build one.
 * You want to be able to debug your forms through redux dev tools.
 * You need a library that is compatible with server side rendering.
@@ -57,7 +57,7 @@ export default store;
 
 ## Usage
 
-Wrap your form component using ```withForm```.
+Wrap your form component using the ```withForm``` higher order component.
 
 ```javascript
 // components/form.js
@@ -83,7 +83,7 @@ const FormContainer = withForm(Form);
 export default FormContainer;
 ```
 
-Wrap your form input component(s) using ```withFormInput```.
+Wrap your form input component(s) using the ```withFormInput``` higher order component.
 
 ```javascript
 // components/form-input.js
@@ -112,7 +112,7 @@ const FormInputContainer = withFormInput(FormInput);
 export default FormInputContainer;
 ```
 
-Use your form and form input container components to compose a form.
+Use your form and form input container components to compose a form. (id is the only prop that is required)
 
 ```javascript
 // components/form.js
@@ -121,7 +121,7 @@ import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const FormLogin = (props) => (
+const LoginForm = (props) => (
   <FormContainer id={props.id}>
     <FormInputContainer id="email" name="Email" type="email" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -129,7 +129,7 @@ const FormLogin = (props) => (
   </FormContainer>
 );
 
-export default FormLogin;
+export default LoginForm;
 ```
 
 ```javascript
@@ -141,17 +141,17 @@ import { render } from 'react-dom';
 const store = createReduxStore();
 const app = (
   <Provider store={store}>
-    <FormLogin id="test-login-form" />
+    <LoginForm id="login-form" />
   </Provider>
 );
 
 render(app, document.getElementsByTagName('main')[0]);
 ```
 
-Add a submit handler to the form.
+Add an onSubmit handler to the form.
 
 ```javascript
-// containers/form-login.js
+// containers/login-form.js
 import axios from 'axios';
 import React from 'react';
 
@@ -161,25 +161,21 @@ const handleFormSubmit = (data) => (
   ))
 );
 
-const FormLoginContainer = (props) => (
-  <FormLogin
-    id={props.id}
-    disabled={props.disabled}
-    onSubmit={handleFormSubmit}
-  />
+const LoginFormContainer = (props) => (
+  <LoginForm id={props.id} disabled={props.disabled} onSubmit={handleFormSubmit} />
 );
 
-export default FormLoginContainer;
+export default LoginFormContainer;
 ```
 
 ```javascript
-// component/form-login.js
+// component/login-form.js
 
 import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const FormLogin = (props) => (
+const LoginForm = (props) => (
   <FormContainer id={props.id} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -187,13 +183,13 @@ const FormLogin = (props) => (
   </FormContainer>
 );
 
-export default FormLogin;
+export default LoginForm;
 ```
 
-Add inline error handling to the form.
+Add inline error handling to the form (optional).
 
 ```javascript
-// containers/form-login.js
+// containers/login-form.js
 import axios from 'axios';
 import React from 'react';
 
@@ -213,26 +209,21 @@ const handleFormSubmit = (data) => (
   ))
 );
 
-const FormLoginContainer = (props) => (
-  <FormLogin
-    id={props.id}
-    disabled={props.disabled}
-    onValidateForm={handleFormValidation}
-    onSubmit={handleFormSubmit}
-  />
+const LoginFormContainer = (props) => (
+  <LoginForm id={props.id} disabled={props.disabled} onValidateForm={handleFormValidation} onSubmit={handleFormSubmit} />
 );
 
-export default FormLoginContainer;
+export default LoginFormContainer;
 ```
 
 ```javascript
-// component/form-login.js
+// component/login-form.js
 
 import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const FormLogin = (props) => (
+const LoginForm = (props) => (
   <FormContainer id={props.id} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -240,19 +231,19 @@ const FormLogin = (props) => (
   </FormContainer>
 );
 
-export default FormLogin;
+export default LoginForm;
 ```
 
-Add a default value to a form input.
+Add a default value to a form input (optional).
 
 ```javascript
-// component/form-login.js
+// component/login-form.js
 
 import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const FormLogin = (props) => (
+const LoginForm = (props) => (
   <FormContainer id={props.id} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" defaultValue="name@example.com" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -260,13 +251,13 @@ const FormLogin = (props) => (
   </FormContainer>
 );
 
-export default FormLogin;
+export default LoginForm;
 ```
 
-Add inline error handling to the form inputs.
+Add inline error handling to the form inputs (optional).
 
 ```javascript
-// containers/form-login.js
+// containers/login-form.js
 import axios from 'axios';
 import React from 'react';
 
@@ -298,35 +289,29 @@ const handleFormSubmit = (data) => (
   ))
 );
 
-const FormLoginContainer = (props) => (
-  <FormLogin
-    id={props.id}
-    disabled={props.disabled}
-    onValidateFormEmail={handleFormEmailValidation}
-    onValidateFormPassword={handleFormPasswordValidation}
-    onSubmit={handleFormSubmit}
-  />
+const LoginFormContainer = (props) => (
+  <LoginForm id={props.id} disabled={props.disabled} onValidateEmail={handleFormEmailValidation} onValidatePassword={handleFormPasswordValidation} onSubmit={handleFormSubmit} />
 );
 
-export default FormLoginContainer;
+export default LoginFormContainer;
 ```
 
 ```javascript
-// component/form-login.js
+// component/login-form.js
 
 import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const FormLogin = (props) => (
+const LoginForm = (props) => (
   <FormContainer id={props.id} onSubmit={props.onSubmit}>
-    <FormInputContainer id="email" name="Email" type="email" onValidate={props.onValidateFormEmail} />
-    <FormInputContainer id="password" name="Password" type="password" onValidate={props.onValidateFormPassword} />
+    <FormInputContainer id="email" name="Email" type="email" onValidate={props.onValidateEmail} />
+    <FormInputContainer id="password" name="Password" type="password" onValidate={props.onValidatePassword} />
     <button disabled={props.disabled}>Submit</button>
   </FormContainer>
 );
 
-export default FormLogin;
+export default LoginForm;
 ```
 
 ## API
