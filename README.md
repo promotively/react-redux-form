@@ -380,6 +380,10 @@ This library has 100% unit test code coverage.
 
 Code coverage is available inside the ```dist/coverage``` folder.
 
+```
+yarn test
+```
+
 ## Documentation
 
 The source code is documented using JSDoc syntax.
