@@ -1,3 +1,10 @@
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![NPM Version](https://badge.fury.io/js/%40promotively%2Freact-redux-form.svg)](https://badge.fury.io/js/%40promotively%2Freact-redux-form)
+[![Coverage Status](https://coveralls.io/repos/github/promotively/react-redux-form/badge.svg)](https://coveralls.io/github/promotively/react-redux-form)
+[![Build Status](https://codebuild.us-west-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiN3BRdWU4eHhaOU50VG9oZEhsaHJ4YmJxQWVXNmhyVUdpN21MQk0zVTNMRVQ4clFTOTA3TXdnNU5EUFFyaEUxTktnVzFkV0J4azNZZG03R3p3eFNhR0FNPSIsIml2UGFyYW1ldGVyU3BlYyI6Ikt4R0REVk5ZQlZwQnAyY3EiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)](https://aws.amazon.com/codebuild)
+[![GitHub Issues](https://img.shields.io/github/issues/promotively/react-redux-form.svg)](https://github.com/promotively/react-redux-form/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/promotively/react-redux-form.svg)](https://GitHub.com/promotively/react-redux-form/pull/)
+
 # @promotively/react-redux-form
 
 Universal react.js/redux.js library for building forms.
