@@ -7,6 +7,10 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/reduxjs/redux}
+ */
+
 import {
   FORM_INPUT_BLUR,
   FORM_INPUT_CHANGE,
@@ -21,19 +25,18 @@ import {
 import clone from 'clone';
 
 /**
- * Initial state used for the first time the reducer function is called.
+ * Initial state used for the first time the redux.js reducer function is called.
  * @constant
- * @type {object}
+ * @type {Object}
  */
 const initialState = {};
 
 /**
- * Reducer function to handle the state mutations that are required for handling form inputs.
+ * The redux.js reducer function to handle any state mutations that are required for handling form inputs.
  * @function
- * @param {object} state The current state of the store.
- * @param {object} action The action that was dispatched.
- *
- * @returns {object} Deep clone of the existing state of the store with any mutations related to handling form inputs.
+ * @param {Object} state The current state inside the redux.js store.
+ * @param {Object} action The last redux.js action that was dispatched.
+ * @returns {Object} Deep clone of the existing state of the store with any mutations related to handling form inputs.
 */
 const formInputReducer = (state = initialState, action) => {
   const formInputId = `${action.formId}__${action.inputId}`;

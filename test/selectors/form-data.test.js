@@ -28,7 +28,7 @@ const inputValues = [
 
 describe('selectors/form-data.js', () => {
   it('should return the correct serialized form payload.', () => {
-    const formDataSelector = createFormDataSelector();
+    const formDataSelector = createFormDataSelector(formId);
     const mockState = {
       form: {
         [formId]: {}
@@ -45,11 +45,8 @@ describe('selectors/form-data.js', () => {
         }
       }
     };
-    const mockProps = {
-      id: formId
-    };
 
-    expect(formDataSelector(mockState, mockProps)).toEqual({
+    expect(formDataSelector(mockState)).toEqual({
       [inputIds[0]]: inputValues[0],
       [inputIds[1]]: inputValues[1],
       [inputIds[2]]: inputValues[2]

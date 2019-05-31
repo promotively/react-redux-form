@@ -7,17 +7,34 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/reduxjs/reselect}
+ */
+
 import { createSelector } from 'reselect';
 
 /**
- * Returns a selector function that returns the current form active state.
+ * Returns a reselect.js selector function that returns the current form active state.
  * @function
- * @returns {function} reselect.js based selector
-*/
-const createFormActiveSelector = () => createSelector(
+ * @param {String} formId The ID for the form.
+ * @returns {Function} A reselect.js selector function.
+ * @example
+ * ...
+ *
+ * import { createFormActiveSelector } from '@promotively/react-redux-form';
+ *
+ * const mapStateToProps = (state) => {
+ *   const formActiveSelector = createFormActiveSelector('profile');
+ *
+ *   return {
+ *     active: formActiveSelector(state)
+ *
+ * ...
+ */
+const createFormActiveSelector = (formId) => createSelector(
   (state) => (
     Object.keys(state.formInput).some((key) => (
-      state.formInput[key].active
+      formId === key.split('__')[0] && state.formInput[key].active
     ))
   ),
   (active) => (

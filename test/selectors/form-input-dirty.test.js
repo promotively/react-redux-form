@@ -15,7 +15,7 @@ const inputKey = `${formId}__${inputId}`;
 
 describe('selectors/form-input-active.js', () => {
   it('should return a boolean indicating whether the form input value has changed.', () => {
-    const formInputDirtySelector = createFormInputDirtySelector();
+    const formInputDirtySelector = createFormInputDirtySelector(formId, inputId);
     const mockState = {
       form: {
         [formId]: {}
@@ -26,11 +26,7 @@ describe('selectors/form-input-active.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputDirtySelector(mockState, mockProps)).toEqual(true);
+    expect(formInputDirtySelector(mockState)).toEqual(true);
   });
 });

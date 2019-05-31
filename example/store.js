@@ -8,7 +8,8 @@
  */
 
 import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { formReducer, formInputReducer } from '../src/index';
+import { formReducer, formInputReducer } from '../src';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
 const createReduxStore = () => createStore(
@@ -16,7 +17,7 @@ const createReduxStore = () => createStore(
     form: formReducer,
     formInput: formInputReducer
   }),
-  applyMiddleware(...[ thunk ])
+  composeWithDevTools(applyMiddleware(...[ thunk ]))
 );
 
 export default createReduxStore;

@@ -7,16 +7,34 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/reduxjs/reselect}
+ */
+
 import { createSelector } from 'reselect';
 
 /**
- * Returns a selector function that returns the current form input dirty state.
+ * Returns a reselect.js selector function that returns the current form input dirty state.
  * @function
- * @returns {function} reselect.js based selector
-*/
-const createFormInputDirtySelector = () => createSelector(
-  (state, props) => {
-    const input = state.formInput[`${props.formId}__${props.id}`];
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Function} A reselect.js selector function.
+ * @example
+ * ...
+ *
+ * import { createFormInputDirtySelector } from '@promotively/react-redux-form';
+ *
+ * const mapStateToProps = (state) => {
+ *   const formInputDirtySelector = createFormInputDirtySelector('profile', 'name');
+ *
+ *   return {
+ *     dirty: formInputDirtySelector(state)
+ *
+ * ...
+ */
+const createFormInputDirtySelector = (formId, inputId) => createSelector(
+  (state) => {
+    const input = state.formInput[`${formId}__${inputId}`];
 
     return Boolean(input && input.dirty);
   },

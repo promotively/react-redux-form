@@ -7,17 +7,34 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/reduxjs/reselect}
+ */
+
 import { createSelector } from 'reselect';
 
 /**
- * Returns a selector function to get the current form payload.
+ * Returns a reselect.js selector function to get the current form payload.
  * @function
- * @returns {function} reselect.js based selector
-*/
-const createFormDataSelector = () => createSelector(
-  (state, props) => (
+ * @param {String} formId The ID for the form.
+ * @returns {Function} A reselect.js selector function.
+ * @example
+ * ...
+ *
+ * import { createFormDataSelector } from '@promotively/react-redux-form';
+ *
+ * const mapStateToProps = (state) => {
+ *   const formDataSelector = createFormDataSelector('profile');
+ *
+ *   return {
+ *     data: formDataSelector(state)
+ *
+ * ...
+ */
+const createFormDataSelector = (formId) => createSelector(
+  (state) => (
     Object.keys(state.formInput).filter((key) => (
-      props.id === key.split('__')[0]
+      formId === key.split('__')[0]
     )).map((key) => ({
       name: key.split('__')[1],
       value: state.formInput[key].value

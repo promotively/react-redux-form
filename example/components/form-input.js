@@ -9,13 +9,14 @@
 
 /* eslint-disable react/prop-types */
 
-import InfoBox from './info-box';
+import Meta from './meta';
 import React from 'react';
+import Wrapper from './wrapper';
 
 const FormInput = (props) => (
   <div style={{ marginTop: '10px' }}>
-    <label style={{ display: 'block' }}>
-      <div>{props.name}</div>
+    <Wrapper>
+      <div style={{ paddingBottom: '10px' }}>This is a {props.name} form input. The boxes to the right of the form input display all the possible properties available for you to use in your own form input components.</div>
       <div style={{ display: 'flex' }}>
         <input
           id={`${props.formId}__${props.id}`}
@@ -24,16 +25,21 @@ const FormInput = (props) => (
           onFocus={props.onFocus}
           value={props.value}
           type={props.type}
-          style={{ border: '1px solid #000', marginRight: '5px', padding: '5px', width: '200px' }}
+          style={{
+            border: '1px solid #000',
+            marginRight: '10px',
+            padding: '5px',
+            width: '200px'
+          }}
         />
-        <InfoBox name="Active" value={props.active} />
-        <InfoBox name="Complete" value={props.complete} />
-        <InfoBox name="Disabled" value={props.disabled} />
-        <InfoBox name="Dirty" value={props.dirty} />
-        <InfoBox name="Focus" value={props.focus} />
-        <InfoBox name="Error" value={Boolean(props.error)} />
+        <Meta name="Active" value={props.active} />
+        <Meta name="Complete" value={props.complete} />
+        <Meta name="Disabled" value={props.disabled} />
+        <Meta name="Dirty" value={props.dirty} />
+        <Meta name="Focus" value={props.focus} />
+        <Meta name="Error" value={Boolean(props.error)} />
       </div>
-    </label>
+    </Wrapper>
   </div>
 );
 

@@ -7,47 +7,61 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/reduxjs/redux}
+ * @see {@link https://github.com/reduxjs/redux-thunk}
+ */
+
 /**
- * Value for the FORM_COMPLETE action type.
+ * Value for the FORM_COMPLETE redux.js action type.
  * @constant
  * @type {string}
  */
 export const FORM_COMPLETE = '@@promotively/FORM_COMPLETE';
 
 /**
- * Value for the FORM_CREATE action type.
+ * Value for the FORM_CREATE redux.js action type.
  * @constant
  * @type {string}
  */
 export const FORM_CREATE = '@@promotively/FORM_CREATE';
 
 /**
- * Value for the FORM_ERROR action type.
+ * Value for the FORM_ERROR redux.js action type.
  * @constant
  * @type {string}
  */
 export const FORM_ERROR = '@@promotively/FORM_ERROR';
 
 /**
- * Value for the FORM_LOADING action type.
+ * Value for the FORM_LOADING redux.js action type.
  * @constant
  * @type {string}
  */
 export const FORM_LOADING = '@@promotively/FORM_LOADING';
 
 /**
- * Value for the FORM_REMOVE action type.
+ * Value for the FORM_REMOVE redux.js action type.
  * @constant
  * @type {string}
  */
 export const FORM_REMOVE = '@@promotively/FORM_REMOVE';
 
 /**
- * Creates an action that creates a form in the store.
+ * Creates a redux.js action that creates a form.
  * @function
- * @param {string} id Unique identifier for the form.
+ * @param {String} id The ID for the form.
+ * @returns {Object} The redux.js action for the FORM_CREATE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_CREATE type.
+ * import { createForm } from '@promotively/react-redux-form';
+ *
+ * const createLoginForm = (props) => (
+ *   props.dispatch(createForm('login'))
+ * );
+ *
+ * ...
  */
 export const createForm = (id) => ({
   id,
@@ -55,11 +69,20 @@ export const createForm = (id) => ({
 });
 
 /**
- * Creates an action that removes a form from the store.
+ * Creates a redux.js action that removes a form.
  * @function
- * @param {string} id Unique identifier for the form.
+ * @param {String} id The ID for the form.
+ * @returns {Object} The redux.js action for the FORM_REMOVE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_REMOVE type.
+ * import { removeForm } from '@promotively/react-redux-form';
+ *
+ * const destroyLoginForm = (props) => (
+ *   props.dispatch(removeForm('login'))
+ * );
+ *
+ * ...
  */
 export const removeForm = (id) => ({
   id,
@@ -67,41 +90,98 @@ export const removeForm = (id) => ({
 });
 
 /**
- * Creates an action that errors a form in the store.
+ * Creates a redux.js action that sets the error state on a form.
  * @function
- * @param {string} id Unique identifier for the form.
- * @param {object} error Error object.
+ * @param {String} id The ID for the form.
+ * @param {Error} error An error object containing the error message for the form.
+ * @returns {Object} The redux.js action for the FORM_ERROR redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_ERROR type.
+ * import { errorForm } from '@promotively/react-redux-form';
+ *
+ * const handleAccountBanError = (props) => (
+ *   props.dispatch(errorForm('login', new Error('Your account has been banned for 24 hours.')))
+ * );
+ *
+ * ...
  */
-export const errorWithForm = (id, error) => ({
+export const errorForm = (id, error) => ({
   error: error.message,
   id,
   type: FORM_ERROR
 });
 
 /**
- * Creates an asynchronous action that submits a form and updates form in the store.
+ * Creates a redux.js action that sets the loading state on a form.
  * @function
- * @param {string} id Unique identifier for the form.
- * @param {string} data Data payload for the form.
- * @param {function} action Asychronous function that returns a promise to be resolved.
+ * @param {String} id The ID for the form.
+ * @returns {Object} The redux.js action for the FORM_LOADING redux.js action type.
+ * @example
+ * ...
  *
- * @returns {function} Asychronous function that returns a promise that resolves the action.
+ * import { loadingForm } from '@promotively/react-redux-form';
+ *
+ * // 50% chance of a form not loading and getting stuck on a spinning wheel of death :))
+ * const triggerTrollFormLoadingBug = (props) => (
+ *   Math.random() < 0.5 && props.dispatch(loadingForm(props.id))
+ * );
+ *
+ * ...
+ */
+export const loadingForm = (id) => ({
+  id,
+  type: FORM_LOADING
+});
+
+/**
+ * Creates a redux.js action that sets the complete state on a form.
+ * @function
+ * @param {String} id The ID for the form.
+ * @param {Object|Array} data An object or array containing the data from the form submission.
+ * @returns {Object} The redux.js action for the FORM_LOADING redux.js action type.
+ * @example
+ * ...
+ *
+ * import { completeForm } from '@promotively/react-redux-form';
+ *
+ * const completeLoginForm = (props) => (
+ *   props.dispatch(completeForm('login', { email: 'steven.ewing@promotively.com', token: '2afa99040e27b9' }))
+ * );
+ *
+ * ...
+ */
+export const completeForm = (id, data) => ({
+  data,
+  id,
+  type: FORM_COMPLETE
+});
+
+/**
+ * Creates a redux.js thunk that submits a form.
+ * @function
+ * @param {String} id The ID for the form.
+ * @param {Object} data The data payload for the form.
+ * @param {Function} action A function that returns a promise to be resolved during form submission.
+ * @returns {Function} A function that returns a promise that dispatches redux.js actions for FORM_LOADING to FORM_ERROR and FORM_LOADING to FORM_COMPLETE during form submission.
+ * @example
+ * ...
+ *
+ * import { submitForm } from '@promotively/react-redux-form';
+ *
+ * const data = { email: 'steven.ewing@promotively.com', password: 'hunter42' };
+ * const submitLoginForm = (props) => (
+ *   submitForm('login', data, () => Promise.resolve(data)))
+ * );
+ *
+ * ...
  */
 export const submitForm = (id, data, action) => (dispatch) => {
-  dispatch({
-    id,
-    type: FORM_LOADING
-  });
+  dispatch(loadingForm(id));
 
   return action(data).then((response) => (
-    dispatch({
-      data: response,
-      id,
-      type: FORM_COMPLETE
-    })
+    dispatch(completeForm(id, response))
   )).catch((error) => (
-    dispatch(errorWithForm(id, error))
+    dispatch(errorForm(id, error))
   ));
 };

@@ -17,7 +17,7 @@ const inputKeys = [
 
 describe('selectors/form-active.js', () => {
   it('should return true when any form inputs are active.', () => {
-    const formActiveSelector = createFormActiveSelector();
+    const formActiveSelector = createFormActiveSelector(formId);
     const mockState = {
       form: {
         [formId]: {}
@@ -36,7 +36,7 @@ describe('selectors/form-active.js', () => {
   });
 
   it('should return false when no form inputs are active.', () => {
-    const formActiveSelector = createFormActiveSelector();
+    const formActiveSelector = createFormActiveSelector(formId);
     const mockState = {
       form: {
         [formId]: {}

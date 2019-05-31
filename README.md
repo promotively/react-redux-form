@@ -15,7 +15,7 @@ Universal react.js/redux.js library for building forms.
 * You are frustrated with using redux-form.
 * You want an easy yet powerful way to build forms.
 * You are building a new app and want to use redux.js to handle your form state.
-* You have a bunch of repetitive form related react.js/redux.js boilerplate you wish didn't exist.
+* You have existing repetitive form related react.js/redux.js boilerplate that you want to refactor.
 * You want a proper form abstraction layer but don't have the time to build one.
 * You want to be able to debug your forms through redux dev tools.
 * You need a library that is compatible with server side rendering.
@@ -25,6 +25,8 @@ Universal react.js/redux.js library for building forms.
 * You need client side error validation on a form or form input(s).
 
 ## Installation
+
+Requires **React 16.8.3 or later and Redux 7.0.0 or later.**
 
 With Yarn
 
@@ -38,7 +40,21 @@ With NPM
 
 A working example is available inside the ```/example``` folder.
 
-Once you have performed ```yarn build``` go to the ```dist/example``` folder and from there you can open the ```index.html``` file to run the example.
+Once you have executed ```yarn build``` go to the ```dist/example``` folder and from there you can open the ```index.html``` file to run the example.
+
+An example is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/example/index.html).
+
+## Documentation
+
+The source code is documented using JSDoc syntax and documentation is generated using [esdoc](https://github.com/esdoc/esdoc).
+
+Once you have executed ```yarn docs``` documentation is available inside the ```dist/docs``` folder.
+
+Documentation for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/docs/index.html).
+
+## Feedback
+
+Feedback is more than welcome via [GitHub](https://www.github.com/promotively) or [Twitter](https://www.twitter.com/promotively).
 
 ## Setup
 
@@ -326,17 +342,19 @@ export default LoginForm;
 
 | Function | Arguments | Description |
 | --- | --- | --- |
+| `completeForm` | (formId) | Completes a form. |
 | `createForm` | (formId) | Create a form. |
-| `errorWithForm` | (formId, error) | Set the error on a form. |
-| `submitForm` | (formId, data, action) | Submit a form asynchronously. |
+| `errorForm` | (formId, error) | Set the error state on a form. |
+| `loadingForm` | (formId) | Sets the loading state on a form. |
+| `submitForm` | (formId, data, action) | Submit a form. |
 | `removeForm` | (formId) | Remove a form. |
 | `blurFormInput` | (formId, inputId) | Blur a form input. |
 | `changeFormInput` | (formId, inputId, defaultValue, newValue) | Change the value of a form input. |
-| `completeFormInput` | (formId, inputId) | Complete the value a form input. |
+| `completeFormInput` | (formId, inputId) | Complete the value of a form input. |
 | `createFormInput` | (formId, inputId, defaultValue) | Create a form input. |
 | `disableFormInput` | (formId, inputId) | Disable a form input. |
 | `enableFormInput` | (formId, inputId) | Enable a form input. |
-| `errorWithFormInput` | (formId, inputId, error) | Set the error on a form input. |
+| `errorFormInput` | (formId, inputId, error) | Set the error on a form input. |
 | `focusFormInput` | (formId, inputId) | Focus a form input. |
 | `removeFormInput` | (formId, inputId) | Remove a form input. |
 
@@ -344,62 +362,38 @@ export default LoginForm;
 
 | Function | Arguments | Description | Props
 | --- | --- | --- | --- |
-| `withForm` | (Component) | Higher order component that handles forms. | { active, complete, data, dirty, error, errorWithForm, loading, onValidate, HTMLFormElementProps, HTMLElementProps}
-| `withFormInput` | (Component) | Higher order component that handles form inputs. | { active, blurFormInput, changeFormInput, complete, completeFormInput, defaultValue, dirty, error, errorWithFormInput, focus, focusFormInput, onValidate, HTMLInputElementProps, HTMLElementProps}
+| `withForm` | (Component) | Higher order react.js component that handles forms. | { active, complete, data, dirty, error, errorForm, loading, onValidate, HTMLFormElementProps, HTMLElementProps}
+| `withFormInput` | (Component) | Higher order react.js component that handles form inputs. | { active, blurFormInput, changeFormInput, complete, completeFormInput, defaultValue, dirty, error, errorFormInput, focus, focusFormInput, onValidate, HTMLInputElementProps, HTMLElementProps}
 
 ### Redux Reducers
 
 | Function | Description |
 | --- | --- 
-| `formReducer` | Redux reducer to handle the state mutations for forms. |
-| `formInputReducer` | Redux reducer to handle the state mutations for form inputs. |
+| `formReducer` | A redux.js reducer function to handle the state mutations for forms. |
+| `formInputReducer` | A redux.js reducer function to handle the state mutations for form inputs. |
 
 ### React Redux Selectors
 
 | Function | Description |
 | --- | --- |
-| `createFormActiveSelector` | Get the form active state. |
-| `createFormCompleteSelector` | Get the form complete state. |
-| `createFormDataSelector` | Get the form data. |
-| `createFormDirtySelector` | Get the form dirty state. |
-| `createFormDisabledSelector` | Get the form disabled state. |
-| `createFormErrorSelector` | Get the form error state. |
-| `createFormLoadingSelector` | Get the form loading state. |
-| `createFormInputActiveSelector` | Get the form input active state. |
-| `createFormInputCompleteSelector` | Get the form input complete state. |
-| `createFormInputDirtySelector` | Get the form input dirty state. |
-| `createFormInputDisabledSelector` | Get the form input disabled state. |
-| `createFormInputErrorSelector` | Get the form input error state. |
-| `createFormInputFocusSelector` | Get the form input focus state. |
-| `createFormInputValueSelector` | Get the form input value state. |
+| `createFormActiveSelector` | Create a reselect.js selector function to get the form active state. |
+| `createFormCompleteSelector` | Create a reselect.js selector function to get the form complete state. |
+| `createFormDataSelector` | Create a reselect.js selector function to get the form data. |
+| `createFormDirtySelector` | Create a reselect.js selector function to get the form dirty state. |
+| `createFormDisabledSelector` | Create a reselect.js selector function to get the form disabled state. |
+| `createFormErrorSelector` | Create a reselect.js selector function to get the form error state. |
+| `createFormLoadingSelector` | Create a reselect.js selector function to get the form loading state. |
+| `createFormInputActiveSelector` | Create a reselect.js selector function to get the form input active state. |
+| `createFormInputCompleteSelector` | Create a reselect.js selector function to get the form input complete state. |
+| `createFormInputDirtySelector` | Create a reselect.js selector function to get the form input dirty state. |
+| `createFormInputDisabledSelector` | Create a reselect.js selector function to get the form input disabled state. |
+| `createFormInputErrorSelector` | Create a reselect.js selector function to get the form input error state. |
+| `createFormInputFocusSelector` | Create a reselect.js selector function to get the form input focus state. |
+| `createFormInputValueSelector` | Create a reselect.js selector function to get the form input value state. |
 
 ## Build
 
-All build artifacts can be found inside the ```/dist/lib``` and ```/dist/example``` folders.
-
-```
-yarn build
-```
-
-## Tests
-
-This library has 100% unit test code coverage.
-
-Code coverage is available inside the ```dist/coverage``` folder.
-
-```
-yarn test
-```
-
-## Documentation
-
-The source code is documented using JSDoc syntax.
-
-Documentation is generated using [esdoc](https://github.com/esdoc/esdoc) and is available inside the ```dist/docs``` folder.
-
-```
-yarn docs
-```
+All build artifacts can be found inside the ```dist/lib``` and ```dist/example``` folders after running ```yarn build```.
 
 ## Linting
 
@@ -409,8 +403,13 @@ This library uses [@promotively/eslint-config](https://www.github.com/promotivel
 yarn lint
 ```
 
-## Feedback
-Feedback is more than welcome via [GitHub](https://www.github.com/promotively) or [Twitter](https://www.twitter.com/promotively).
+## Tests
+
+This library has 100% unit test code coverage.
+
+Code coverage is available inside the ```dist/coverage``` folder after running ```yarn test```.
+
+Code coverage for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/tests/index.html).
 
 ## License
 MIT

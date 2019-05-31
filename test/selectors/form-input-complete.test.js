@@ -17,7 +17,7 @@ const mockError = new Error('test-error');
 
 describe('selectors/form-input-complete.js', () => {
   it('should return true if the form input has a value and no errors.', () => {
-    const formInputCompleteSelector = createFormInputCompleteSelector();
+    const formInputCompleteSelector = createFormInputCompleteSelector(formId, inputId);
     const mockState = {
       form: {
         [formId]: {}
@@ -29,16 +29,12 @@ describe('selectors/form-input-complete.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputCompleteSelector(mockState, mockProps)).toEqual(true);
+    expect(formInputCompleteSelector(mockState)).toEqual(true);
   });
 
   it('should return false if the form input has errors.', () => {
-    const formInputCompleteSelector = createFormInputCompleteSelector();
+    const formInputCompleteSelector = createFormInputCompleteSelector(formId, inputId);
     const mockState = {
       form: {
         [formId]: {}
@@ -50,11 +46,7 @@ describe('selectors/form-input-complete.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputCompleteSelector(mockState, mockProps)).toEqual(false);
+    expect(formInputCompleteSelector(mockState)).toEqual(false);
   });
 });

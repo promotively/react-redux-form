@@ -15,7 +15,7 @@ const inputKey = `${formId}__${inputId}`;
 
 describe('selectors/form-input-error.js', () => {
   it('should return the form input error.', () => {
-    const formInputErrorSelector = createFormInputErrorSelector();
+    const formInputErrorSelector = createFormInputErrorSelector(formId, inputId);
     const mockState = {
       form: {
         [formId]: {}
@@ -26,12 +26,8 @@ describe('selectors/form-input-error.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputErrorSelector(mockState, mockProps)).toEqual('error');
+    expect(formInputErrorSelector(mockState)).toEqual('error');
   });
 
   it('should return an empty string if the form input has no error', () => {
@@ -46,11 +42,7 @@ describe('selectors/form-input-error.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputErrorSelector(mockState, mockProps)).toEqual('');
+    expect(formInputErrorSelector(mockState)).toEqual('');
   });
 });

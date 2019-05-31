@@ -13,7 +13,7 @@ const formId = 'test-form';
 
 describe('selectors/form-loading.js', () => {
   it('should return true when the form is submitting.', () => {
-    const formLoadingSelector = createFormLoadingSelector();
+    const formLoadingSelector = createFormLoadingSelector(formId);
     const mockState = {
       form: {
         [formId]: {
@@ -21,10 +21,7 @@ describe('selectors/form-loading.js', () => {
         }
       }
     };
-    const mockProps = {
-      id: formId
-    };
 
-    expect(formLoadingSelector(mockState, mockProps)).toEqual(true);
+    expect(formLoadingSelector(mockState)).toEqual(true);
   });
 });

@@ -14,7 +14,7 @@ import {
   createFormInput,
   disableFormInput,
   enableFormInput,
-  errorWithFormInput,
+  errorFormInput,
   focusFormInput,
   FORM_INPUT_BLUR,
   FORM_INPUT_CHANGE,
@@ -97,7 +97,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle errors on a form input value.', () => {
-    expect(errorWithFormInput(
+    expect(errorFormInput(
       formId,
       inputId,
       mockError.message

@@ -1,5 +1,6 @@
 dist/
 docs/
 node_modules/
+.eslintrc
 .yarnrc
 yarn-error.log

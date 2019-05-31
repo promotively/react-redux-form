@@ -13,7 +13,7 @@ const formId = 'test-form';
 
 describe('selectors/form-complete.js', () => {
   it('should return true if the form has been submitted.', () => {
-    const formCompleteSelector = createFormCompleteSelector();
+    const formCompleteSelector = createFormCompleteSelector(formId);
     const mockState = {
       form: {
         [formId]: {
@@ -21,15 +21,12 @@ describe('selectors/form-complete.js', () => {
         }
       }
     };
-    const mockProps = {
-      id: formId
-    };
 
-    expect(formCompleteSelector(mockState, mockProps)).toEqual(true);
+    expect(formCompleteSelector(mockState)).toEqual(true);
   });
 
   it('should return false if the form has not yet been submitted.', () => {
-    const formCompleteSelector = createFormCompleteSelector();
+    const formCompleteSelector = createFormCompleteSelector(formId);
     const mockState = {
       form: {
         [formId]: {
@@ -37,10 +34,7 @@ describe('selectors/form-complete.js', () => {
         }
       }
     };
-    const mockProps = {
-      id: formId
-    };
 
-    expect(formCompleteSelector(mockState, mockProps)).toEqual(false);
+    expect(formCompleteSelector(mockState)).toEqual(false);
   });
 });

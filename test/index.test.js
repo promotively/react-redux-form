@@ -15,8 +15,10 @@ import {
   FORM_LOADING,
   FORM_REMOVE,
   createForm,
-  errorWithForm,
+  errorForm,
   removeForm,
+  loadingForm,
+  completeForm,
   submitForm
 } from 'actions/form';
 import {
@@ -35,7 +37,7 @@ import {
   createFormInput,
   disableFormInput,
   enableFormInput,
-  errorWithFormInput,
+  errorFormInput,
   focusFormInput,
   removeFormInput
 } from 'actions/form-input';
@@ -64,9 +66,19 @@ describe('index.js', () => {
     expect(exports.createForm).not.toBeFalsy();
   });
 
-  it('should export errorWithForm action creator.', () => {
-    expect(exports.errorWithForm).toEqual(errorWithForm);
-    expect(exports.errorWithForm).not.toBeFalsy();
+  it('should export errorForm action creator.', () => {
+    expect(exports.errorForm).toEqual(errorForm);
+    expect(exports.errorForm).not.toBeFalsy();
+  });
+
+  it('should export loadingForm action creator.', () => {
+    expect(exports.loadingForm).toEqual(loadingForm);
+    expect(exports.loadingForm).not.toBeFalsy();
+  });
+
+  it('should export completeForm action creator.', () => {
+    expect(exports.completeForm).toEqual(completeForm);
+    expect(exports.completeForm).not.toBeFalsy();
   });
 
   it('should export removeForm action creator.', () => {
@@ -109,9 +121,9 @@ describe('index.js', () => {
     expect(exports.enableFormInput).not.toBeFalsy();
   });
 
-  it('should export errorWithFormInput action creator.', () => {
-    expect(exports.errorWithFormInput).toEqual(errorWithFormInput);
-    expect(exports.errorWithFormInput).not.toBeFalsy();
+  it('should export errorFormInput action creator.', () => {
+    expect(exports.errorFormInput).toEqual(errorFormInput);
+    expect(exports.errorFormInput).not.toBeFalsy();
   });
 
   it('should export focusFormInput action creator.', () => {

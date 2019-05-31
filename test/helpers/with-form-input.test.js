@@ -16,14 +16,13 @@ import {
   FORM_INPUT_FOCUS,
   FORM_INPUT_REMOVE
 } from 'actions/form-input';
-import Adapter from 'enzyme-adapter-react-16';
 import configureStore from 'redux-mock-store';
-import Enzyme from 'enzyme';
+import { Provider } from 'react-redux';
 import React from 'react';
+import ReactTestRenderer from 'react-test-renderer';
 import thunk from 'redux-thunk';
+import withForm from 'helpers/with-form';
 import withFormInput from 'helpers/with-form-input';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 const formId = 'test-form';
 const inputId = 'test-form-input';
@@ -38,7 +37,10 @@ const mockEvent = {
   }
 };
 const createMockStore = configureStore([ thunk ]);
-const MockComponent = (props) => <input {...props} />;
+const MockFormComponent = (props) => <form {...props} />;
+const MockFormInputComponent = (props) => <input {...props} />;
+const FormContainer = withForm(MockFormComponent);
+const FormInputContainer = withFormInput(MockFormInputComponent);
 
 describe('helpers/with-form-input.js', () => {
   it('should mapStateToProps and mapDispatchToProps.', () => {
@@ -49,22 +51,18 @@ describe('helpers/with-form-input.js', () => {
       formInput: {}
     };
     const mockStore = createMockStore(mockState);
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
-
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
     const expectedPropKeys = [
-      'formId',
       'id',
       'defaultValue',
+      'formId',
       'active',
       'complete',
       'dirty',
@@ -75,13 +73,14 @@ describe('helpers/with-form-input.js', () => {
       'blurFormInput',
       'changeFormInput',
       'completeFormInput',
-      'createFormInput',
-      'errorWithFormInput',
+      'errorFormInput',
       'focusFormInput',
-      'removeFormInput'
+      'onBlur',
+      'onChange',
+      'onFocus'
     ];
 
-    expect(Object.keys(container.props())).toEqual(expectedPropKeys);
+    expect(Object.keys(container.findAllByProps({ formId })[2].props).join()).toEqual(expectedPropKeys.join());
   });
 
   it('should create form input.', () => {
@@ -90,23 +89,19 @@ describe('helpers/with-form-input.js', () => {
       formInput: {}
     };
     const mockStore = createMockStore(mockState);
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
+    const FormInputContainer = withFormInput(MockFormInputComponent);
 
-    container.dive();
+    ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} />
+        </FormContainer>
+      </Provider>
+    );
 
     const actions = mockStore.getActions();
 
-    expect(actions[0]).toEqual({
+    expect(actions[1]).toEqual({
       defaultValue,
       formId,
       inputId,
@@ -120,14 +115,16 @@ describe('helpers/with-form-input.js', () => {
       formInput: {}
     };
     const mockStore = createMockStore(mockState);
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer>
+          <FormInputContainer id={inputId} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
 
-    expect(consumer.props().children()).toEqual(null);
+    expect(container.findAllByProps({ id: formId })).toHaveLength(0);
   });
 
   it('should remove form input.', () => {
@@ -138,23 +135,19 @@ describe('helpers/with-form-input.js', () => {
       formInput: {}
     };
     const mockStore = createMockStore(mockState);
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} />
+        </FormContainer>
+      </Provider>
+    );
 
-    container.dive().unmount();
+    renderer.unmount();
 
     const actions = mockStore.getActions();
 
-    expect(actions[1]).toEqual({
+    expect(actions[3]).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_REMOVE
@@ -173,23 +166,20 @@ describe('helpers/with-form-input.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().simulate('blur');
+    container.findAllByProps({ formId })[2].props.onBlur(mockEvent);
 
     const actions = mockStore.getActions();
 
-    expect(actions[1]).toEqual({
+    expect(actions[2]).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_BLUR
@@ -208,23 +198,20 @@ describe('helpers/with-form-input.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().simulate('focus');
+    container.findAllByProps({ formId })[2].props.onFocus(mockEvent);
 
     const actions = mockStore.getActions();
 
-    expect(actions[1]).toEqual({
+    expect(actions[2]).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_FOCUS
@@ -243,23 +230,20 @@ describe('helpers/with-form-input.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().simulate('change', mockEvent);
+    container.findAllByProps({ formId })[2].props.onChange(mockEvent);
 
     const actions = mockStore.getActions();
 
-    expect(actions[1]).toEqual({
+    expect(actions[2]).toEqual({
       defaultValue,
       formId,
       inputId,
@@ -268,7 +252,7 @@ describe('helpers/with-form-input.js', () => {
     });
   });
 
-  it('should change value on a form input with a validator logic and throw an error.', async () => {
+  it('should change value on a form input with a validator and throw an error.', async () => {
     const mockState = {
       form: {
         [formId]: {}
@@ -284,24 +268,21 @@ describe('helpers/with-form-input.js', () => {
     const mockOnValidate = () => {
       throw Error(mockError.message);
     };
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} onValidate={mockOnValidate} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} onValidate={mockOnValidate} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().simulate('change', mockEvent);
+    container.findAllByProps({ formId })[2].props.onChange(mockEvent);
 
     const actions = mockStore.getActions();
 
     await new Promise((resolve) => setTimeout(() => {
-      expect(actions[2]).toEqual({
+      expect(actions[3]).toEqual({
         error: mockError.message,
         formId,
         inputId,
@@ -311,7 +292,7 @@ describe('helpers/with-form-input.js', () => {
     }, 1));
   });
 
-  it('should change value on a form input with a validator logic and not throw an error.', async () => {
+  it('should change value on a form input with a validator and not throw an error.', async () => {
     const mockState = {
       form: {
         [formId]: {}
@@ -325,24 +306,21 @@ describe('helpers/with-form-input.js', () => {
     };
     const mockStore = createMockStore(mockState);
     const mockOnValidate = () => Promise.resolve();
-    const FormInputContainer = withFormInput(MockComponent);
-    const consumer = Enzyme.shallow(<FormInputContainer formId={formId} id={inputId} defaultValue={defaultValue} onValidate={mockOnValidate} />, {
-      context: {
-        store: mockStore
-      }
-    });
-    const container = Enzyme.shallow(consumer.props().children({ id: formId }), {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId}>
+          <FormInputContainer id={inputId} defaultValue={defaultValue} onValidate={mockOnValidate} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().simulate('change', mockEvent);
+    container.findAllByProps({ formId })[2].props.onChange(mockEvent);
 
     const actions = mockStore.getActions();
 
     await new Promise((resolve) => setTimeout(() => {
-      expect(actions[2]).toEqual({
+      expect(actions[3]).toEqual({
         formId,
         inputId,
         type: FORM_INPUT_COMPLETE

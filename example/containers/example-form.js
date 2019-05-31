@@ -7,10 +7,10 @@
  * @license MIT
  */
 
-/* eslint-disable no-alert */
+/* eslint-disable no-console */
 
-import { createFormDisabledSelector } from '../../src/index';
-import LoginForm from '../components/login-form';
+import { createFormDisabledSelector } from '../../src';
+import ExampleForm from '../components/example-form';
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
 
@@ -45,18 +45,19 @@ const handleFormInputValidation = (id, value) => (
 const handleSubmit = (data) => new Promise((resolve, reject) => {
   setTimeout(() => {
     if (Math.random() < 0.5) {
-      alert(`Form Submitted With Payload: ${JSON.stringify(data)}`);
+      console.log(`Form Submitted With Payload: ${JSON.stringify(data)}`);
       resolve();
     } else {
-      const error = new Error('Random Error');
-      alert(`Form Error: ${error.message}`);
+      const error = new Error('This is a randomly generated form submission error.');
+
+      console.error(`Form Error: ${error.message}`);
       reject(error);
     }
-  }, 1000);
+  }, 500);
 });
 
-const LoginFormContainer = withRedux(mapStateToProps)((props) => (
-  <LoginForm
+const ExampleFormContainer = withRedux(mapStateToProps)((props) => (
+  <ExampleForm
     id={props.id}
     onValidateForm={handleFormValidation}
     onValidateFormInput={handleFormInputValidation}
@@ -65,4 +66,4 @@ const LoginFormContainer = withRedux(mapStateToProps)((props) => (
   />
 ));
 
-export default LoginFormContainer;
+export default ExampleFormContainer;

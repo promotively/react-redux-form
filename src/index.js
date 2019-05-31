@@ -14,8 +14,10 @@ export {
   FORM_LOADING,
   FORM_REMOVE,
   createForm,
-  errorWithForm,
+  errorForm,
   removeForm,
+  loadingForm,
+  completeForm,
   submitForm
 } from 'actions/form';
 export { default as withForm } from 'helpers/with-form';
@@ -43,7 +45,7 @@ export {
   createFormInput,
   disableFormInput,
   enableFormInput,
-  errorWithFormInput,
+  errorFormInput,
   focusFormInput,
   removeFormInput
 } from 'actions/form-input';

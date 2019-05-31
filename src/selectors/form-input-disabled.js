@@ -7,16 +7,34 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/reduxjs/reselect}
+ */
+
 import { createSelector } from 'reselect';
 
 /**
- * Returns a selector function that returns the current form input disabled state.
+ * Returns a reselect.js selector function that returns the current form input disabled state.
  * @function
- * @returns {function} reselect.js based selector
-*/
-const createFormInputDisabledSelector = () => createSelector(
-  (state, props) => {
-    const input = state.formInput[`${props.formId}__${props.id}`];
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Function} A reselect.js selector function.
+ * @example
+ * ...
+ *
+ * import { createFormInputDisabledSelector } from '@promotively/react-redux-form';
+ *
+ * const mapStateToProps = (state) => {
+ *   const formInputDisabledSelector = createFormInputDisabledSelector('profile', 'name');
+ *
+ *   return {
+ *     disabled: formInputDisabledSelector(state)
+ *
+ * ...
+ */
+const createFormInputDisabledSelector = (formId, inputId) => createSelector(
+  (state) => {
+    const input = state.formInput[`${formId}__${inputId}`];
 
     return Boolean(input && input.disabled);
   },

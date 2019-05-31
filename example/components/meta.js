@@ -11,10 +11,16 @@
 
 import React from 'react';
 
-const InfoBox = (props) => (
-  <div style={{ border: '1px solid #000', marginRight: '5px', padding: '5px' }}>
+const Meta = (props) => (
+  <div style={{
+    border: '1px solid black',
+    color: 'black',
+    fontSize: '14px',
+    marginRight: '5px',
+    padding: '5px'
+  }}>
     {props.name}: {props.value ? 'Yes' : 'No'}
   </div>
 );
 
-export default InfoBox;
+export default Meta;

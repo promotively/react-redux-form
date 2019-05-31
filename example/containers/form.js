@@ -8,7 +8,7 @@
  */
 
 import Form from '../components/form';
-import { withForm } from '../../src/index';
+import { withForm } from '../../src';
 
 const FormContainer = withForm(Form);
 

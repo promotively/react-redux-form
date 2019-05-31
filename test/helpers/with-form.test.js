@@ -12,14 +12,12 @@ import {
   FORM_ERROR,
   FORM_REMOVE
 } from 'actions/form';
-import Adapter from 'enzyme-adapter-react-16';
 import configureStore from 'redux-mock-store';
-import Enzyme from 'enzyme';
+import { Provider } from 'react-redux';
 import React from 'react';
+import ReactTestRenderer from 'react-test-renderer';
 import thunk from 'redux-thunk';
 import withForm from 'helpers/with-form';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 const formId = 'test-form';
 const inputKey = `${formId}__test-form-input`;
@@ -27,7 +25,10 @@ const mockData = { test: true };
 const mockEvent = { preventDefault: () => (true) };
 const mockError = new Error('test-error');
 const createMockStore = configureStore([ thunk ]);
-const MockComponent = (props) => <form {...props} />;
+const MockFormComponent = (props) => <form {...props} />;
+const createResolvedPromise = (data) => () => Promise.resolve(data);
+const createRejectedPromise = (error) => () => Promise.reject(error); // eslint-disable-line promise/no-promise-in-callback
+const FormContainer = withForm(MockFormComponent);
 
 describe('helpers/with-form.js', () => {
   it('should mapStateToProps and mapDispatchToProps.', () => {
@@ -38,31 +39,26 @@ describe('helpers/with-form.js', () => {
       formInput: {}
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
     const mockOnSubmit = jest.fn();
-    const container = Enzyme.shallow(<FormContainer id={formId} onSubmit={mockOnSubmit} />, {
-      context: {
-        store: mockStore
-      }
-    });
-
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
     const expectedPropKeys = [
       'id',
       'onSubmit',
       'active',
       'complete',
-      'data',
       'dirty',
       'disabled',
       'error',
       'loading',
-      'createForm',
-      'errorWithForm',
-      'removeForm',
-      'submitForm'
+      'errorForm'
     ];
 
-    expect(Object.keys(container.props())).toEqual(expectedPropKeys);
+    expect(Object.keys(container.findAllByType(MockFormComponent)[0].props).join()).toEqual(expectedPropKeys.join());
   });
 
   it('should create form.', () => {
@@ -71,14 +67,12 @@ describe('helpers/with-form.js', () => {
       formInput: {}
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
-    const container = Enzyme.shallow(<FormContainer id={formId} />, {
-      context: {
-        store: mockStore
-      }
-    });
 
-    container.dive();
+    ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} />
+      </Provider>
+    );
 
     const actions = mockStore.getActions();
 
@@ -96,14 +90,13 @@ describe('helpers/with-form.js', () => {
       formInput: {}
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
-    const container = Enzyme.shallow(<FormContainer id={formId} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} />
+      </Provider>
+    );
 
-    container.dive().unmount();
+    renderer.unmount();
 
     const actions = mockStore.getActions();
 
@@ -125,14 +118,14 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
-    const container = Enzyme.shallow(<FormContainer id={formId} className={inputKey} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} className={inputKey} />
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().find(MockComponent).exists(`.${inputKey}`);
+    expect(container.findAllByType(MockFormComponent)[0].props.className).toMatch(inputKey);
   });
 
   it('should handle client side errors when submitting the form.', (callback) => {
@@ -147,16 +140,16 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
-    const mockOnValidate = jest.fn(() => Promise.reject(mockError));
-    const mockOnSubmit = jest.fn(() => Promise.resolve(mockData));
-    const container = Enzyme.shallow(<FormContainer id={formId} onValidate={mockOnValidate} onSubmit={mockOnSubmit} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const mockOnValidate = jest.fn(createRejectedPromise(mockError));
+    const mockOnSubmit = jest.fn(createResolvedPromise(mockData));
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} onValidate={mockOnValidate} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().find(MockComponent).simulate('submit', mockEvent);
+    container.findAllByType(MockFormComponent)[0].props.onSubmit(mockEvent);
 
     setTimeout(() => {
       const actions = mockStore.getActions();
@@ -182,15 +175,15 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
-    const mockOnSubmit = jest.fn(() => Promise.reject(mockError));
-    const container = Enzyme.shallow(<FormContainer id={formId} onSubmit={mockOnSubmit} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const mockOnSubmit = jest.fn(createRejectedPromise(mockError));
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().find(MockComponent).simulate('submit', mockEvent);
+    container.findAllByType(MockFormComponent)[0].props.onSubmit(mockEvent);
 
     setTimeout(() => {
       const actions = mockStore.getActions();
@@ -216,15 +209,15 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
-    const mockOnSubmit = jest.fn(() => Promise.resolve());
-    const container = Enzyme.shallow(<FormContainer id={formId} onSubmit={mockOnSubmit} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const mockOnSubmit = jest.fn(createResolvedPromise());
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().find(MockComponent).simulate('submit', mockEvent);
+    container.findAllByType(MockFormComponent)[0].props.onSubmit(mockEvent);
 
     setTimeout(() => {
       expect(mockOnSubmit).toBeCalled();
@@ -244,15 +237,15 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
     const mockOnSubmit = jest.fn(() => Promise.resolve());
-    const container = Enzyme.shallow(<FormContainer id={formId} onSubmit={mockOnSubmit} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().find(MockComponent).simulate('submit', mockEvent);
+    container.findAllByType(MockFormComponent)[0].props.onSubmit(mockEvent);
 
     expect(mockOnSubmit).not.toBeCalled();
   });
@@ -271,15 +264,15 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const FormContainer = withForm(MockComponent);
     const mockOnSubmit = jest.fn(() => Promise.resolve());
-    const container = Enzyme.shallow(<FormContainer id={formId} onSubmit={mockOnSubmit} />, {
-      context: {
-        store: mockStore
-      }
-    });
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={formId} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
 
-    container.dive().find(MockComponent).simulate('submit', mockEvent);
+    container.findAllByType(MockFormComponent)[0].props.onSubmit(mockEvent);
 
     expect(mockOnSubmit).not.toBeCalled();
   });

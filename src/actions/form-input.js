@@ -8,75 +8,88 @@
  */
 
 /**
- * Value for the FORM_INPUT_BLUR action type.
+ * @see {@link https://github.com/reduxjs/redux}
+ */
+
+/**
+ * Value for the FORM_INPUT_BLUR redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_BLUR = '@@promotively/FORM_INPUT_BLUR';
 
 /**
- * Value for the FORM_INPUT_CHANGE action type.
+ * Value for the FORM_INPUT_CHANGE redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_CHANGE = '@@promotively/FORM_INPUT_CHANGE';
 
 /**
- * Value for the FORM_INPUT_COMPLETE action type.
+ * Value for the FORM_INPUT_COMPLETE redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_COMPLETE = '@@promotively/FORM_INPUT_COMPLETE';
 
 /**
- * Value for the FORM_INPUT_CREATE action type.
+ * Value for the FORM_INPUT_CREATE redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_CREATE = '@@promotively/FORM_INPUT_CREATE';
 
 /**
- * Value for the FORM_INPUT_DISABLE action type.
+ * Value for the FORM_INPUT_DISABLE redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_DISABLE = '@@promotively/FORM_INPUT_DISABLE';
 
 /**
- * Value for the FORM_INPUT_ENABLE action type.
+ * Value for the FORM_INPUT_ENABLE redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_ENABLE = '@@promotively/FORM_INPUT_ENABLE';
 
 /**
- * Value for the FORM_INPUT_ERROR action type.
+ * Value for the FORM_INPUT_ERROR redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_ERROR = '@@promotively/FORM_INPUT_ERROR';
 
 /**
- * Value for the FORM_INPUT_FOCUS action type.
+ * Value for the FORM_INPUT_FOCUS redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_FOCUS = '@@promotively/FORM_INPUT_FOCUS';
 
 /**
- * Value for the FORM_INPUT_REMOVE action type.
+ * Value for the FORM_INPUT_REMOVE redux.js action type.
  * @constant
- * @type {string}
+ * @type {String}
  */
 export const FORM_INPUT_REMOVE = '@@promotively/FORM_INPUT_REMOVE';
 
 /**
- * Creates an action that unsets the focus on a form input in the store.
+ * Creates a redux.js action that unsets the focus on a form input in the store.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_BLUR redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_BLUR type.
+ * import { blurFormInput } from '@promotively/react-redux-form';
+ *
+ * const blurUserNameFormInput = (props) => (
+ *   props.dispatch(blurFormInput('signup', 'username'))
+ * );
+ *
+ * ...
  */
 export const blurFormInput = (formId, inputId) => ({
   formId,
@@ -85,14 +98,24 @@ export const blurFormInput = (formId, inputId) => ({
 });
 
 /**
- * Creates an action that changes a form input value in the store.
+ * Creates a redux.js action that changes a form input value.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
- * @param {string} defaultValue Initial value for the form input.
- * @param {string} newValue The new value for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @param {String} defaultValue The initial value for the form input.
+ * @param {String} newValue The new value for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_CHANGE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_CHANGE type.
+ * import { changeFormInput } from '@promotively/react-redux-form';
+ *
+ * const updateStoreId = (props) => {
+ *   const storeId = window.STORE_ID;
+ *   return props.dispatch(changeFormInput('signup', 'store_id', '', storeId));
+ * };
+ *
+ * ...
  */
 export const changeFormInput = (formId, inputId, defaultValue, newValue) => ({
   defaultValue,
@@ -103,12 +126,21 @@ export const changeFormInput = (formId, inputId, defaultValue, newValue) => ({
 });
 
 /**
- * Creates an action that completes a form input in the store.
+ * Creates a redux.js action that completes a form input value.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_COMPLETE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_COMPLETE type.
+ * import { completeFormInput } from '@promotively/react-redux-form';
+ *
+ * const overrideSignupInputError = (props) => (
+ *   props.dispatch(completeFormInput('signup', props.id))
+ * );
+ *
+ * ...
  */
 export const completeFormInput = (formId, inputId) => ({
   formId,
@@ -117,13 +149,22 @@ export const completeFormInput = (formId, inputId) => ({
 });
 
 /**
- * Creates an action that creates a form input in the store.
+ * Creates a redux.js action that creates a form input.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
- * @param {string} defaultValue Initial value for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @param {String} defaultValue The initial value for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_CREATE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_CREATE type.
+ * import { createFormInput } from '@promotively/react-redux-form';
+ *
+ * const createSignupFormInput = (props) => (
+ *   props.dispatch(createFormInput('signup', props.id));
+ * );
+ *
+ * ...
  */
 export const createFormInput = (formId, inputId, defaultValue) => ({
   defaultValue,
@@ -133,12 +174,24 @@ export const createFormInput = (formId, inputId, defaultValue) => ({
 });
 
 /**
- * Creates an action that disables a form input in the store.
+ * Creates a redux.js action that disables a form input.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_DISABLE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_DISABLE type.
+ * import { disableFormInput } from '@promotively/react-redux-form';
+ *
+ * const changeSignupMode = (props) => (
+ *   props.type === 'email' ?
+ *     props.dispatch(disableFormInput('signup', 'username'));
+ *   :
+ *     props.dispatch(disableFormInput('signup', 'email'));
+ * );
+ *
+ * ...
  */
 export const disableFormInput = (formId, inputId) => ({
   formId,
@@ -147,12 +200,21 @@ export const disableFormInput = (formId, inputId) => ({
 });
 
 /**
- * Creates an action that enables a form input in the store.
+ * Creates a redux.js action that enables a form input.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_ENABLE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_ENABLE type.
+ * import { enableFormInput } from '@promotively/react-redux-form';
+ *
+ * const enablePrivacyPolicyCheckBoxOnScroll = (props) => (
+ *   props.dispatch(enableFormInput('signup', 'privacy-policy'));
+ * );
+ *
+ * ...
  */
 export const enableFormInput = (formId, inputId) => ({
   formId,
@@ -161,15 +223,24 @@ export const enableFormInput = (formId, inputId) => ({
 });
 
 /**
- * Creates an action that errors a form input in the store.
+ * Creates a redux.js action that sets the error state on a form input.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
- * @param {object} error Error object.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @param {Error} error An error object containing the error message for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_ERROR redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_ERROR type.
+ * import { errorFormInput } from '@promotively/react-redux-form';
+ *
+ * const verifyEmailAddressError = (props) => (
+ *   props.dispatch(errorFormInput('signup', 'username', new Error('This username already exists, please try again.'));
+ * );
+ *
+ * ...
  */
-export const errorWithFormInput = (formId, inputId, error) => ({
+export const errorFormInput = (formId, inputId, error) => ({
   error,
   formId,
   inputId,
@@ -177,12 +248,21 @@ export const errorWithFormInput = (formId, inputId, error) => ({
 });
 
 /**
- * Creates an action that sets the focus on a form input in the store.
+ * Creates a redux.js action that sets the focus on a form input.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_FOCUS redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_FOCUS type.
+ * import { focusFormInput } from '@promotively/react-redux-form';
+ *
+ * const focusEmailOnLoad = (props) => (
+ *   props.dispatch(focusFormInput('signup', 'email'))
+ * );
+ *
+ * ...
  */
 export const focusFormInput = (formId, inputId) => ({
   formId,
@@ -191,12 +271,21 @@ export const focusFormInput = (formId, inputId) => ({
 });
 
 /**
- * Creates an action that removes a form input from the store.
+ * Creates a redux.js action that removes a form input.
  * @function
- * @param {string} formId Unique identifier for the form.
- * @param {string} inputId Unique identifier for the form input.
+ * @param {String} formId The ID for the form.
+ * @param {String} inputId The ID for the form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_REMOVE redux.js action type.
+ * @example
+ * ...
  *
- * @returns {object} Action for FORM_INPUT_REMOVE type.
+ * import { removeFormInput } from '@promotively/react-redux-form';
+ *
+ * const removeReferrerFromSignup() = (props) => (
+ *   !props.active && props.dispatch(removeFormInput('signup', 'referral_code'))
+ * );
+ *
+ * ...
  */
 export const removeFormInput = (formId, inputId) => ({
   formId,

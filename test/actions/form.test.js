@@ -8,8 +8,10 @@
  */
 
 import {
+  completeForm,
   createForm,
-  errorWithForm,
+  errorForm,
+  loadingForm,
   FORM_COMPLETE,
   FORM_CREATE,
   FORM_ERROR,
@@ -36,14 +38,34 @@ describe('actions/form.js', () => {
     });
   });
 
-  it('should handle errors on a form.', () => {
-    expect(errorWithForm(
+  it('should handle setting the error state on a form.', () => {
+    expect(errorForm(
       formId,
       mockError
     )).toEqual({
       error: mockError.message,
       id: formId,
       type: FORM_ERROR
+    });
+  });
+
+  it('should handle setting the loading state on a form.', () => {
+    expect(loadingForm(
+      formId
+    )).toEqual({
+      id: formId,
+      type: FORM_LOADING
+    });
+  });
+
+  it('should handle setting the complete state on a form.', () => {
+    expect(completeForm(
+      formId,
+      mockData
+    )).toEqual({
+      data: mockData,
+      id: formId,
+      type: FORM_COMPLETE
     });
   });
 

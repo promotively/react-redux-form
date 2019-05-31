@@ -15,19 +15,16 @@ const mockError = new Error('test-error');
 
 describe('selectors/form-disabled.js', () => {
   it('should return true if the form state is not yet initialized.', () => {
-    const formDisabledSelector = createFormDisabledSelector();
+    const formDisabledSelector = createFormDisabledSelector(formId);
     const mockState = {
       form: {}
     };
-    const mockProps = {
-      id: formId
-    };
 
-    expect(formDisabledSelector(mockState, mockProps)).toEqual(true);
+    expect(formDisabledSelector(mockState)).toEqual(true);
   });
 
   it('should return true if the form is loading.', () => {
-    const formDisabledSelector = createFormDisabledSelector();
+    const formDisabledSelector = createFormDisabledSelector(formId);
     const mockState = {
       form: {
         [formId]: {
@@ -36,15 +33,12 @@ describe('selectors/form-disabled.js', () => {
       },
       formInput: {}
     };
-    const mockProps = {
-      id: formId
-    };
 
-    expect(formDisabledSelector(mockState, mockProps)).toEqual(true);
+    expect(formDisabledSelector(mockState)).toEqual(true);
   });
 
   it('should return true if any form inputs have an error.', () => {
-    const formDisabledSelector = createFormDisabledSelector();
+    const formDisabledSelector = createFormDisabledSelector(formId);
     const mockState = {
       form: {
         [formId]: {}
@@ -55,10 +49,7 @@ describe('selectors/form-disabled.js', () => {
         }
       }
     };
-    const mockProps = {
-      id: formId
-    };
 
-    expect(formDisabledSelector(mockState, mockProps)).toEqual(true);
+    expect(formDisabledSelector(mockState)).toEqual(true);
   });
 });

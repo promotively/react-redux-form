@@ -7,6 +7,10 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/reduxjs/redux}
+ */
+
 import {
   FORM_CREATE,
   FORM_REMOVE,
@@ -19,17 +23,16 @@ import clone from 'clone';
 /**
  * Initial state used for the first time the reducer function is called.
  * @constant
- * @type {object}
+ * @type {Object}
  */
 const initialState = {};
 
 /**
- * Reducer function to handle the state mutations that are required for handling forms.
+ * The redux.js reducer function to handle any state mutations that are required for handling forms.
  * @function
- * @param {object} state The current state of the store.
- * @param {object} action The action that was dispatched.
- *
- * @returns {object} Deep clone of the existing state of the store with any mutations related to handling forms.
+ * @param {Object} state The current state inside the redux.js store.
+ * @param {Object} action The last redux.js action that was dispatched.
+ * @returns {Object} Deep clone of the existing state of the store with any mutations related to handling forms.
 */
 const formReducer = (state = initialState, action) => {
   const formId = action.id;
@@ -70,6 +73,7 @@ const formReducer = (state = initialState, action) => {
       newState[formId] = {
         ...newState[formId],
         complete: true,
+        error: null,
         loading: false
       };
 
@@ -80,6 +84,7 @@ const formReducer = (state = initialState, action) => {
 
       newState[formId] = {
         ...newState[formId],
+        complete: false,
         error: action.error,
         loading: false
       };

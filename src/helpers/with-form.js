@@ -7,11 +7,17 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/facebook/react}
+ * @see {@link https://github.com/reduxjs/redux}
+ * @see {@link https://github.com/reduxjs/react-redux}
+ */
+
 /* eslint-disable react/prop-types */
 
 import {
   createForm,
-  errorWithForm,
+  errorForm,
   removeForm,
   submitForm
 } from 'actions/form';
@@ -22,49 +28,26 @@ import createFormDirtySelector from 'selectors/form-dirty';
 import createFormDisabledSelector from 'selectors/form-disabled';
 import createFormErrorSelector from 'selectors/form-error';
 import createFormLoadingSelector from 'selectors/form-loading';
+import FormContext from 'helpers/form-context';
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
 
 /**
- * @typedef WrappedFormComponentProps
- * @type {object}
- * @property {boolean} active Form active state.
- * @property {boolean} complete Form complete state.
- * @property {object} data Current form payload data.
- * @property {boolean} dirty Form dirty state.
- * @property {string} error Form error state.
- * @property {function} errorWithForm Redux action to change the form error state.
- * @property {string} id The form id.
- * @property {boolean} loading Form loading state.
- * @property {function} onSubmit Function that returns a promise that resolves to an api endpoint.
- * @property {function} onValidate Function that returns a promise that can resolve any errors with the form values.
- * @property [HTMLFormElementProps]  Any props you might usually use with a react form component.
- * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.
-*/
-
-/**
- * The form context.
- * @constant
- * @type {object}
- */
-export const FormContext = React.createContext();
-
-/**
- * Maps the state from the store back to props that are passed down to the container component.
+ * Maps the state from the redux.js store back to props that are passed down to the react.js component.
  * @function
- * @param {object} state The current state of the store.
- * @param {object} props The properties available to the the parent component.
- *
- * @returns {object} Mapped properties from the store.
+ * @param {Object} state The current state of the redux.js store.
+ * @param {Object} props The properties available to the the parent react.js component.
+ * @returns {Object} Mapped properties from the redux.js store.
  */
 const mapStateToProps = (state, props) => {
-  const formActiveSelector = createFormActiveSelector();
-  const formCompleteSelector = createFormCompleteSelector();
-  const formDataSelector = createFormDataSelector();
-  const formDirtySelector = createFormDirtySelector();
-  const formDisabledSelector = createFormDisabledSelector();
-  const formErrorSelector = createFormErrorSelector();
-  const formLoadingSelector = createFormLoadingSelector();
+  const { id: formId } = props;
+  const formActiveSelector = createFormActiveSelector(formId);
+  const formCompleteSelector = createFormCompleteSelector(formId);
+  const formDataSelector = createFormDataSelector(formId);
+  const formDirtySelector = createFormDirtySelector(formId);
+  const formDisabledSelector = createFormDisabledSelector(formId);
+  const formErrorSelector = createFormErrorSelector(formId);
+  const formLoadingSelector = createFormLoadingSelector(formId);
 
   return {
     active: formActiveSelector(state, props),
@@ -78,13 +61,13 @@ const mapStateToProps = (state, props) => {
 };
 
 /**
- * The action creators to wrap with react-redux.
+ * The redux.js action creators to wrap with react-redux.
  * @constant
- * @type {object}
+ * @type {Object}
  */
 const mapDispatchToProps = {
   createForm,
-  errorWithForm,
+  errorForm,
   removeForm,
   submitForm
 };
@@ -92,11 +75,10 @@ const mapDispatchToProps = {
 /**
  * Custom error handler for the form.
  * @function
- * @param {object} props The properties available to the the parent component.
- *
- * @returns {function} Asychronous function that returns a promise to be resolved.
+ * @param {Object} props The properties available to the the parent component.
+ * @returns {Function} A function that creates a function that returns a promise to be resolved.
  */
-const handleErrors = (props) => (data) => (
+const handleValidation = (props) => (data) => (
   new Promise((resolve, reject) => {
     if (!props.onValidate) {
       resolve();
@@ -109,16 +91,14 @@ const handleErrors = (props) => (data) => (
 /**
  * Custom submit handler for the form.
  * @function
- * @param {object} props The properties available to the the parent component.
- *
- * @returns {function} Connected event handler for the submit action type.
+ * @param {Object} props The properties available to the the parent component.
+ * @returns {Function} Connected event handler for the submit action type.
  */
 const handleSubmit = (props) => (event) => {
   const {
-    errorWithForm,
+    errorForm,
     onSubmit,
     data,
-    dirty,
     id,
     disabled,
     loading,
@@ -127,11 +107,11 @@ const handleSubmit = (props) => (event) => {
 
   event.preventDefault();
 
-  if (dirty && !loading && !disabled) {
-    handleErrors(props)(data).then(() => (
+  if (!loading && !disabled) {
+    handleValidation(props)(data).then(() => (
       submitForm(id, data, onSubmit)
     )).catch((error) => (
-      errorWithForm(id, error)
+      errorForm(id, error)
     ));
   }
 };
@@ -139,25 +119,54 @@ const handleSubmit = (props) => (event) => {
 /**
  * Creates a new component wrapped by the withForm higher order component.
  * @function
- * @param {function} Component React form component to wrap.
+ * @param {Function} Component A react.js form component.
+ * @returns {Function} A function that that wraps your form component using the withForm higher order component.
+ * @example
+ * ...
  *
- * @returns {function} The connected and wrapped withForm higher order component.
+ * import { withForm } from '@promotively/react-redux-form';
+ *
+ * const Form = (props) => (
+ *   <form onSubmit={props.onSubmit}>
+ *     {props.children}
+ *   </form>
+ * );
+ * const FormContainer = withForm(Form);
+ *
+ * ...
  */
 const withForm = (Component) => {
   class WrappedComponent extends React.PureComponent {
 
     /**
-     * Event handler for the form submit action type.
+     * Event handler for form submissions.
      * @function
      * @memberof WrappedComponent
      */
     onSubmit = handleSubmit(this.props)
 
     /**
+     * @typedef WrappedFormComponentProps
+     * @type {Object}
+     * @property {Boolean} active Form active state.
+     * @property {Boolean} complete Form complete state.
+     * @property {Object} data Current form payload data.
+     * @property {Boolean} dirty Form dirty state.
+     * @property {String} error Form error state.
+     * @property {Function} errorForm Redux action to change the form error state.
+     * @property {String} id The ID for the form.
+     * @property {Boolean} loading Form loading state.
+     * @property {Function} onSubmit Function that returns a promise that resolves to an api endpoint.
+     * @property {Function} onValidate Function that returns a promise that can resolve any errors with the form values.
+     * @property [HTMLFormElementProps]  Any props you might usually use with a react form component.
+     * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.
+     */
+
+    /**
      * Returns only the component properties that need to be passed to the child component.
      * @function
      * @memberof WrappedComponent
-     * @returns {object} New object that does not contain props only needed for the parent component.
+     * @returns {WrappedFormComponentProps} A new object that contains the props to pass down to the wrapped component.
      */
     getComponentProps() {
       return {
@@ -180,7 +189,7 @@ const withForm = (Component) => {
     /**
      * Creates the form state before the first render.
      * @class
-     * @param {object} props The properties available to the component.
+     * @param {Object} props The properties available to the component.
      */
     constructor(props) {
       super(props);
@@ -194,7 +203,7 @@ const withForm = (Component) => {
      * Removes the form state when the component unmounts.
      * @function
      * @memberof WrappedComponent
-     * @returns {undefined} Function does not return a value.
+     * @returns {Undefined} Function does not return a value.
      */
     componentWillUnmount() {
       const { id, removeForm } = this.props;
@@ -206,7 +215,7 @@ const withForm = (Component) => {
      * Renders the child component whenever the props have changed.
      * @function
      * @memberof WrappedComponent
-     * @returns {object} React JSX to render the child component.
+     * @returns {Object} React JSX to render the child component.
      */
     render() {
       const props = this.getComponentProps();
@@ -223,7 +232,7 @@ const withForm = (Component) => {
 
   }
 
-  WrappedComponent.displayName = `WithForm(${Component.displayName})`;
+  WrappedComponent.displayName = 'WithForm(WrappedComponent)';
 
   return withRedux(mapStateToProps, mapDispatchToProps)(WrappedComponent);
 };

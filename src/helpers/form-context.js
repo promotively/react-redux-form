@@ -7,14 +7,17 @@
  * @license MIT
  */
 
-import LoginForm from './containers/login-form';
-import { Provider } from 'react-redux';
+/*
+ * @see {@link https://github.com/facebook/react}
+ */
+
 import React from 'react';
 
-const createReactApp = (store) => (
-  <Provider store={store}>
-    <LoginForm id="login-form-demo" />
-  </Provider>
-);
+/**
+ * The form context.
+ * @constant
+ * @type {Object}
+ */
+const FormContext = React.createContext();
 
-export default createReactApp;
+export default FormContext;

@@ -17,7 +17,7 @@ const inputKeys = [
 
 describe('selectors/form-dirty.js', () => {
   it('should return true when any form inputs are dirty.', () => {
-    const formDirtySelector = createFormDirtySelector();
+    const formDirtySelector = createFormDirtySelector(formId);
     const mockState = {
       form: {
         [formId]: {}
@@ -36,7 +36,7 @@ describe('selectors/form-dirty.js', () => {
   });
 
   it('should return false when all form inputs are pristine.', () => {
-    const formDirtySelector = createFormDirtySelector();
+    const formDirtySelector = createFormDirtySelector(formId);
     const mockState = {
       form: {
         [formId]: {}

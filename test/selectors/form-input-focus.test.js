@@ -15,7 +15,7 @@ const inputKey = `${formId}__${inputId}`;
 
 describe('selectors/form-input-focus.js', () => {
   it('should return a boolean indicating whether form input has focus,', () => {
-    const formInputValueSelector = createFormInputFocusSelector();
+    const formInputValueSelector = createFormInputFocusSelector(formId, inputId);
     const mockState = {
       form: {
         [formId]: {}
@@ -26,11 +26,7 @@ describe('selectors/form-input-focus.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputValueSelector(mockState, mockProps)).toEqual(true);
+    expect(formInputValueSelector(mockState)).toEqual(true);
   });
 });

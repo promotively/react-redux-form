@@ -7,11 +7,19 @@
  * @license MIT
  */
 
-import createReactApp from './app';
+import App from './components/app';
 import createReduxStore from './store';
+import { Provider } from 'react-redux';
+import React from 'react';
 import { render } from 'react-dom';
 
 const store = createReduxStore();
-const app = createReactApp(store);
-window.store=store;
-render(app, document.getElementsByTagName('main')[0]);
+const app = (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+
+const [ node ] = document.getElementsByTagName('main');
+
+render(app, node);

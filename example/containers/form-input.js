@@ -8,7 +8,7 @@
  */
 
 import FormInput from '../components/form-input';
-import { withFormInput } from '../../src/index';
+import { withFormInput } from '../../src';
 
 const FormInputContainer = withFormInput(FormInput);
 

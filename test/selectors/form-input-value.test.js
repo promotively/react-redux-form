@@ -16,7 +16,7 @@ const newValue = 'test-value';
 
 describe('selectors/form-input-value.js', () => {
   it('should return the form input value.', () => {
-    const formInputValueSelector = createFormInputValueSelector();
+    const formInputValueSelector = createFormInputValueSelector(formId, inputId);
     const mockState = {
       form: {
         [formId]: {}
@@ -27,16 +27,12 @@ describe('selectors/form-input-value.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputValueSelector(mockState, mockProps)).toEqual(newValue);
+    expect(formInputValueSelector(mockState)).toEqual(newValue);
   });
 
   it('should return an empty string if the form input has no value.', () => {
-    const formInputValueSelector = createFormInputValueSelector();
+    const formInputValueSelector = createFormInputValueSelector(formId, inputId);
     const mockState = {
       form: {
         [formId]: {}
@@ -47,11 +43,7 @@ describe('selectors/form-input-value.js', () => {
         }
       }
     };
-    const mockProps = {
-      formId,
-      id: inputId
-    };
 
-    expect(formInputValueSelector(mockState, mockProps)).toEqual('');
+    expect(formInputValueSelector(mockState)).toEqual('');
   });
 });

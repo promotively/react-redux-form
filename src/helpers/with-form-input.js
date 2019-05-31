@@ -7,6 +7,12 @@
  * @license MIT
  */
 
+/*
+ * @see {@link https://github.com/facebook/react}
+ * @see {@link https://github.com/reduxjs/redux}
+ * @see {@link https://github.com/reduxjs/react-redux}
+ */
+
 /* eslint-disable react/prop-types */
 
 import {
@@ -16,7 +22,7 @@ import {
   focusFormInput,
   changeFormInput,
   completeFormInput,
-  errorWithFormInput
+  errorFormInput
 } from 'actions/form-input';
 import createFormInputActiveSelector from 'selectors/form-input-active';
 import createFormInputCompleteSelector from 'selectors/form-input-complete';
@@ -25,47 +31,26 @@ import createFormInputDisabledSelector from 'selectors/form-input-disabled';
 import createFormInputErrorSelector from 'selectors/form-input-error';
 import createFormInputFocusSelector from 'selectors/form-input-focus';
 import createFormInputValueSelector from 'selectors/form-input-value';
-import { FormContext } from 'helpers/with-form';
+import FormContext from 'helpers/form-context';
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
 
 /**
- * @typedef WrappedFormInputComponentProps
- * @type {object}
- * @property {boolean} active Form input active state.
- * @property {function} blurFormInput Redux action to blur the form input.
- * @property {function} changeFormInput Redux action to change the form input value.
- * @property {boolean} complete Form input complete state.
- * @property {function} completeFormInput Redux action to complete the form input value.
- * @property {boolean} defaultValue The default value of the form input.
- * @property {boolean} dirty Form input dirty state.
- * @property {string} error Form input error state.
- * @property {function} errorWithFormInput Redux action to change the form input error.
- * @property {string} formId The form id.
- * @property {string} id The form input id.
- * @property {boolean} focus Form input focus state.
- * @property {function} focusFormInput Redux action to focus the form input.
- * @property {function} onValidate Function that returns a promise that can resolve any errors with the form input value.
- * @property [HTMLInputElementProps]  Any props you might usually use with a react form input component.
- * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.
-*/
-
-/**
- * Maps the state from the store back to props that are passed down to the container component.
+ * Maps the state from the redux.js store back to props that are passed down to the react.js component.
  * @function
- * @param {object} state The current state of the store.
- * @param {object} props The properties available to the the parent component.
- *
- * @returns {object} Mapped properties from the store.
+ * @param {Object} state The current state of the store.
+ * @param {Object} props The properties available to the the parent component.
+ * @returns {Object} Mapped properties from the redux.js store.
  */
 const mapStateToProps = (state, props) => {
-  const formInputActiveSelector = createFormInputActiveSelector();
-  const formInputCompleteSelector = createFormInputCompleteSelector();
-  const formInputDirtySelector = createFormInputDirtySelector();
-  const formInputDisabledSelector = createFormInputDisabledSelector();
-  const formInputErrorSelector = createFormInputErrorSelector();
-  const formInputFocusSelector = createFormInputFocusSelector();
-  const formInputValueSelector = createFormInputValueSelector();
+  const { formId, id: inputId } = props;
+  const formInputActiveSelector = createFormInputActiveSelector(formId, inputId);
+  const formInputCompleteSelector = createFormInputCompleteSelector(formId, inputId);
+  const formInputDirtySelector = createFormInputDirtySelector(formId, inputId);
+  const formInputDisabledSelector = createFormInputDisabledSelector(formId, inputId);
+  const formInputErrorSelector = createFormInputErrorSelector(formId, inputId);
+  const formInputFocusSelector = createFormInputFocusSelector(formId, inputId);
+  const formInputValueSelector = createFormInputValueSelector(formId, inputId);
 
   return {
     active: formInputActiveSelector(state, props),
@@ -79,16 +64,16 @@ const mapStateToProps = (state, props) => {
 };
 
 /**
- * The action creators to wrap with react-redux.
+ * The redux.js action creators to wrap with react-redux.
  * @constant
- * @type {object}
+ * @type {Object}
  */
 const mapDispatchToProps = {
   blurFormInput,
   changeFormInput,
   completeFormInput,
   createFormInput,
-  errorWithFormInput,
+  errorFormInput,
   focusFormInput,
   removeFormInput
 };
@@ -96,11 +81,10 @@ const mapDispatchToProps = {
 /**
  * Custom error handler for the form input.
  * @function
- * @param {object} props The properties available to the the parent component.
- *
- * @returns {function} Asychronous function that returns a promise to be resolved.
+ * @param {Object} props The properties available to the the parent component.
+ * @returns {Function} A function that creates a function that returns a promise to be resolved.
  */
-const handleError = (props) => (id, value) => {
+const handleValidation = (props) => (id, value) => {
   const { onValidate } = props;
 
   return new Promise((resolve, reject) => {
@@ -113,13 +97,12 @@ const handleError = (props) => (id, value) => {
 };
 
 /**
- * Changes the value of a form input.
+ * Changes and validates the value of a form input.
  * @function
- * @param {string} defaultValue The initial value for the form input.
- *
- * @returns {function} Function that returns an event handler for the change and error action types.
+ * @param {Object} props The properties available to the the parent component.
+ * @returns {Function} A function that returns an event handler for the change and error action types.
  */
-const handleChange = (defaultValue) => (props) => (event) => {
+const handleChange = (props) => (event) => {
   const { value } = event.target;
   const {
     changeFormInput,
@@ -127,24 +110,23 @@ const handleChange = (defaultValue) => (props) => (event) => {
     formId,
     id: inputId,
     completeFormInput,
-    errorWithFormInput
+    errorFormInput
   } = props;
 
-  changeFormInput(formId, inputId, defaultValue, value);
+  changeFormInput(formId, inputId, props.defaultValue, value);
 
-  handleError(props)(inputId, value)
+  handleValidation(props)(inputId, value)
     .then(() => error && completeFormInput(formId, inputId))
     .catch((error) => (
-      props.error !== error && errorWithFormInput(formId, inputId, error.message)
+      props.error !== error && errorFormInput(formId, inputId, error.message)
     ));
 };
 
 /**
- * Blurs on a form input.
+ * Blurs a form input.
  * @function
- * @param {object} props The properties available to the the parent component.
- *
- * @returns {function} Connected event handler for the blur action type.
+ * @param {Object} props The properties available to the the parent component.
+ * @returns {Function} Connected event handler for the blur action type.
  */
 const handleBlur = (props) => () => {
   const { formId, id: inputId, blurFormInput } = props;
@@ -153,11 +135,10 @@ const handleBlur = (props) => () => {
 };
 
 /**
- * Focuses on a form input.
+ * Focuses a form input.
  * @function
- * @param {object} props The properties available to the the parent component.
- *
- * @returns {function} Connected event handler for the focus action type.
+ * @param {Object} props The properties available to the the parent component.
+ * @returns {Function} Connected event handler for the focus action type.
  */
 const handleFocus = (props) => () => {
   const { formId, id: inputId, focusFormInput } = props;
@@ -168,11 +149,10 @@ const handleFocus = (props) => () => {
 /**
  * Creates a new component that has the formId property.
  * @function
- * @param {function} Component The wrapped withFormInput higher order component to pass the form id down to.
- *
- * @returns {function} The wrapped withFormInput higher order component with the form id.
+ * @param {Function} Component The wrapped withFormInput higher order component to pass the form id down to.
+ * @returns {Function} The wrapped withFormInput higher order component with the form id.
  */
-const withContext = (Component) => {
+const withFormContext = (Component) => {
   const WrappedComponent = (props) => (
     <FormContext.Consumer>
       {(context) => (
@@ -181,7 +161,7 @@ const withContext = (Component) => {
     </FormContext.Consumer>
   );
 
-  WrappedComponent.displayName = `WithContext(${Component.displayName})`;
+  WrappedComponent.displayName = 'WithFormContext(WrappedComponent)';
 
   return WrappedComponent;
 };
@@ -189,9 +169,19 @@ const withContext = (Component) => {
 /**
  * Creates a new component wrapped by the withFormInput higher order component.
  * @function
- * @param {function} Component Form input component to wrap.
+ * @param {Function} Component A react.js form input component.
+ * @returns {Function} A function that that wraps your form input component using the withFormInput higher order component.
+ * @example
+ * ...
  *
- * @returns {function} The connected and wrapped withFormInput higher order component with the form id.
+ * import { withFormInput } from '@promotively/react-redux-form';
+ *
+ * const FormInput = (props) => (
+ *   <input {...props} />
+ * );
+ * const FormInputContainer = withFormInput(FormInput);
+ *
+ * ...
  */
 const withFormInput = (Component) => {
 
@@ -201,7 +191,7 @@ const withFormInput = (Component) => {
      * The default props passed down to the component.
      * @static
      * @memberof WrappedComponent
-     * @type {object}
+     * @type {Object}
      */
     static defaultProps = {
       active: false,
@@ -216,14 +206,14 @@ const withFormInput = (Component) => {
     /**
      * Creates the form input state with its initial value and/or error before the first render.
      * @class
-     * @param {object} props The properties available to the component.
+     * @param {Object} props The properties available to the component.
      */
     constructor(props) {
       super(props);
 
       const {
         createFormInput,
-        errorWithFormInput,
+        errorFormInput,
         formId,
         id: inputId,
         defaultValue
@@ -231,16 +221,37 @@ const withFormInput = (Component) => {
 
       createFormInput(formId, inputId, defaultValue);
 
-      handleError(props)(inputId, defaultValue).catch((error) => {
-        errorWithFormInput(formId, inputId, error.message);
+      handleValidation(props)(inputId, defaultValue).catch((error) => {
+        errorFormInput(formId, inputId, error.message);
       });
     }
+
+    /**
+     * @typedef WrappedFormInputComponentProps
+     * @type {Object}
+     * @property {Boolean} active Form input active state.
+     * @property {Function} blurFormInput Redux action to blur the form input.
+     * @property {Function} changeFormInput Redux action to change the form input value.
+     * @property {Boolean} complete Form input complete state.
+     * @property {Function} completeFormInput Redux action to complete the form input value.
+     * @property {Boolean} defaultValue The default value of the form input.
+     * @property {Boolean} dirty Form input dirty state.
+     * @property {String} error Form input error state.
+     * @property {Function} errorFormInput Redux action to change the form input error.
+     * @property {String} formId The form id.
+     * @property {String} id The form input id.
+     * @property {Boolean} focus Form input focus state.
+     * @property {Function} focusFormInput Redux action to focus the form input.
+     * @property {Function} onValidate Function that returns a promise that can resolve any errors with the form input value.
+     * @property [HTMLInputElementProps]  Any props you might usually use with a react form input component.
+     * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.
+    */
 
     /**
      * Returns only the component properties that need to be passed to the child component.
      * @function
      * @memberof WrappedComponent
-     * @returns {object} New object that does not contain props only needed for the parent component.
+     * @returns {WrappedFormInputComponentProps} A new object that contains the props to pass down to the wrapped component.
      */
     getComponentProps() {
       const { props } = this;
@@ -257,7 +268,7 @@ const withFormInput = (Component) => {
           return result;
         }, {}),
         onBlur: handleBlur(props),
-        onChange: handleChange(props.defaultValue)(props),
+        onChange: handleChange(props),
         onFocus: handleFocus(props)
       };
     }
@@ -266,7 +277,7 @@ const withFormInput = (Component) => {
      * Removes the form input state when the component unmounts.
      * @function
      * @memberof WrappedComponent
-     * @returns {undefined} Function does not return a value.
+     * @returns {Undefined} Function does not return a value.
      */
     componentWillUnmount() {
       const { formId, id: inputId, removeFormInput } = this.props;
@@ -278,7 +289,7 @@ const withFormInput = (Component) => {
      * Renders the form input component whenever the form input state changes.
      * @function
      * @memberof WrappedComponent
-     * @returns {object} React JSX to render the child component.
+     * @returns {Object} React JSX to render the child component.
      */
     render() {
       const props = this.getComponentProps();
@@ -288,9 +299,9 @@ const withFormInput = (Component) => {
 
   }
 
-  WrappedComponent.displayName = `WithFormInput(${Component.displayName})`;
+  WrappedComponent.displayName = 'WithFormInput(WrappedComponent)';
 
-  return withContext(withRedux(mapStateToProps, mapDispatchToProps)(WrappedComponent));
+  return withFormContext(withRedux(mapStateToProps, mapDispatchToProps)(WrappedComponent));
 };
 
 export default withFormInput;
