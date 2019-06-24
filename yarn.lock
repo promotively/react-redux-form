@@ -1058,10 +1058,10 @@
   resolved "https://registry.yarnpkg.com/@promotively/eslint-config-react/-/eslint-config-react-1.1.3.tgz#bc496419480efd5c4bd70c747e9fd68a2333a18a"
   integrity sha512-d7P+i5NAvuOUGG+IFQldOQQGEVAYqzFdNLpb9gZL850L0qpG6QKt0kRioYs0xdwMLdqZD5ZhKFdRHGMmEKirmg==
 
-"@promotively/eslint-config@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@promotively/eslint-config/-/eslint-config-1.1.3.tgz#183f31d44ca16ad473389411d36de2313d54ffe4"
-  integrity sha512-A3chyNOa7RF1y3xj9WxOiDICu15CjaAAAgn+14uE/PDo4+GVhIqbUWxbTmyChFt+YQUxrmwODYjmvv+KP5GOTg==
+"@promotively/eslint-config@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@promotively/eslint-config/-/eslint-config-1.1.4.tgz#00e8141d62ae25ff87ea0727ca6b14e482ec44ee"
+  integrity sha512-td/C6y7tAEDNyJjHcGu/tdkj5bsRNT/VxCj/iA/Py0Azzv7kicU4FSSCqIrsCJybhPtxKhKp5YP1Jvo+Lf75oQ==
 
 "@types/babel__core@^7.1.0":
   version "7.1.0"
@@ -2907,10 +2907,10 @@ eslint-plugin-promise@^4.1.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-4.1.1.tgz#1e08cb68b5b2cd8839f8d5864c796f56d82746db"
   integrity sha512-faAHw7uzlNPy7b45J1guyjazw28M+7gJokKUjC5JSFoYfUEyy6Gw/i7YQvmv2Yk00sUjWcmzXQLpU1Ki/C2IZQ==
 
-eslint-plugin-react@^7.14.0:
-  version "7.14.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.14.0.tgz#14f97c1add4d873fee2b6c52ac38cda96c70d1d1"
-  integrity sha512-MbPYPGsOteqqnFZx4lGLw6izxcWv6onLsil/6iX6+CaZAzMxOwsPja1Xg25cVCJ4jwKBDhJXe+ZAn6HAjGHSCw==
+eslint-plugin-react@^7.14.1:
+  version "7.14.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.14.1.tgz#0b49bed8c18b5c2819ea4eb4fdda93e236643198"
+  integrity sha512-fQSIHJ3t0tYgctUyPbcjDPgNUTM6jNFguFKi73ctNjq+8KgqSynMMltakn60/VTtvmNSxOtju/j8Yby8mNn3bQ==
   dependencies:
     array-includes "^3.0.3"
     doctrine "^2.1.0"
