@@ -13,8 +13,7 @@ import {
   FORM_INPUT_COMPLETE,
   FORM_INPUT_CREATE,
   FORM_INPUT_ERROR,
-  FORM_INPUT_FOCUS,
-  FORM_INPUT_REMOVE
+  FORM_INPUT_FOCUS
 } from 'actions/form-input';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -125,33 +124,6 @@ describe('helpers/with-form-input.js', () => {
     const container = renderer.root;
 
     expect(container.findAllByProps({ id: formId })).toHaveLength(0);
-  });
-
-  it('should remove form input.', () => {
-    const mockState = {
-      form: {
-        [formId]: {}
-      },
-      formInput: {}
-    };
-    const mockStore = createMockStore(mockState);
-    const renderer = ReactTestRenderer.create(
-      <Provider store={mockStore}>
-        <FormContainer id={formId}>
-          <FormInputContainer id={inputId} defaultValue={defaultValue} />
-        </FormContainer>
-      </Provider>
-    );
-
-    renderer.unmount();
-
-    const actions = mockStore.getActions();
-
-    expect(actions[3]).toEqual({
-      formId,
-      inputId,
-      type: FORM_INPUT_REMOVE
-    });
   });
 
   it('should blur form input.', () => {

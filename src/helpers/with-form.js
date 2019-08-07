@@ -18,7 +18,6 @@
 import {
   createForm,
   errorForm,
-  removeForm,
   submitForm
 } from 'actions/form';
 import createFormActiveSelector from 'selectors/form-active';
@@ -68,7 +67,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   createForm,
   errorForm,
-  removeForm,
   submitForm
 };
 
@@ -174,7 +172,6 @@ const withForm = (Component) => {
           ![
             'data',
             'createForm',
-            'removeForm',
             'submitForm'
           ].includes(name)
         )).reduce((result, name) => {
@@ -197,18 +194,6 @@ const withForm = (Component) => {
       const { createForm, id } = props;
 
       createForm(id);
-    }
-
-    /**
-     * Removes the form state when the component unmounts.
-     * @function
-     * @memberof WrappedComponent
-     * @returns {Undefined} Function does not return a value.
-     */
-    componentWillUnmount() {
-      const { id, removeForm } = this.props;
-
-      removeForm(id);
     }
 
     /**

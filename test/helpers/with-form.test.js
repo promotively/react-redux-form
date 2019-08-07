@@ -9,8 +9,7 @@
 
 import {
   FORM_CREATE,
-  FORM_ERROR,
-  FORM_REMOVE
+  FORM_ERROR
 } from 'actions/form';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -79,30 +78,6 @@ describe('helpers/with-form.js', () => {
     expect(actions[0]).toEqual({
       id: formId,
       type: FORM_CREATE
-    });
-  });
-
-  it('should remove form.', () => {
-    const mockState = {
-      form: {
-        [formId]: {}
-      },
-      formInput: {}
-    };
-    const mockStore = createMockStore(mockState);
-    const renderer = ReactTestRenderer.create(
-      <Provider store={mockStore}>
-        <FormContainer id={formId} />
-      </Provider>
-    );
-
-    renderer.unmount();
-
-    const actions = mockStore.getActions();
-
-    expect(actions[1]).toEqual({
-      id: formId,
-      type: FORM_REMOVE
     });
   });
 

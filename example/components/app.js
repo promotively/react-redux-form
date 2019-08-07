@@ -14,10 +14,10 @@ import Header from '../components/header';
 import React from 'react';
 
 const App = () => (
-  <React.Fragment>
+  <>
     <Header />
     <ExampleForm id="example-test-form" />
-  </React.Fragment>
+  </>
 );
 
 export default App;

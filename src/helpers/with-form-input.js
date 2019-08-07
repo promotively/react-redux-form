@@ -17,7 +17,6 @@
 
 import {
   createFormInput,
-  removeFormInput,
   blurFormInput,
   focusFormInput,
   changeFormInput,
@@ -74,8 +73,7 @@ const mapDispatchToProps = {
   completeFormInput,
   createFormInput,
   errorFormInput,
-  focusFormInput,
-  removeFormInput
+  focusFormInput
 };
 
 /**
@@ -258,10 +256,7 @@ const withFormInput = (Component) => {
 
       return {
         ...Object.keys(props).filter((name) => (
-          ![
-            'createFormInput',
-            'removeFormInput'
-          ].includes(name)
+          !['createFormInput'].includes(name)
         )).reduce((result, name) => {
           result[name] = props[name];
 
@@ -271,18 +266,6 @@ const withFormInput = (Component) => {
         onChange: handleChange(props),
         onFocus: handleFocus(props)
       };
-    }
-
-    /**
-     * Removes the form input state when the component unmounts.
-     * @function
-     * @memberof WrappedComponent
-     * @returns {Undefined} Function does not return a value.
-     */
-    componentWillUnmount() {
-      const { formId, id: inputId, removeFormInput } = this.props;
-
-      removeFormInput(formId, inputId);
     }
 
     /**
