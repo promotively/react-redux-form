@@ -256,7 +256,7 @@ const withFormInput = (Component) => {
 
       return {
         ...Object.keys(props).filter((name) => (
-          !['createFormInput'].includes(name)
+          ![ 'createFormInput' ].includes(name)
         )).reduce((result, name) => {
           result[name] = props[name];
 
