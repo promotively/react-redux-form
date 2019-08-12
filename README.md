@@ -80,55 +80,44 @@ export default store;
 
 ## Usage
 
-Wrap your form component using the ```withForm``` higher order component.
+Wrap a react form component using the ```withForm``` higher order component.
 
-```javascript
-// components/form.js
-
-import React from 'react';
-
-const Form = (props) => (
-  <form {...props}>
-);
-
-export default Form;
-```
+Note: You can use the provided ```Form``` component or use your own.
 
 ```javascript
 // containers/form.js
 
-import axios from 'axios';
-import Form from '../components/form';
-import { withForm } from '@promotively/react-redux-form';
+import { Form, withForm } from '@promotively/react-redux-form';
 
 const FormContainer = withForm(Form);
 
 export default FormContainer;
 ```
 
-Wrap your form input component(s) using the ```withFormInput``` higher order component.
+Wrap a react form input component using the ```withFormInput``` higher order component.
+
+Note: You can use the provided ```FormInput``` component or use your own.
 
 ```javascript
 // components/form-input.js
-
+import { FormInput } from '@promotively/react-redux-form';
 import React from 'react';
 
-const FormInput = (props) => (
+const WrappedFormInput = (props) => (
   <label>
     <span>{props.name}</span>
-    <input {...props} />
+    <FormInput {...props} />
   </label>
 );
 
-export default Form;
+export default WrappedFormInput;
 ```
 
 ```javascript
 // containers/form-input.js
 
-import axios from 'axios';
 import FormInput from '../components/form-input';
-import { withForm } from '@promotively/react-redux-form';
+import { withFormInput } from '@promotively/react-redux-form';
 
 const FormInputContainer = withFormInput(FormInput);
 
@@ -171,7 +160,7 @@ const app = (
 render(app, document.getElementsByTagName('main')[0]);
 ```
 
-Add an onSubmit handler to the form.
+Add an onSubmit handler to the form (optional).
 
 ```javascript
 // containers/login-form.js
@@ -358,6 +347,13 @@ export default LoginForm;
 | `focusFormInput` | (formId, inputId) | Focus a form input. |
 | `removeFormInput` | (formId, inputId) | Remove a form input. |
 
+### React Components
+
+| Function | Arguments | Description | Props
+| --- | --- | --- | --- |
+| `Form` | (Component) | Any react.js form component | { HTMLFormElementProps, HTMLElementProps } |
+| `FormInput` | (Component) | Any react.js form input component | { HTMLInputElementProps, HTMLElementProps } |
+
 ### React Higher Order Components
 
 | Function | Arguments | Description | Props
@@ -410,6 +406,10 @@ This library has 100% unit test code coverage.
 Code coverage is available inside the ```dist/coverage``` folder after running ```yarn test```.
 
 Code coverage for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/tests/index.html).
+
+## Todo
+- [ ] Alternative API for using this library with React Hooks instead of using Higher Order Components.
+- [ ] Type definitions for TypeScript
 
 ## License
 MIT
