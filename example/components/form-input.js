@@ -14,7 +14,7 @@ import Meta from './meta';
 import React from 'react';
 import Wrapper from './wrapper';
 
-// Note: The FormInput component is nothing fancy, just a basic react component ```(props) => <form {...props};```
+// Note: The FormInput component is nothing fancy, just a basic react component ```(props) => <input {...props};```
 const WrappedFormInput = (props) => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>
