@@ -10,11 +10,13 @@
 /* eslint-disable react/prop-types */
 
 import Alert from './alert';
+import { Form } from '../../src';
 import Meta from './meta';
 import React from 'react';
 import Wrapper from './wrapper';
 
-const Form = (props) => (
+// Note: The Form component is nothing fancy, just a basic react component ```(props) => <form {...props};```
+const WrappedForm = (props) => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>
       <div style={{ paddingBottom: '10px' }}>The below boxes display all the possible properties available for you to use in your own form components.</div>
@@ -27,9 +29,9 @@ const Form = (props) => (
         <Meta name="Loading" value={props.loading} />
       </div>
     </Wrapper>
-    <form id={props.id} onSubmit={props.onSubmit}>
+    <Form id={props.id} onSubmit={props.onSubmit}>
       {props.children}
-    </form>
+    </Form>
     <div style={{ marginTop: '10px' }}>
       {props.loading ? <Alert type="info">The form is submitting, please wait.</Alert> : null}
       {!props.loading && props.error ? <Alert type="error">{props.error}</Alert> : null}
@@ -38,4 +40,4 @@ const Form = (props) => (
   </div>
 );
 
-export default Form;
+export default WrappedForm;

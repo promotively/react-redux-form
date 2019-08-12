@@ -20,6 +20,8 @@ export {
   completeForm,
   submitForm
 } from 'actions/form';
+export { default as Form } from 'components/form';
+export { default as FormInput } from 'components/form-input';
 export { default as withForm } from 'helpers/with-form';
 export { default as formReducer } from 'reducers/form';
 export { default as createFormActiveSelector } from 'selectors/form-active';
