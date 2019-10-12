@@ -7,7 +7,7 @@
 
 # @promotively/react-redux-form
 
-Universal react.js/redux.js library for building forms.
+Universal/isomorphic react.js/redux.js library for building forms.
 
 ## Why?
 
@@ -51,10 +51,6 @@ The source code is documented using JSDoc syntax and documentation is generated 
 Once you have executed ```yarn docs``` documentation is available inside the ```dist/docs``` folder.
 
 Documentation for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/docs/index.html).
-
-## Feedback
-
-Feedback is more than welcome via [GitHub](https://www.github.com/promotively) or [Twitter](https://www.twitter.com/promotively).
 
 ## Setup
 
@@ -327,6 +323,7 @@ export default LoginForm;
 ```
 
 ## API
+
 ### Redux Action Creators
 
 | Function | Arguments | Description |
@@ -393,7 +390,7 @@ All build artifacts can be found inside the ```dist/lib``` and ```dist/example``
 
 ## Linting
 
-This library uses [@promotively/eslint-config](https://www.github.com/promotively/eslint-config) and [@promotively/eslint-config-react](https://www.github.com/promotively/eslint-config-react) for its eslint configuration.
+This library uses [@promotively/eslint-config](https://www.github.com/promotively/eslint-config) and [@promotively/eslint-config-react](https://www.github.com/promotively/eslint-config-react) for its ESLint configuration.
 
 ```
 yarn lint
@@ -407,10 +404,10 @@ Code coverage is available inside the ```dist/coverage``` folder after running `
 
 Code coverage for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/tests/index.html).
 
-## Todo
-- [ ] Alternative API for using this library with React Hooks instead of using Higher Order Components.
-- [ ] Type definitions for TypeScript
+## Feedback
+
+Feedback is more than welcome via [GitHub](https://www.github.com/promotively), [Twitter](https://www.twitter.com/promotively) or our [Website](https://www.promotively.com).
 
 ## License
-MIT
 
+MIT
