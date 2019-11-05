@@ -6,12 +6,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://www.github.com/promotively/react-redux-form"
+    "url": "https://github.com/promotively/react-redux-form"
   },
   "bugs": {
     "url": "https://github.com/promotively/react-redux-form/issues"
   },
-  "homepage": "https://www.promotively.com",
+  "homepage": "https://promotively.com",
   "license": "MIT",
   "version": "2.3.0",
   "main": "dist/lib/server.js",

@@ -3,7 +3,7 @@
  *
  * @copyright (c) 2018-2019, Promotively
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://www.github.com/promotively/react-redux-form}
+ * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
  */
 
@@ -31,7 +31,7 @@ const Header = () => (
         Tip: React Developer Tools, Redux Dev Tools and Source Maps are all enabled in this example.
       </Alert>
     </div>
-    <p>This is an example of a react.js/redux.js web application using the <a href="https://www.github.com/promotively/react-redux-form">@promotively/react-redux-form</a> library to build a full featured form.</p>
+    <p>This is an example of a react.js/redux.js web application using the <a href="https://github.com/promotively/react-redux-form">@promotively/react-redux-form</a> library to build a full featured form.</p>
     <p><a href="https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/docs/index.html">Read the documentation</a> for more details including a simple step by step guide.</p>
   </div>
 );
