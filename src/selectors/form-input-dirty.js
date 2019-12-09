@@ -32,15 +32,14 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormInputDirtySelector = (formId, inputId) => createSelector(
-  (state) => {
-    const input = state.formInput[`${formId}__${inputId}`];
+const createFormInputDirtySelector = (formId, inputId) =>
+  createSelector(
+    state => {
+      const input = state.formInput[`${formId}__${inputId}`];
 
-    return Boolean(input && input.dirty);
-  },
-  (dirty) => (
-    dirty
-  )
-);
+      return Boolean(input && input.dirty);
+    },
+    dirty => dirty
+  );
 
 export default createFormInputDirtySelector;

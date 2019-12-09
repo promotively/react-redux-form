@@ -20,6 +20,6 @@ const app = (
   </Provider>
 );
 
-const [ node ] = document.getElementsByTagName('main');
+const [node] = document.getElementsByTagName('main');
 
 render(app, node);

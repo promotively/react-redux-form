@@ -36,11 +36,7 @@ const mockError = new Error('test-error');
 
 describe('actions/form-input.js', () => {
   it('should handle creating a form input.', () => {
-    expect(createFormInput(
-      formId,
-      inputId,
-      defaultValue
-    )).toEqual({
+    expect(createFormInput(formId, inputId, defaultValue)).toEqual({
       defaultValue,
       formId,
       inputId,
@@ -49,10 +45,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle removing a form input.', () => {
-    expect(removeFormInput(
-      formId,
-      inputId
-    )).toEqual({
+    expect(removeFormInput(formId, inputId)).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_REMOVE
@@ -60,10 +53,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle blurring a form input.', () => {
-    expect(blurFormInput(
-      formId,
-      inputId
-    )).toEqual({
+    expect(blurFormInput(formId, inputId)).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_BLUR
@@ -71,10 +61,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle focusing a form input.', () => {
-    expect(focusFormInput(
-      formId,
-      inputId
-    )).toEqual({
+    expect(focusFormInput(formId, inputId)).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_FOCUS
@@ -82,12 +69,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle changing a form input value.', () => {
-    expect(changeFormInput(
-      formId,
-      inputId,
-      defaultValue,
-      newValue
-    )).toEqual({
+    expect(changeFormInput(formId, inputId, defaultValue, newValue)).toEqual({
       defaultValue,
       formId,
       inputId,
@@ -97,11 +79,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle errors on a form input value.', () => {
-    expect(errorFormInput(
-      formId,
-      inputId,
-      mockError.message
-    )).toEqual({
+    expect(errorFormInput(formId, inputId, mockError.message)).toEqual({
       error: mockError.message,
       formId,
       inputId,
@@ -110,10 +88,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle completing a form input value.', () => {
-    expect(completeFormInput(
-      formId,
-      inputId
-    )).toEqual({
+    expect(completeFormInput(formId, inputId)).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_COMPLETE
@@ -121,10 +96,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle disabling a form input.', () => {
-    expect(disableFormInput(
-      formId,
-      inputId
-    )).toEqual({
+    expect(disableFormInput(formId, inputId)).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_DISABLE
@@ -132,10 +104,7 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle disabling a form input.', () => {
-    expect(enableFormInput(
-      formId,
-      inputId
-    )).toEqual({
+    expect(enableFormInput(formId, inputId)).toEqual({
       formId,
       inputId,
       type: FORM_INPUT_ENABLE

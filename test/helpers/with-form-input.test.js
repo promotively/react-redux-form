@@ -32,12 +32,12 @@ const defaultValue = 'test-value';
 const newValue = 'test-value-new';
 const mockError = new Error('test-error');
 const mockEvent = {
-  preventDefault: () => (true),
+  preventDefault: () => true,
   target: {
     value: newValue
   }
 };
-const createMockStore = configureStore([ thunk ]);
+const createMockStore = configureStore([thunk]);
 const FormContainer = withForm(Form);
 const FormInputContainer = withFormInput(FormInput);
 
@@ -79,7 +79,9 @@ describe('helpers/with-form-input.js', () => {
       'onFocus'
     ];
 
-    expect(Object.keys(container.findAllByProps({ formId: mockFormId })[2].props).join()).toEqual(expectedPropKeys.join());
+    expect(Object.keys(container.findAllByProps({ formId: mockFormId })[2].props).join()).toEqual(
+      expectedPropKeys.join()
+    );
   });
 
   it('should create form input.', () => {
@@ -253,15 +255,17 @@ describe('helpers/with-form-input.js', () => {
 
     const actions = mockStore.getActions();
 
-    await new Promise((resolve) => setTimeout(() => {
-      expect(actions[3]).toEqual({
-        error: mockError.message,
-        formId: mockFormId,
-        inputId: mockFormInputId,
-        type: FORM_INPUT_ERROR
-      });
-      resolve();
-    }, 1));
+    await new Promise(resolve =>
+      setTimeout(() => {
+        expect(actions[3]).toEqual({
+          error: mockError.message,
+          formId: mockFormId,
+          inputId: mockFormInputId,
+          type: FORM_INPUT_ERROR
+        });
+        resolve();
+      }, 1)
+    );
   });
 
   it('should change value on a form input with a validator and not throw an error.', async () => {
@@ -291,13 +295,15 @@ describe('helpers/with-form-input.js', () => {
 
     const actions = mockStore.getActions();
 
-    await new Promise((resolve) => setTimeout(() => {
-      expect(actions[3]).toEqual({
-        formId: mockFormId,
-        inputId: mockFormInputId,
-        type: FORM_INPUT_COMPLETE
-      });
-      resolve();
-    }, 1));
+    await new Promise(resolve =>
+      setTimeout(() => {
+        expect(actions[3]).toEqual({
+          formId: mockFormId,
+          inputId: mockFormInputId,
+          type: FORM_INPUT_COMPLETE
+        });
+        resolve();
+      }, 1)
+    );
   });
 });

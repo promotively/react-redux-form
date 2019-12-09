@@ -16,10 +16,12 @@ import React from 'react';
 import Wrapper from './wrapper';
 
 // Note: The Form component is nothing fancy, just a basic react component ```(props) => <form {...props};```
-const WrappedForm = (props) => (
+const WrappedForm = props => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>
-      <div style={{ paddingBottom: '10px' }}>The below boxes display all the possible properties available for you to use in your own form components.</div>
+      <div style={{ paddingBottom: '10px' }}>
+        The below boxes display all the possible properties available for you to use in your own form components.
+      </div>
       <div style={{ display: 'flex' }}>
         <Meta name="Active" value={props.active} />
         <Meta name="Dirty" value={props.dirty} />

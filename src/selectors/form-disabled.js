@@ -31,15 +31,13 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormDisabledSelector = (formId) => createSelector(
-  (state) => (
-    !state.form[formId] || state.form[formId].loading || Object.keys(state.formInput).some((key) => (
-      formId === key.split('__')[0] && state.formInput[key].error
-    ))
-  ),
-  (disabled) => (
-    disabled
-  )
-);
+const createFormDisabledSelector = formId =>
+  createSelector(
+    state =>
+      !state.form[formId] ||
+      state.form[formId].loading ||
+      Object.keys(state.formInput).some(key => formId === key.split('__')[0] && state.formInput[key].error),
+    disabled => disabled
+  );
 
 export default createFormDisabledSelector;

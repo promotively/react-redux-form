@@ -15,10 +15,13 @@ import React from 'react';
 import Wrapper from './wrapper';
 
 // Note: The FormInput component is nothing fancy, just a basic react component ```(props) => <input {...props};```
-const WrappedFormInput = (props) => (
+const WrappedFormInput = props => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>
-      <div style={{ paddingBottom: '10px' }}>This is a {props.name} form input. The boxes to the right of the form input display all the possible properties available for you to use in your own form input components.</div>
+      <div style={{ paddingBottom: '10px' }}>
+        This is a {props.name} form input. The boxes to the right of the form input display all the possible properties
+        available for you to use in your own form input components.
+      </div>
       <div style={{ display: 'flex' }}>
         <FormInput
           id={`${props.formId}__${props.id}`}

@@ -32,15 +32,14 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormInputActiveSelector = (formId, inputId) => createSelector(
-  (state) => {
-    const input = state.formInput[`${formId}__${inputId}`];
+const createFormInputActiveSelector = (formId, inputId) =>
+  createSelector(
+    state => {
+      const input = state.formInput[`${formId}__${inputId}`];
 
-    return Boolean(input && input.active);
-  },
-  (active) => (
-    active
-  )
-);
+      return Boolean(input && input.active);
+    },
+    active => active
+  );
 
 export default createFormInputActiveSelector;

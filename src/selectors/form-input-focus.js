@@ -32,15 +32,14 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormInputFocusSelector = (formId, inputId) => createSelector(
-  (state) => {
-    const input = state.formInput[`${formId}__${inputId}`];
+const createFormInputFocusSelector = (formId, inputId) =>
+  createSelector(
+    state => {
+      const input = state.formInput[`${formId}__${inputId}`];
 
-    return Boolean(input && input.focus);
-  },
-  (focus) => (
-    focus
-  )
-);
+      return Boolean(input && input.focus);
+    },
+    focus => focus
+  );
 
 export default createFormInputFocusSelector;

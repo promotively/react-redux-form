@@ -7,10 +7,7 @@
  * @license MIT
  */
 
-import {
-  FORM_CREATE,
-  FORM_ERROR
-} from 'actions/form';
+import { FORM_CREATE, FORM_ERROR } from 'actions/form';
 import configureStore from 'redux-mock-store';
 import Form from 'components/form';
 import { Provider } from 'react-redux';
@@ -21,12 +18,17 @@ import withForm from 'helpers/with-form';
 
 const mockFormId = 'test-form';
 const mockFormInputKey = `${mockFormId}__test-form-input`;
-const mockData = { test: true };
-const mockEvent = { preventDefault: () => (true) };
+const mockData = {
+  test: true
+};
+const mockEvent = {
+  preventDefault: () => true
+};
 const mockError = new Error('test-error');
-const createMockStore = configureStore([ thunk ]);
-const createResolvedPromise = (data) => () => Promise.resolve(data);
-const createRejectedPromise = (error) => () => Promise.reject(error); // eslint-disable-line promise/no-promise-in-callback
+const createMockStore = configureStore([thunk]);
+const createResolvedPromise = data => () => Promise.resolve(data);
+// eslint-disable-next-line promise/no-promise-in-callback
+const createRejectedPromise = error => () => Promise.reject(error);
 const FormContainer = withForm(Form);
 
 describe('helpers/with-form.js', () => {
@@ -75,10 +77,7 @@ describe('helpers/with-form.js', () => {
 
     const actions = mockStore.getActions();
 
-    expect(actions[0]).toEqual({
-      id: mockFormId,
-      type: FORM_CREATE
-    });
+    expect(actions[0]).toEqual({ id: mockFormId, type: FORM_CREATE });
   });
 
   it('should pass props through to child component.', () => {
@@ -103,7 +102,7 @@ describe('helpers/with-form.js', () => {
     expect(container.findAllByType(Form)[0].props.className).toMatch(mockFormInputKey);
   });
 
-  it('should handle client side errors when submitting the form.', (callback) => {
+  it('should handle client side errors when submitting the form.', callback => {
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -129,16 +128,12 @@ describe('helpers/with-form.js', () => {
     setTimeout(() => {
       const actions = mockStore.getActions();
 
-      expect(actions[1]).toEqual({
-        error: mockError.message,
-        id: mockFormId,
-        type: FORM_ERROR
-      });
+      expect(actions[1]).toEqual({ error: mockError.message, id: mockFormId, type: FORM_ERROR });
       callback();
     }, 1);
   });
 
-  it('should handle server side errors when submitting the form.', (callback) => {
+  it('should handle server side errors when submitting the form.', callback => {
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -163,16 +158,13 @@ describe('helpers/with-form.js', () => {
     setTimeout(() => {
       const actions = mockStore.getActions();
 
-      expect(actions[2]).toEqual({
-        error: mockError.message,
-        id: mockFormId,
-        type: FORM_ERROR
-      });
+      expect(actions[2]).toEqual({ error: mockError.message, id: mockFormId, type: FORM_ERROR });
       callback();
     }, 1);
   });
 
-  it('should submit form when it has been changed and is not loading and or disabled and validation has passed.', (callback) => {
+  it(`should submit form when it has been changed and is not loading and or
+  disabled and validation has passed.`, callback => {
     const mockState = {
       form: {
         [mockFormId]: {}

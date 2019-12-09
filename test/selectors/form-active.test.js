@@ -10,10 +10,7 @@
 import createFormActiveSelector from 'selectors/form-active';
 
 const formId = 'test-form';
-const inputKeys = [
-  `${formId}__test-form-input-1`,
-  `${formId}__test-form-input-2`
-];
+const inputKeys = [`${formId}__test-form-input-1`, `${formId}__test-form-input-2`];
 
 describe('selectors/form-active.js', () => {
   it('should return true when any form inputs are active.', () => {

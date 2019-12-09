@@ -10,10 +10,7 @@
 import createFormDirtySelector from 'selectors/form-dirty';
 
 const formId = 'test-form';
-const inputKeys = [
-  `${formId}__test-form-input-1`,
-  `${formId}__test-form-input-2`
-];
+const inputKeys = [`${formId}__test-form-input-1`, `${formId}__test-form-input-2`];
 
 describe('selectors/form-dirty.js', () => {
   it('should return true when any form inputs are dirty.', () => {

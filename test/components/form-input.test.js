@@ -20,18 +20,10 @@ describe('components/form-input.js', () => {
   it('renders with correct props.', () => {
     const mockOnChange = jest.fn();
     const renderer = ReactTestRenderer.create(
-      <FormInput
-        id={mockFormInputKey}
-        onChange={mockOnChange}
-        value={mockFormInputValue}
-      />
+      <FormInput id={mockFormInputKey} onChange={mockOnChange} value={mockFormInputValue} />
     );
     const container = renderer.root;
-    const expectedPropKeys = [
-      'id',
-      'onChange',
-      'value'
-    ];
+    const expectedPropKeys = ['id', 'onChange', 'value'];
 
     expect(Object.keys(container.findAllByType(FormInput)[0].props).join()).toEqual(expectedPropKeys.join());
   });

@@ -7,13 +7,7 @@
  * @license MIT
  */
 
-import {
-  FORM_CREATE,
-  FORM_REMOVE,
-  FORM_LOADING,
-  FORM_COMPLETE,
-  FORM_ERROR
-} from 'actions/form';
+import { FORM_CREATE, FORM_REMOVE, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 import formReducer from 'reducers/form';
 
 const formId = 'test-form';
@@ -42,10 +36,15 @@ describe('reducers/form.js', () => {
       }
     };
 
-    expect(formReducer({}, {
-      id: formId,
-      type: FORM_CREATE
-    })).toEqual(nextState);
+    expect(
+      formReducer(
+        {},
+        {
+          id: formId,
+          type: FORM_CREATE
+        }
+      )
+    ).toEqual(nextState);
   });
 
   it('should handle FORM_LOADING action type.', () => {
@@ -58,10 +57,12 @@ describe('reducers/form.js', () => {
       }
     };
 
-    expect(formReducer(previousState, {
-      id: formId,
-      type: FORM_LOADING
-    })).toEqual(nextState);
+    expect(
+      formReducer(previousState, {
+        id: formId,
+        type: FORM_LOADING
+      })
+    ).toEqual(nextState);
   });
 
   it('should handle FORM_ERROR action type.', () => {
@@ -74,11 +75,13 @@ describe('reducers/form.js', () => {
       }
     };
 
-    expect(formReducer(previousState, {
-      error: mockError.message,
-      id: formId,
-      type: FORM_ERROR
-    })).toEqual(nextState);
+    expect(
+      formReducer(previousState, {
+        error: mockError.message,
+        id: formId,
+        type: FORM_ERROR
+      })
+    ).toEqual(nextState);
   });
 
   it('should handle FORM_COMPLETE action type.', () => {
@@ -91,16 +94,20 @@ describe('reducers/form.js', () => {
       }
     };
 
-    expect(formReducer(previousState, {
-      id: formId,
-      type: FORM_COMPLETE
-    })).toEqual(nextState);
+    expect(
+      formReducer(previousState, {
+        id: formId,
+        type: FORM_COMPLETE
+      })
+    ).toEqual(nextState);
   });
 
   it('should handle FORM_REMOVE action type.', () => {
-    expect(formReducer(previousState, {
-      id: formId,
-      type: FORM_REMOVE
-    })).toEqual({});
+    expect(
+      formReducer(previousState, {
+        id: formId,
+        type: FORM_REMOVE
+      })
+    ).toEqual({});
   });
 });

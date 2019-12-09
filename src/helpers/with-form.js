@@ -15,11 +15,7 @@
 
 /* eslint-disable react/prop-types */
 
-import {
-  createForm,
-  errorForm,
-  submitForm
-} from 'actions/form';
+import { createForm, errorForm, submitForm } from 'actions/form';
 import createFormActiveSelector from 'selectors/form-active';
 import createFormCompleteSelector from 'selectors/form-complete';
 import createFormDataSelector from 'selectors/form-data';
@@ -76,15 +72,17 @@ const mapDispatchToProps = {
  * @param {Object} props The properties available to the the parent component.
  * @returns {Function} A function that creates a function that returns a promise to be resolved.
  */
-const handleValidation = (props) => (data) => (
+const handleValidation = props => data =>
   new Promise((resolve, reject) => {
     if (!props.onValidate) {
       resolve();
     } else {
-      props.onValidate(data).then(resolve).catch(reject);
+      props
+        .onValidate(data)
+        .then(resolve)
+        .catch(reject);
     }
-  })
-);
+  });
 
 /**
  * Custom submit handler for the form.
@@ -92,25 +90,15 @@ const handleValidation = (props) => (data) => (
  * @param {Object} props The properties available to the the parent component.
  * @returns {Function} Connected event handler for the submit action type.
  */
-const handleSubmit = (props) => (event) => {
-  const {
-    errorForm,
-    onSubmit,
-    data,
-    id,
-    disabled,
-    loading,
-    submitForm
-  } = props;
+const handleSubmit = props => event => {
+  const { errorForm, onSubmit, data, id, disabled, loading, submitForm } = props;
 
   event.preventDefault();
 
   if (!loading && !disabled) {
-    handleValidation(props)(data).then(() => (
-      submitForm(id, data, onSubmit)
-    )).catch((error) => (
-      errorForm(id, error)
-    ));
+    handleValidation(props)(data)
+      .then(() => submitForm(id, data, onSubmit))
+      .catch(error => errorForm(id, error));
   }
 };
 
@@ -133,15 +121,14 @@ const handleSubmit = (props) => (event) => {
  *
  * ...
  */
-const withForm = (Component) => {
+const withForm = Component => {
   class WrappedComponent extends React.PureComponent {
-
     /**
      * Event handler for form submissions.
      * @function
      * @memberof WrappedComponent
      */
-    onSubmit = handleSubmit(this.props)
+    onSubmit = handleSubmit(this.props);
 
     /**
      * @typedef WrappedFormComponentProps
@@ -168,17 +155,13 @@ const withForm = (Component) => {
      */
     getComponentProps() {
       return {
-        ...Object.keys(this.props).filter((name) => (
-          ![
-            'data',
-            'createForm',
-            'submitForm'
-          ].includes(name)
-        )).reduce((result, name) => {
-          result[name] = this.props[name];
+        ...Object.keys(this.props)
+          .filter(name => !['data', 'createForm', 'submitForm'].includes(name))
+          .reduce((result, name) => {
+            result[name] = this.props[name];
 
-          return result;
-        }, {}),
+            return result;
+          }, {}),
         onSubmit: handleSubmit(this.props)
       };
     }
@@ -214,7 +197,6 @@ const withForm = (Component) => {
         </FormContext.Provider>
       );
     }
-
   }
 
   WrappedComponent.displayName = 'WithForm(WrappedComponent)';

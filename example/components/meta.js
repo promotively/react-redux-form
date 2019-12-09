@@ -11,14 +11,16 @@
 
 import React from 'react';
 
-const Meta = (props) => (
-  <div style={{
-    border: '1px solid black',
-    color: 'black',
-    fontSize: '14px',
-    marginRight: '5px',
-    padding: '5px'
-  }}>
+const Meta = props => (
+  <div
+    style={{
+      border: '1px solid black',
+      color: 'black',
+      fontSize: '14px',
+      marginRight: '5px',
+      padding: '5px'
+    }}
+  >
     {props.name}: {props.value ? 'Yes' : 'No'}
   </div>
 );

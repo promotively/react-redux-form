@@ -32,15 +32,14 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormInputErrorSelector = (formId, inputId) => createSelector(
-  (state) => {
-    const input = state.formInput[`${formId}__${inputId}`];
+const createFormInputErrorSelector = (formId, inputId) =>
+  createSelector(
+    state => {
+      const input = state.formInput[`${formId}__${inputId}`];
 
-    return (input && input.error) || '';
-  },
-  (error) => (
-    error
-  )
-);
+      return (input && input.error) || '';
+    },
+    error => error
+  );
 
 export default createFormInputErrorSelector;

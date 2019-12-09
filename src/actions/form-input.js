@@ -79,7 +79,8 @@ export const FORM_INPUT_REMOVE = '@@promotively/FORM_INPUT_REMOVE';
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_BLUR redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_BLUR redux.js
+ * action type.
  * @example
  * ...
  *
@@ -104,7 +105,8 @@ export const blurFormInput = (formId, inputId) => ({
  * @param {String} inputId The ID for the form input.
  * @param {String} defaultValue The initial value for the form input.
  * @param {String} newValue The new value for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_CHANGE redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_CHANGE redux.js
+ * action type.
  * @example
  * ...
  *
@@ -130,7 +132,8 @@ export const changeFormInput = (formId, inputId, defaultValue, newValue) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_COMPLETE redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_COMPLETE redux.js
+ * action type.
  * @example
  * ...
  *
@@ -154,7 +157,8 @@ export const completeFormInput = (formId, inputId) => ({
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
  * @param {String} defaultValue The initial value for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_CREATE redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_CREATE redux.js
+ * action type.
  * @example
  * ...
  *
@@ -178,7 +182,8 @@ export const createFormInput = (formId, inputId, defaultValue) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_DISABLE redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_DISABLE redux.js
+ * action type.
  * @example
  * ...
  *
@@ -204,7 +209,8 @@ export const disableFormInput = (formId, inputId) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_ENABLE redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_ENABLE redux.js
+ * action type.
  * @example
  * ...
  *
@@ -227,15 +233,19 @@ export const enableFormInput = (formId, inputId) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @param {Error} error An error object containing the error message for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_ERROR redux.js action type.
+ * @param {Error} error An error object containing the error message for the
+ * form input.
+ * @returns {Object} The redux.js action for the FORM_INPUT_ERROR redux.js
+ * action type.
  * @example
  * ...
  *
  * import { errorFormInput } from '@promotively/react-redux-form';
  *
  * const verifyEmailAddressError = (props) => (
- *   props.dispatch(errorFormInput('signup', 'username', new Error('This username already exists, please try again.'));
+ *   props.dispatch(errorFormInput('signup', 'username',
+ *     new Error('This username already exists, please try again.')
+ *   ))
  * );
  *
  * ...
@@ -252,7 +262,8 @@ export const errorFormInput = (formId, inputId, error) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_FOCUS redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_FOCUS redux.js
+ * action type.
  * @example
  * ...
  *
@@ -275,7 +286,8 @@ export const focusFormInput = (formId, inputId) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_REMOVE redux.js action type.
+ * @returns {Object} The redux.js action for the FORM_INPUT_REMOVE redux.js
+ * action type.
  * @example
  * ...
  *

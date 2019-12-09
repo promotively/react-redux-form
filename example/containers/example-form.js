@@ -22,41 +22,40 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const handleFormValidation = (data) => (
+const handleFormValidation = data =>
   new Promise((resolve, reject) => {
     if (!data.email.includes('@example.com')) {
       reject(new Error('Must be a valid email address from example.com'));
     } else {
       resolve();
     }
-  })
-);
+  });
 
-const handleFormInputValidation = (id, value) => (
+const handleFormInputValidation = (id, value) =>
   new Promise((resolve, reject) => {
     if (!value) {
       reject(new Error('Cannot be left empty'));
     } else {
       resolve();
     }
-  })
-);
+  });
 
-const handleSubmit = (data) => new Promise((resolve, reject) => {
-  setTimeout(() => {
-    if (Math.random() < 0.5) {
-      console.log(`Form Submitted With Payload: ${JSON.stringify(data)}`);
-      resolve();
-    } else {
-      const error = new Error('This is a randomly generated form submission error.');
+const handleSubmit = data =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() < 0.5) {
+        console.log(`Form Submitted With Payload: ${JSON.stringify(data)}`);
+        resolve();
+      } else {
+        const error = new Error('This is a randomly generated form submission error.');
 
-      console.error(`Form Error: ${error.message}`);
-      reject(error);
-    }
-  }, 500);
-});
+        console.error(`Form Error: ${error.message}`);
+        reject(error);
+      }
+    }, 500);
+  });
 
-const ExampleFormContainer = withRedux(mapStateToProps)((props) => (
+const ExampleFormContainer = withRedux(mapStateToProps)(props => (
   <ExampleForm
     id={props.id}
     onValidateForm={handleFormValidation}

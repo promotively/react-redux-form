@@ -31,22 +31,21 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormDataSelector = (formId) => createSelector(
-  (state) => (
-    Object.keys(state.formInput).filter((key) => (
-      formId === key.split('__')[0]
-    )).map((key) => ({
-      name: key.split('__')[1],
-      value: state.formInput[key].value
-    })).reduce((result, item) => {
-      result[item.name] = item.value;
+const createFormDataSelector = formId =>
+  createSelector(
+    state =>
+      Object.keys(state.formInput)
+        .filter(key => formId === key.split('__')[0])
+        .map(key => ({
+          name: key.split('__')[1],
+          value: state.formInput[key].value
+        }))
+        .reduce((result, item) => {
+          result[item.name] = item.value;
 
-      return result;
-    }, {})
-  ),
-  (data) => (
-    data
-  )
-);
+          return result;
+        }, {}),
+    data => data
+  );
 
 export default createFormDataSelector;

@@ -32,15 +32,14 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormInputCompleteSelector = (formId, inputId) => createSelector(
-  (state) => {
-    const input = state.formInput[`${formId}__${inputId}`];
+const createFormInputCompleteSelector = (formId, inputId) =>
+  createSelector(
+    state => {
+      const input = state.formInput[`${formId}__${inputId}`];
 
-    return Boolean(input && !input.error && input.value);
-  },
-  (complete) => (
-    complete
-  )
-);
+      return Boolean(input && !input.error && input.value);
+    },
+    complete => complete
+  );
 
 export default createFormInputCompleteSelector;

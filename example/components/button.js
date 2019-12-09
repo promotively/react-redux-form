@@ -11,18 +11,20 @@
 
 import React from 'react';
 
-const Button = (props) => (
+const Button = props => (
   <button
     style={{
-      ...!props.disabled ? {
-        background: '#000',
-        border: '1px solid #000',
-        color: '#fff'
-      } : {
-        background: '#fff',
-        border: '1px solid #ccc',
-        color: '#ccc'
-      },
+      ...(!props.disabled
+        ? {
+            background: '#000',
+            border: '1px solid #000',
+            color: '#fff'
+          }
+        : {
+            background: '#fff',
+            border: '1px solid #ccc',
+            color: '#ccc'
+          }),
       ...{
         cursor: 'pointer',
         fontSize: '14px',

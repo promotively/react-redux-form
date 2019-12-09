@@ -12,12 +12,13 @@ import { formReducer, formInputReducer } from '../src';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-const createReduxStore = () => createStore(
-  combineReducers({
-    form: formReducer,
-    formInput: formInputReducer
-  }),
-  composeWithDevTools(applyMiddleware(...[ thunk ]))
-);
+const createReduxStore = () =>
+  createStore(
+    combineReducers({
+      form: formReducer,
+      formInput: formInputReducer
+    }),
+    composeWithDevTools(applyMiddleware(...[thunk]))
+  );
 
 export default createReduxStore;

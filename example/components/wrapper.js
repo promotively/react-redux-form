@@ -11,12 +11,14 @@
 
 import React from 'react';
 
-const Wrapper = (props) => (
-  <div style={{
-    border: '1px solid #000',
-    fontSize: '14px',
-    padding: '10px'
-  }}>
+const Wrapper = props => (
+  <div
+    style={{
+      border: '1px solid #000',
+      fontSize: '14px',
+      padding: '10px'
+    }}
+  >
     {props.children}
   </div>
 );

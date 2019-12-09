@@ -23,7 +23,7 @@ import {
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-const createMockStore = configureStore([ thunk ]);
+const createMockStore = configureStore([thunk]);
 
 const formId = 'test-form';
 const mockData = { test: true };
@@ -39,10 +39,7 @@ describe('actions/form.js', () => {
   });
 
   it('should handle setting the error state on a form.', () => {
-    expect(errorForm(
-      formId,
-      mockError
-    )).toEqual({
+    expect(errorForm(formId, mockError)).toEqual({
       error: mockError.message,
       id: formId,
       type: FORM_ERROR
@@ -50,19 +47,14 @@ describe('actions/form.js', () => {
   });
 
   it('should handle setting the loading state on a form.', () => {
-    expect(loadingForm(
-      formId
-    )).toEqual({
+    expect(loadingForm(formId)).toEqual({
       id: formId,
       type: FORM_LOADING
     });
   });
 
   it('should handle setting the complete state on a form.', () => {
-    expect(completeForm(
-      formId,
-      mockData
-    )).toEqual({
+    expect(completeForm(formId, mockData)).toEqual({
       data: mockData,
       id: formId,
       type: FORM_COMPLETE
@@ -70,9 +62,7 @@ describe('actions/form.js', () => {
   });
 
   it('should handle removing a form.', () => {
-    expect(removeForm(
-      formId
-    )).toEqual({
+    expect(removeForm(formId)).toEqual({
       id: formId,
       type: FORM_REMOVE
     });
@@ -80,15 +70,9 @@ describe('actions/form.js', () => {
 
   it('should handle submitting a form.', async () => {
     const mockStore = createMockStore();
-    const formAction = () => (
-      Promise.resolve()
-    );
+    const formAction = () => Promise.resolve();
 
-    await mockStore.dispatch(submitForm(
-      formId,
-      mockData,
-      formAction
-    ));
+    await mockStore.dispatch(submitForm(formId, mockData, formAction));
 
     const actions = mockStore.getActions();
 
@@ -100,16 +84,10 @@ describe('actions/form.js', () => {
 
   it('should handle submitting a form when an error occurs.', async () => {
     const mockStore = createMockStore();
-    const formAction = () => (
-      Promise.reject(mockError)
-    );
+    const formAction = () => Promise.reject(mockError);
 
     try {
-      await mockStore.dispatch(submitForm(
-        formId,
-        mockData,
-        formAction
-      ));
+      await mockStore.dispatch(submitForm(formId, mockData, formAction));
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -123,15 +101,9 @@ describe('actions/form.js', () => {
 
   it('should handle submitting a form successfully.', async () => {
     const mockStore = createMockStore();
-    const formAction = () => (
-      Promise.resolve(mockResponse)
-    );
+    const formAction = () => Promise.resolve(mockResponse);
 
-    await mockStore.dispatch(submitForm(
-      formId,
-      mockResponse,
-      formAction
-    ));
+    await mockStore.dispatch(submitForm(formId, mockResponse, formAction));
 
     const actions = mockStore.getActions();
 
@@ -145,22 +117,17 @@ describe('actions/form.js', () => {
   it('should handle submitting a form and resolving a promise successfully.', async () => {
     const FORM_ACTION_TEST = '@@promotively/FORM_ACTION_TEST';
     const mockStore = createMockStore();
-    const formAction = (data) => (
-      new Promise((resolve) => {
+    const formAction = data =>
+      new Promise(resolve => {
         mockStore.dispatch({
           data,
           type: FORM_ACTION_TEST
         });
 
         resolve();
-      })
-    );
+      });
 
-    await mockStore.dispatch(submitForm(
-      formId,
-      mockData,
-      formAction
-    ));
+    await mockStore.dispatch(submitForm(formId, mockData, formAction));
 
     const actions = mockStore.getActions();
 

@@ -11,13 +11,7 @@
  * @see {@link https://github.com/reduxjs/redux}
  */
 
-import {
-  FORM_CREATE,
-  FORM_REMOVE,
-  FORM_LOADING,
-  FORM_COMPLETE,
-  FORM_ERROR
-} from 'actions/form';
+import { FORM_CREATE, FORM_REMOVE, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 import clone from 'clone';
 
 /**
@@ -33,7 +27,7 @@ const initialState = {};
  * @param {Object} state The current state inside the redux.js store.
  * @param {Object} action The last redux.js action that was dispatched.
  * @returns {Object} Deep clone of the existing state of the store with any mutations related to handling forms.
-*/
+ */
 const formReducer = (state = initialState, action) => {
   const formId = action.id;
 

@@ -10,21 +10,9 @@
 import createFormDataSelector from 'selectors/form-data';
 
 const formId = 'test-form';
-const inputIds = [
-  'test-form-input-1',
-  'test-form-input-2',
-  'test-form-input-3'
-];
-const inputKeys = [
-  `${formId}__${inputIds[0]}`,
-  `${formId}__${inputIds[1]}`,
-  `${formId}__${inputIds[2]}`
-];
-const inputValues = [
-  'test-value-1',
-  'test-value-2',
-  'test-value-3'
-];
+const inputIds = ['test-form-input-1', 'test-form-input-2', 'test-form-input-3'];
+const inputKeys = [`${formId}__${inputIds[0]}`, `${formId}__${inputIds[1]}`, `${formId}__${inputIds[2]}`];
+const inputValues = ['test-value-1', 'test-value-2', 'test-value-3'];
 
 describe('selectors/form-data.js', () => {
   it('should return the correct serialized form payload.', () => {

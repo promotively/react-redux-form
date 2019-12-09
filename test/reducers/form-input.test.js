@@ -44,12 +44,17 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_CREATE action type.', () => {
-    expect(formInputReducer({}, {
-      defaultValue,
-      formId,
-      inputId,
-      type: FORM_INPUT_CREATE
-    })).toEqual({
+    expect(
+      formInputReducer(
+        {},
+        {
+          defaultValue,
+          formId,
+          inputId,
+          type: FORM_INPUT_CREATE
+        }
+      )
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -59,13 +64,15 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_CHANGE action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      defaultValue,
-      formId,
-      inputId,
-      newValue,
-      type: FORM_INPUT_CHANGE
-    })).toEqual({
+    expect(
+      formInputReducer(mockInputState, {
+        defaultValue,
+        formId,
+        inputId,
+        newValue,
+        type: FORM_INPUT_CHANGE
+      })
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -76,12 +83,14 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_ERROR action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      error: mockError.message,
-      formId,
-      inputId,
-      type: FORM_INPUT_ERROR
-    })).toEqual({
+    expect(
+      formInputReducer(mockInputState, {
+        error: mockError.message,
+        formId,
+        inputId,
+        type: FORM_INPUT_ERROR
+      })
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -91,11 +100,13 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_BLUR action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      formId,
-      inputId,
-      type: FORM_INPUT_BLUR
-    })).toEqual({
+    expect(
+      formInputReducer(mockInputState, {
+        formId,
+        inputId,
+        type: FORM_INPUT_BLUR
+      })
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -106,11 +117,13 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_FOCUS action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      formId,
-      inputId,
-      type: FORM_INPUT_FOCUS
-    })).toEqual({
+    expect(
+      formInputReducer(mockInputState, {
+        formId,
+        inputId,
+        type: FORM_INPUT_FOCUS
+      })
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -120,11 +133,13 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_COMPLETE action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      formId,
-      inputId,
-      type: FORM_INPUT_COMPLETE
-    })).toEqual({
+    expect(
+      formInputReducer(mockInputState, {
+        formId,
+        inputId,
+        type: FORM_INPUT_COMPLETE
+      })
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -134,11 +149,13 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_DISABLE action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      formId,
-      inputId,
-      type: FORM_INPUT_DISABLE
-    })).toEqual({
+    expect(
+      formInputReducer(mockInputState, {
+        formId,
+        inputId,
+        type: FORM_INPUT_DISABLE
+      })
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -148,11 +165,13 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_DISABLE action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      formId,
-      inputId,
-      type: FORM_INPUT_ENABLE
-    })).toEqual({
+    expect(
+      formInputReducer(mockInputState, {
+        formId,
+        inputId,
+        type: FORM_INPUT_ENABLE
+      })
+    ).toEqual({
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
@@ -162,10 +181,12 @@ describe('reducers/form-input.js', () => {
   });
 
   it('should handle FORM_INPUT_REMOVE action type.', () => {
-    expect(formInputReducer(mockInputState, {
-      formId,
-      inputId,
-      type: FORM_INPUT_REMOVE
-    })).toEqual({});
+    expect(
+      formInputReducer(mockInputState, {
+        formId,
+        inputId,
+        type: FORM_INPUT_REMOVE
+      })
+    ).toEqual({});
   });
 });
