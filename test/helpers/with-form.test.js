@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import { FORM_CREATE, FORM_ERROR } from 'actions/form';
+import { FORM_CREATE, FORM_ERROR, FORM_REMOVE } from 'actions/form';
 import configureStore from 'redux-mock-store';
 import Form from 'components/form';
 import { Provider } from 'react-redux';
@@ -29,10 +29,10 @@ const createMockStore = configureStore([thunk]);
 const createResolvedPromise = data => () => Promise.resolve(data);
 // eslint-disable-next-line promise/no-promise-in-callback
 const createRejectedPromise = error => () => Promise.reject(error);
-const FormContainer = withForm(Form);
 
 describe('helpers/with-form.js', () => {
   it('should mapStateToProps and mapDispatchToProps.', () => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -47,22 +47,13 @@ describe('helpers/with-form.js', () => {
       </Provider>
     );
     const container = renderer.root;
-    const expectedPropKeys = [
-      'id',
-      'onSubmit',
-      'active',
-      'complete',
-      'dirty',
-      'disabled',
-      'error',
-      'loading',
-      'errorForm'
-    ];
+    const expectedPropKeys = ['id', 'onSubmit', 'active', 'complete', 'dirty', 'disabled', 'error', 'loading'];
 
     expect(Object.keys(container.findAllByType(Form)[0].props).join()).toEqual(expectedPropKeys.join());
   });
 
   it('should create form.', () => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {},
       formInput: {}
@@ -80,7 +71,52 @@ describe('helpers/with-form.js', () => {
     expect(actions[0]).toEqual({ id: mockFormId, type: FORM_CREATE });
   });
 
+  it('should remove form.', () => {
+    const FormContainer = withForm()(Form);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {}
+    };
+    const mockStore = createMockStore(mockState);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId} />
+      </Provider>
+    );
+
+    renderer.unmount();
+
+    const actions = mockStore.getActions();
+
+    expect(actions[1]).toEqual({ id: mockFormId, type: FORM_REMOVE });
+  });
+
+  it('should not remove form when options.destroy is set to false.', () => {
+    const FormContainer = withForm({ destroy: false })(Form);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {}
+    };
+    const mockStore = createMockStore(mockState);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId} />
+      </Provider>
+    );
+
+    renderer.unmount();
+
+    const actions = mockStore.getActions();
+
+    expect(actions.length).toEqual(1);
+  });
+
   it('should pass props through to child component.', () => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -103,6 +139,7 @@ describe('helpers/with-form.js', () => {
   });
 
   it('should handle client side errors when submitting the form.', callback => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -134,6 +171,7 @@ describe('helpers/with-form.js', () => {
   });
 
   it('should handle server side errors when submitting the form.', callback => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -165,6 +203,7 @@ describe('helpers/with-form.js', () => {
 
   it(`should submit form when it has been changed and is not loading and or
   disabled and validation has passed.`, callback => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -193,6 +232,7 @@ describe('helpers/with-form.js', () => {
   });
 
   it('should not submit the form when it has not been changed.', () => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {
         [mockFormId]: {}
@@ -218,6 +258,7 @@ describe('helpers/with-form.js', () => {
   });
 
   it('should not submit the form when it is already submitting.', () => {
+    const FormContainer = withForm()(Form);
     const mockState = {
       form: {
         [mockFormId]: {

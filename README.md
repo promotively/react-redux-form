@@ -11,18 +11,18 @@ Universal/isomorphic react.js/redux.js library for building forms.
 
 ## Why?
 
-* You are using redux.js in your app.
-* You are frustrated with using redux-form.
-* You want an easy yet powerful way to build forms.
-* You are building a new app and want to use redux.js to handle your form state.
-* You have existing repetitive form related react.js/redux.js boilerplate that you want to refactor.
-* You want a proper form abstraction layer but don't have the time to build one.
-* You want to be able to debug your forms through redux dev tools.
-* You need a library that is compatible with server side rendering.
-* You need to handle advanced A/B testing scenarios with your forms.
-* You need to integrate with external applications and/or tools.
-* You need to know if a form or input has been touched, changed or completed.
-* You need client side error validation on a form or form input(s).
+- You are using redux.js in your app.
+- You are frustrated with using redux-form.
+- You want an easy yet powerful way to build forms.
+- You are building a new app and want to use redux.js to handle your form state.
+- You have existing repetitive form related react.js/redux.js boilerplate that you want to refactor.
+- You want a proper form abstraction layer but don't have the time to build one.
+- You want to be able to debug your forms through redux dev tools.
+- You need a library that is compatible with server side rendering.
+- You need to handle advanced A/B testing scenarios with your forms.
+- You need to integrate with external applications and/or tools.
+- You need to know if a form or input has been touched, changed or completed.
+- You need client side error validation on a form or form input(s).
 
 ## Installation
 
@@ -38,9 +38,9 @@ With NPM
 
 ## Example
 
-A working example is available inside the ```/example``` folder.
+A working example is available inside the `/example` folder.
 
-Once you have executed ```yarn build``` go to the ```dist/example``` folder and from there you can open the ```index.html``` file to run the example.
+Once you have executed `yarn build` go to the `dist/example` folder and from there you can open the `index.html` file to run the example.
 
 An example is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/example/index.html).
 
@@ -48,13 +48,13 @@ An example is also [available online](https://promotively-react-redux-form.s3-us
 
 The source code is documented using JSDoc syntax and documentation is generated using [esdoc](https://github.com/esdoc/esdoc).
 
-Once you have executed ```yarn docs``` documentation is available inside the ```dist/docs``` folder.
+Once you have executed `yarn docs` documentation is available inside the `dist/docs` folder.
 
 Documentation for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/docs/index.html).
 
 ## Setup
 
-Add ```formReducer``` and ```formInputReducer``` to your redux store and make sure that ```redux-thunk``` is also added to your store middleware.
+Add `formReducer` and `formInputReducer` to your redux store and make sure that `redux-thunk` is also added to your store middleware.
 
 ```javascript
 // store.js
@@ -64,11 +64,11 @@ import { formReducer, formInputReducer } from '@promotively/react-redux-form';
 import thunk from 'redux-thunk';
 
 const store = createStore(
-  combineReducers({ 
+  combineReducers({
     form: formReducer,
     formInput: formInputReducer
   }),
-  applyMiddleware(...[ thunk ])
+  applyMiddleware(...[thunk])
 );
 
 export default store;
@@ -76,30 +76,30 @@ export default store;
 
 ## Usage
 
-Wrap a react form component using the ```withForm``` higher order component.
+Wrap a react form component using the `withForm` higher order component.
 
-Note: You can use the provided ```Form``` component or use your own.
+Note: You can use the provided `Form` component or use your own.
 
 ```javascript
 // containers/form.js
 
 import { Form, withForm } from '@promotively/react-redux-form';
 
-const FormContainer = withForm(Form);
+const FormContainer = withForm()(Form);
 
 export default FormContainer;
 ```
 
-Wrap a react form input component using the ```withFormInput``` higher order component.
+Wrap a react form input component using the `withFormInput` higher order component.
 
-Note: You can use the provided ```FormInput``` component or use your own.
+Note: You can use the provided `FormInput` component or use your own.
 
 ```javascript
 // components/form-input.js
 import { FormInput } from '@promotively/react-redux-form';
 import React from 'react';
 
-const WrappedFormInput = (props) => (
+const WrappedFormInput = props => (
   <label>
     <span>{props.name}</span>
     <FormInput {...props} />
@@ -115,7 +115,7 @@ export default WrappedFormInput;
 import FormInput from '../components/form-input';
 import { withFormInput } from '@promotively/react-redux-form';
 
-const FormInputContainer = withFormInput(FormInput);
+const FormInputContainer = withFormInput()(FormInput);
 
 export default FormInputContainer;
 ```
@@ -129,7 +129,7 @@ import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const LoginForm = (props) => (
+const LoginForm = props => (
   <FormContainer id={props.id}>
     <FormInputContainer id="email" name="Email" type="email" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -163,15 +163,9 @@ Add an onSubmit handler to the form (optional).
 import axios from 'axios';
 import React from 'react';
 
-const handleFormSubmit = (data) => (
-  axios.post('http://localhost:3000/api/v1/login', data).then((response) => (
-    response.data
-  ))
-);
+const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
-const LoginFormContainer = (props) => (
-  <LoginForm id={props.id} disabled={props.disabled} onSubmit={handleFormSubmit} />
-);
+const LoginFormContainer = props => <LoginForm id={props.id} disabled={props.disabled} onSubmit={handleFormSubmit} />;
 
 export default LoginFormContainer;
 ```
@@ -183,7 +177,7 @@ import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const LoginForm = (props) => (
+const LoginForm = props => (
   <FormContainer id={props.id} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -201,24 +195,24 @@ Add inline error handling to the form (optional).
 import axios from 'axios';
 import React from 'react';
 
-const handleFormValidation = (data) => (
+const handleFormValidation = data =>
   new Promise((resolve, reject) => {
     if (!data.email.includes('@')) {
       reject(new Error('Must be a valid email address.'));
     } else {
       resolve();
     }
-  })
-);
+  });
 
-const handleFormSubmit = (data) => (
-  axios.post('http://localhost:3000/api/v1/login', data).then((response) => (
-    response.data
-  ))
-);
+const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
-const LoginFormContainer = (props) => (
-  <LoginForm id={props.id} disabled={props.disabled} onValidateForm={handleFormValidation} onSubmit={handleFormSubmit} />
+const LoginFormContainer = props => (
+  <LoginForm
+    id={props.id}
+    disabled={props.disabled}
+    onValidateForm={handleFormValidation}
+    onSubmit={handleFormSubmit}
+  />
 );
 
 export default LoginFormContainer;
@@ -231,7 +225,7 @@ import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const LoginForm = (props) => (
+const LoginForm = props => (
   <FormContainer id={props.id} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -251,7 +245,7 @@ import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const LoginForm = (props) => (
+const LoginForm = props => (
   <FormContainer id={props.id} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" defaultValue="name@example.com" />
     <FormInputContainer id="password" name="Password" type="password" />
@@ -311,7 +305,7 @@ import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
-const LoginForm = (props) => (
+const LoginForm = props => (
   <FormContainer id={props.id} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" onValidate={props.onValidateEmail} />
     <FormInputContainer id="password" name="Password" type="password" onValidate={props.onValidatePassword} />
@@ -326,67 +320,67 @@ export default LoginForm;
 
 ### Redux Action Creators
 
-| Function | Arguments | Description |
-| --- | --- | --- |
-| `completeForm` | (formId) | Completes a form. |
-| `createForm` | (formId) | Create a form. |
-| `errorForm` | (formId, error) | Set the error state on a form. |
-| `loadingForm` | (formId) | Sets the loading state on a form. |
-| `submitForm` | (formId, data, action) | Submit a form. |
-| `removeForm` | (formId) | Remove a form. |
-| `blurFormInput` | (formId, inputId) | Blur a form input. |
-| `changeFormInput` | (formId, inputId, defaultValue, newValue) | Change the value of a form input. |
-| `completeFormInput` | (formId, inputId) | Complete the value of a form input. |
-| `createFormInput` | (formId, inputId, defaultValue) | Create a form input. |
-| `disableFormInput` | (formId, inputId) | Disable a form input. |
-| `enableFormInput` | (formId, inputId) | Enable a form input. |
-| `errorFormInput` | (formId, inputId, error) | Set the error on a form input. |
-| `focusFormInput` | (formId, inputId) | Focus a form input. |
-| `removeFormInput` | (formId, inputId) | Remove a form input. |
+| Function            | Arguments                                 | Description                         |
+| ------------------- | ----------------------------------------- | ----------------------------------- |
+| `completeForm`      | (formId)                                  | Completes a form.                   |
+| `createForm`        | (formId)                                  | Create a form.                      |
+| `errorForm`         | (formId, error)                           | Set the error state on a form.      |
+| `loadingForm`       | (formId)                                  | Sets the loading state on a form.   |
+| `submitForm`        | (formId, data, action)                    | Submit a form.                      |
+| `removeForm`        | (formId)                                  | Remove a form.                      |
+| `blurFormInput`     | (formId, inputId)                         | Blur a form input.                  |
+| `changeFormInput`   | (formId, inputId, defaultValue, newValue) | Change the value of a form input.   |
+| `completeFormInput` | (formId, inputId)                         | Complete the value of a form input. |
+| `createFormInput`   | (formId, inputId, defaultValue)           | Create a form input.                |
+| `disableFormInput`  | (formId, inputId)                         | Disable a form input.               |
+| `enableFormInput`   | (formId, inputId)                         | Enable a form input.                |
+| `errorFormInput`    | (formId, inputId, error)                  | Set the error on a form input.      |
+| `focusFormInput`    | (formId, inputId)                         | Focus a form input.                 |
+| `removeFormInput`   | (formId, inputId)                         | Remove a form input.                |
 
 ### React Components
 
-| Function | Arguments | Description | Props
-| --- | --- | --- | --- |
-| `Form` | (Component) | Any react.js form component | { HTMLFormElementProps, HTMLElementProps } |
+| Function    | Arguments   | Description                       | Props                                       |
+| ----------- | ----------- | --------------------------------- | ------------------------------------------- |
+| `Form`      | (Component) | Any react.js form component       | { HTMLFormElementProps, HTMLElementProps }  |
 | `FormInput` | (Component) | Any react.js form input component | { HTMLInputElementProps, HTMLElementProps } |
 
 ### React Higher Order Components
 
-| Function | Arguments | Description | Props
-| --- | --- | --- | --- |
-| `withForm` | (Component) | Higher order react.js component that handles forms. | { active, complete, data, dirty, error, errorForm, loading, onValidate, HTMLFormElementProps, HTMLElementProps}
-| `withFormInput` | (Component) | Higher order react.js component that handles form inputs. | { active, blurFormInput, changeFormInput, complete, completeFormInput, defaultValue, dirty, error, errorFormInput, focus, focusFormInput, onValidate, HTMLInputElementProps, HTMLElementProps}
+| Function        | Arguments | Description                                 | Props                                                                                                           |
+| --------------- | --------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `withForm`      | (options) | An object containing configuration options. | { active, complete, data, dirty, error, errorForm, loading, onValidate, HTMLFormElementProps, HTMLElementProps} |
+| `withFormInput` | (options) | An object containing configuration options. | { active, complete, defaultValue, dirty, error, focus, onValidate, HTMLInputElementProps, HTMLElementProps}     |
 
 ### Redux Reducers
 
-| Function | Description |
-| --- | --- 
-| `formReducer` | A redux.js reducer function to handle the state mutations for forms. |
+| Function           | Description                                                                |
+| ------------------ | -------------------------------------------------------------------------- |
+| `formReducer`      | A redux.js reducer function to handle the state mutations for forms.       |
 | `formInputReducer` | A redux.js reducer function to handle the state mutations for form inputs. |
 
 ### React Redux Selectors
 
-| Function | Description |
-| --- | --- |
-| `createFormActiveSelector` | Create a reselect.js selector function to get the form active state. |
-| `createFormCompleteSelector` | Create a reselect.js selector function to get the form complete state. |
-| `createFormDataSelector` | Create a reselect.js selector function to get the form data. |
-| `createFormDirtySelector` | Create a reselect.js selector function to get the form dirty state. |
-| `createFormDisabledSelector` | Create a reselect.js selector function to get the form disabled state. |
-| `createFormErrorSelector` | Create a reselect.js selector function to get the form error state. |
-| `createFormLoadingSelector` | Create a reselect.js selector function to get the form loading state. |
-| `createFormInputActiveSelector` | Create a reselect.js selector function to get the form input active state. |
+| Function                          | Description                                                                  |
+| --------------------------------- | ---------------------------------------------------------------------------- |
+| `createFormActiveSelector`        | Create a reselect.js selector function to get the form active state.         |
+| `createFormCompleteSelector`      | Create a reselect.js selector function to get the form complete state.       |
+| `createFormDataSelector`          | Create a reselect.js selector function to get the form data.                 |
+| `createFormDirtySelector`         | Create a reselect.js selector function to get the form dirty state.          |
+| `createFormDisabledSelector`      | Create a reselect.js selector function to get the form disabled state.       |
+| `createFormErrorSelector`         | Create a reselect.js selector function to get the form error state.          |
+| `createFormLoadingSelector`       | Create a reselect.js selector function to get the form loading state.        |
+| `createFormInputActiveSelector`   | Create a reselect.js selector function to get the form input active state.   |
 | `createFormInputCompleteSelector` | Create a reselect.js selector function to get the form input complete state. |
-| `createFormInputDirtySelector` | Create a reselect.js selector function to get the form input dirty state. |
+| `createFormInputDirtySelector`    | Create a reselect.js selector function to get the form input dirty state.    |
 | `createFormInputDisabledSelector` | Create a reselect.js selector function to get the form input disabled state. |
-| `createFormInputErrorSelector` | Create a reselect.js selector function to get the form input error state. |
-| `createFormInputFocusSelector` | Create a reselect.js selector function to get the form input focus state. |
-| `createFormInputValueSelector` | Create a reselect.js selector function to get the form input value state. |
+| `createFormInputErrorSelector`    | Create a reselect.js selector function to get the form input error state.    |
+| `createFormInputFocusSelector`    | Create a reselect.js selector function to get the form input focus state.    |
+| `createFormInputValueSelector`    | Create a reselect.js selector function to get the form input value state.    |
 
 ## Build
 
-All build artifacts can be found inside the ```dist/lib``` and ```dist/example``` folders after running ```yarn build```.
+All build artifacts can be found inside the `dist/lib` and `dist/example` folders after running `yarn build`.
 
 ## Linting
 
@@ -400,7 +394,7 @@ yarn lint
 
 This library has 100% unit test code coverage.
 
-Code coverage is available inside the ```dist/coverage``` folder after running ```yarn test```.
+Code coverage is available inside the `dist/coverage` folder after running `yarn test`.
 
 Code coverage for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/tests/index.html).
 

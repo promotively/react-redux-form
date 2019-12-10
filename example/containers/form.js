@@ -10,6 +10,10 @@
 import Form from '../components/form';
 import { withForm } from '../../src';
 
-const FormContainer = withForm(Form);
+const FormContainer = withForm({
+  // (default=true, optional) Set to false if you want to keep the data in your
+  // store when this component unmounts.
+  destroy: true
+})(Form);
 
 export default FormContainer;

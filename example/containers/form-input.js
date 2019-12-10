@@ -10,6 +10,10 @@
 import FormInput from '../components/form-input';
 import { withFormInput } from '../../src';
 
-const FormInputContainer = withFormInput(FormInput);
+const FormInputContainer = withFormInput({
+  // (default=true, optional) Set to false if you want to keep the data in your
+  // store when this component unmounts.
+  destroy: true
+})(FormInput);
 
 export default FormInputContainer;
