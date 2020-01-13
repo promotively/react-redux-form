@@ -36,7 +36,7 @@ const createFormDisabledSelector = formId =>
     state =>
       !state.form[formId] ||
       state.form[formId].loading ||
-      Object.keys(state.formInput).some(key => formId === key.split('__')[0] && state.formInput[key].error),
+      Object.keys(state.formInput).some(key => formId === key.split('__')[0] && state.formInput[key]?.error),
     disabled => disabled
   );
 

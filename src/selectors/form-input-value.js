@@ -37,7 +37,7 @@ const createFormInputValueSelector = (formId, inputId) =>
     state => {
       const input = state.formInput[`${formId}__${inputId}`];
 
-      return (input && input.value) || '';
+      return input?.value || '';
     },
     value => value
   );

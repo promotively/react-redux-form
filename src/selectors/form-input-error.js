@@ -37,7 +37,7 @@ const createFormInputErrorSelector = (formId, inputId) =>
     state => {
       const input = state.formInput[`${formId}__${inputId}`];
 
-      return (input && input.error) || '';
+      return input?.error || '';
     },
     error => error
   );

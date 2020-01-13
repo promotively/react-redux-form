@@ -37,7 +37,7 @@ const createFormInputDisabledSelector = (formId, inputId) =>
     state => {
       const input = state.formInput[`${formId}__${inputId}`];
 
-      return Boolean(input && input.disabled);
+      return Boolean(input?.disabled);
     },
     disabled => disabled
   );

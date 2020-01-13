@@ -37,7 +37,7 @@ const createFormInputActiveSelector = (formId, inputId) =>
     state => {
       const input = state.formInput[`${formId}__${inputId}`];
 
-      return Boolean(input && input.active);
+      return Boolean(input?.active);
     },
     active => active
   );

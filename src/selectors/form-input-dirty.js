@@ -37,7 +37,7 @@ const createFormInputDirtySelector = (formId, inputId) =>
     state => {
       const input = state.formInput[`${formId}__${inputId}`];
 
-      return Boolean(input && input.dirty);
+      return Boolean(input?.dirty);
     },
     dirty => dirty
   );

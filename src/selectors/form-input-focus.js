@@ -37,7 +37,7 @@ const createFormInputFocusSelector = (formId, inputId) =>
     state => {
       const input = state.formInput[`${formId}__${inputId}`];
 
-      return Boolean(input && input.focus);
+      return Boolean(input?.focus);
     },
     focus => focus
   );

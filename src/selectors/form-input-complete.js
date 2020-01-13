@@ -37,7 +37,7 @@ const createFormInputCompleteSelector = (formId, inputId) =>
     state => {
       const input = state.formInput[`${formId}__${inputId}`];
 
-      return Boolean(input && !input.error && input.value);
+      return Boolean(!input?.error && input?.value);
     },
     complete => complete
   );
