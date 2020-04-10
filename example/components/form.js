@@ -15,7 +15,6 @@ import Meta from './meta';
 import React from 'react';
 import Wrapper from './wrapper';
 
-// Note: The Form component is nothing fancy, just a basic react component ```(props) => <form {...props};```
 const WrappedForm = props => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>

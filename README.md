@@ -26,7 +26,7 @@ Universal/isomorphic react.js/redux.js library for building forms.
 
 ## Installation
 
-Requires **React 16.8.3 or later and Redux 7.0.0 or later.**
+Requires **React 16.8 or later and Redux 7.0.0 or later.**
 
 With Yarn
 
@@ -76,9 +76,7 @@ export default store;
 
 ## Usage
 
-Wrap a react form component using the `withForm` higher order component.
-
-Note: You can use the provided `Form` component or use your own.
+Wrap the provided `Form` component using the `withForm` higher order component.
 
 ```javascript
 // containers/form.js
@@ -90,9 +88,36 @@ const FormContainer = withForm()(Form);
 export default FormContainer;
 ```
 
-Wrap a react form input component using the `withFormInput` higher order component.
+Wrap the provided `FormInput` component using the `withFormInput` higher order component.
 
-Note: You can use the provided `FormInput` component or use your own.
+```javascript
+// containers/form-input.js
+
+import { FormInput, withFormInput } from '@promotively/react-redux-form';
+
+const FormInputContainer = withFormInput()(FormInput);
+
+export default FormInputContainer;
+```
+
+Create a custom form component (optional but recommended).
+
+```javascript
+// components/form.js
+import { Form } from '@promotively/react-redux-form';
+import React from 'react';
+
+const WrappedForm = props => (
+  <>
+    {props.error ? error : null}
+    <Form {...props} />
+  </>
+);
+
+export default WrappedForm;
+```
+
+Create a custom form input component (optional but recommended).
 
 ```javascript
 // components/form-input.js
@@ -103,36 +128,29 @@ const WrappedFormInput = props => (
   <label>
     <span>{props.name}</span>
     <FormInput {...props} />
+    {props.active && props.error ? error : null}
   </label>
 );
 
 export default WrappedFormInput;
 ```
 
-```javascript
-// containers/form-input.js
-
-import FormInput from '../components/form-input';
-import { withFormInput } from '@promotively/react-redux-form';
-
-const FormInputContainer = withFormInput()(FormInput);
-
-export default FormInputContainer;
-```
-
 Use your form and form input container components to compose a form. (id is the only prop that is required)
 
+You can wrap your custom form and form input components using `withForm` and `withFormInput` or using the provided `Form` and `FormInput` components using the `component` or `render` prop.
+
 ```javascript
-// components/form.js
+// components/login-form.js
 
 import React from 'react';
 import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
+import FormInput from '../components/form-input';
 
 const LoginForm = props => (
   <FormContainer id={props.id}>
-    <FormInputContainer id="email" name="Email" type="email" />
-    <FormInputContainer id="password" name="Password" type="password" />
+    <FormInputContainer id="email" name="Email" type="email" component={FormInput} />
+    <FormInputContainer id="password" name="Password" type="password" component={FormInput} />
     <button disabled={props.disabled}>Submit</button>
   </FormContainer>
 );
@@ -340,17 +358,17 @@ export default LoginForm;
 
 ### React Components
 
-| Function    | Arguments   | Description                       | Props                                       |
-| ----------- | ----------- | --------------------------------- | ------------------------------------------- |
-| `Form`      | (Component) | Any react.js form component       | { HTMLFormElementProps, HTMLElementProps }  |
-| `FormInput` | (Component) | Any react.js form input component | { HTMLInputElementProps, HTMLElementProps } |
+| Function    | Arguments   | Description                       | Props                                                                |
+| ----------- | ----------- | --------------------------------- | -------------------------------------------------------------------- |
+| `Form`      | (Component) | Any react.js form component       | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
+| `FormInput` | (Component) | Any react.js form input component | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
 
 ### React Higher Order Components
 
-| Function        | Arguments | Description                                 | Props                                                                                                           |
-| --------------- | --------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `withForm`      | (options) | An object containing configuration options. | { active, complete, data, dirty, error, errorForm, loading, onValidate, HTMLFormElementProps, HTMLElementProps} |
-| `withFormInput` | (options) | An object containing configuration options. | { active, complete, defaultValue, dirty, error, focus, onValidate, HTMLInputElementProps, HTMLElementProps}     |
+| Function        | Arguments | Description                                 | Props                                                                                                                  |
+| --------------- | --------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `withForm`      | (options) | An object containing configuration options. | { ...HTMLFormElementProps, ...HTMLElementProps, active, complete, data, dirty, error, errorForm, loading, onValidate } |
+| `withFormInput` | (options) | An object containing configuration options. | { ...HTMLInputElementProps, ...HTMLElementProps, active, complete, defaultValue, dirty, error, focus, onValidate }     |
 
 ### Redux Reducers
 

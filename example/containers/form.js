@@ -7,8 +7,7 @@
  * @license MIT
  */
 
-import Form from '../components/form';
-import { withForm } from '../../src';
+import { Form, withForm } from '../../src';
 
 const FormContainer = withForm({
   // (default=true, optional) Set to false if you want to keep the data in your

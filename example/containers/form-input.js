@@ -7,8 +7,7 @@
  * @license MIT
  */
 
-import FormInput from '../components/form-input';
-import { withFormInput } from '../../src';
+import { FormInput, withFormInput } from '../../src';
 
 const FormInputContainer = withFormInput({
   // (default=true, optional) Set to false if you want to keep the data in your
