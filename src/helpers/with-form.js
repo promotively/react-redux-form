@@ -15,6 +15,8 @@
 
 /* eslint-disable react/prop-types */
 
+import React from 'react';
+import { connect as withRedux } from 'react-redux';
 import { createForm, errorForm, removeForm, submitForm } from 'actions/form';
 import createFormActiveSelector from 'selectors/form-active';
 import createFormCompleteSelector from 'selectors/form-complete';
@@ -24,8 +26,6 @@ import createFormDisabledSelector from 'selectors/form-disabled';
 import createFormErrorSelector from 'selectors/form-error';
 import createFormLoadingSelector from 'selectors/form-loading';
 import FormContext from 'helpers/form-context';
-import React from 'react';
-import { connect as withRedux } from 'react-redux';
 
 /**
  * Maps the state from the redux.js store back to props that are passed down to the react.js component.
@@ -78,10 +78,7 @@ const handleValidation = props => data =>
     if (!props.onValidate) {
       resolve();
     } else {
-      props
-        .onValidate(data)
-        .then(resolve)
-        .catch(reject);
+      props.onValidate(data).then(resolve).catch(reject);
     }
   });
 
@@ -92,15 +89,25 @@ const handleValidation = props => data =>
  * @returns {Function} Connected event handler for the submit action type.
  */
 const handleSubmit = props => event => {
-  const { errorForm, onSubmit, data, id, disabled, loading, submitForm } = props;
+  const { errorForm, onSubmit, data, id, dirty, disabled, loading, submitForm } = props;
 
   event.preventDefault();
 
-  if (!loading && !disabled) {
-    handleValidation(props)(data)
-      .then(() => submitForm(id, data, onSubmit))
-      .catch(error => errorForm(id, error));
-  }
+  return new Promise((resolve, reject) => {
+    if (onSubmit && !loading && !disabled && dirty) {
+      handleValidation(props)(data)
+        .then(() => {
+          submitForm(id, data, onSubmit);
+          resolve();
+        })
+        .catch(error => {
+          errorForm(id, error);
+          reject(error);
+        });
+    } else {
+      resolve();
+    }
+  });
 };
 
 /**
@@ -124,13 +131,6 @@ const handleSubmit = props => event => {
  */
 const withForm = options => Component => {
   class WrappedComponent extends React.PureComponent {
-    /**
-     * Event handler for form submissions.
-     * @function
-     * @memberof WrappedComponent
-     */
-    onSubmit = handleSubmit(this.props);
-
     /**
      * @typedef WrappedFormComponentProps
      * @type {Object}
@@ -196,7 +196,7 @@ const withForm = options => Component => {
 
       const { createForm, id } = props;
 
-      createForm(id);
+      setTimeout(() => createForm(id), 1);
     }
 
     /**
@@ -210,7 +210,7 @@ const withForm = options => Component => {
       const { id, removeForm } = this.props;
 
       if (destroy) {
-        removeForm(id);
+        setTimeout(() => removeForm(id), 1);
       }
     }
 

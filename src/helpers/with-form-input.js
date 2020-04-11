@@ -15,6 +15,8 @@
 
 /* eslint-disable react/prop-types */
 
+import React from 'react';
+import { connect as withRedux } from 'react-redux';
 import {
   createFormInput,
   blurFormInput,
@@ -32,8 +34,6 @@ import createFormInputErrorSelector from 'selectors/form-input-error';
 import createFormInputFocusSelector from 'selectors/form-input-focus';
 import createFormInputValueSelector from 'selectors/form-input-value';
 import FormContext from 'helpers/form-context';
-import React from 'react';
-import { connect as withRedux } from 'react-redux';
 
 /**
  * Maps the state from the redux.js store back to props that are passed down
@@ -92,9 +92,7 @@ const handleValidation = props => (id, value) => {
     if (!onValidate) {
       resolve();
     } else {
-      onValidate(id, value)
-        .then(resolve)
-        .catch(reject);
+      onValidate(id, value).then(resolve).catch(reject);
     }
   });
 };
@@ -111,7 +109,7 @@ const handleChange = props => event => {
 
   changeFormInput(formId, inputId, props.defaultValue, value);
 
-  handleValidation(props)(inputId, value)
+  return handleValidation(props)(inputId, value)
     .then(() => error && completeFormInput(formId, inputId))
     .catch(error => props.error !== error && errorFormInput(formId, inputId, error.message));
 };
@@ -204,11 +202,13 @@ const withFormInput = options => Component => {
 
       const { createFormInput, errorFormInput, formId, id: inputId, defaultValue } = props;
 
-      createFormInput(formId, inputId, defaultValue);
+      setTimeout(() => {
+        createFormInput(formId, inputId, defaultValue);
 
-      handleValidation(props)(inputId, defaultValue).catch(error => {
-        errorFormInput(formId, inputId, error.message);
-      });
+        handleValidation(props)(inputId, defaultValue).catch(error => {
+          errorFormInput(formId, inputId, error.message);
+        });
+      }, 1);
     }
 
     /**
@@ -298,7 +298,7 @@ const withFormInput = options => Component => {
       const { formId, id: inputId, removeFormInput } = this.props;
 
       if (destroy) {
-        removeFormInput(formId, inputId);
+        setTimeout(() => removeFormInput(formId, inputId), 1);
       }
     }
 

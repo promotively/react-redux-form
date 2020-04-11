@@ -7,6 +7,13 @@
  * @license MIT
  */
 
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import React from 'react';
+import ReactTestRenderer from 'react-test-renderer';
+import thunk from 'redux-thunk';
+import FormInput from 'components/form-input';
+import Form from 'components/form';
 import {
   FORM_INPUT_BLUR,
   FORM_INPUT_CHANGE,
@@ -16,13 +23,6 @@ import {
   FORM_INPUT_FOCUS,
   FORM_INPUT_REMOVE
 } from 'actions/form-input';
-import configureStore from 'redux-mock-store';
-import Form from 'components/form';
-import FormInput from 'components/form-input';
-import { Provider } from 'react-redux';
-import React from 'react';
-import ReactTestRenderer from 'react-test-renderer';
-import thunk from 'redux-thunk';
 import withForm from 'helpers/with-form';
 import withFormInput from 'helpers/with-form-input';
 
@@ -39,6 +39,8 @@ const mockEvent = {
   }
 };
 const createMockStore = configureStore([thunk]);
+
+jest.useFakeTimers();
 
 describe('helpers/with-form-input.js', () => {
   it('should mapStateToProps and mapDispatchToProps.', () => {
@@ -97,6 +99,8 @@ describe('helpers/with-form-input.js', () => {
       </Provider>
     );
 
+    jest.runAllTimers();
+
     const actions = mockStore.getActions();
 
     expect(actions[1]).toEqual({ defaultValue, formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_CREATE });
@@ -142,6 +146,8 @@ describe('helpers/with-form-input.js', () => {
 
     renderer.unmount();
 
+    jest.runAllTimers();
+
     const actions = mockStore.getActions();
 
     expect(actions[3]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_REMOVE });
@@ -167,12 +173,14 @@ describe('helpers/with-form-input.js', () => {
 
     renderer.unmount();
 
+    jest.runAllTimers();
+
     const actions = mockStore.getActions();
 
     expect(actions.length).toEqual(2);
   });
 
-  it('should blur form input.', () => {
+  it('should blur form input.', callback => {
     const FormContainer = withForm()(Form);
     const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
@@ -195,11 +203,15 @@ describe('helpers/with-form-input.js', () => {
     );
     const container = renderer.root;
 
+    jest.runAllTimers();
+
     container.findAllByProps({ formId: mockFormId })[2].props.onBlur(mockEvent);
 
     const actions = mockStore.getActions();
 
     expect(actions[2]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_BLUR });
+
+    callback();
   });
 
   it('should focus form input.', () => {
@@ -224,6 +236,8 @@ describe('helpers/with-form-input.js', () => {
       </Provider>
     );
     const container = renderer.root;
+
+    jest.runAllTimers();
 
     container.findAllByProps({ formId: mockFormId })[2].props.onFocus(mockEvent);
 
@@ -254,6 +268,8 @@ describe('helpers/with-form-input.js', () => {
       </Provider>
     );
     const container = renderer.root;
+
+    jest.runAllTimers();
 
     container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
 
@@ -286,6 +302,7 @@ describe('helpers/with-form-input.js', () => {
     const mockOnValidate = () => {
       throw Error(mockError.message);
     };
+
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
@@ -295,21 +312,18 @@ describe('helpers/with-form-input.js', () => {
     );
     const container = renderer.root;
 
-    container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
+    jest.runAllTimers();
+
+    await container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
 
     const actions = mockStore.getActions();
 
-    await new Promise(resolve =>
-      setTimeout(() => {
-        expect(actions[3]).toEqual({
-          error: mockError.message,
-          formId: mockFormId,
-          inputId: mockFormInputId,
-          type: FORM_INPUT_ERROR
-        });
-        resolve();
-      }, 1)
-    );
+    expect(actions[3]).toEqual({
+      error: mockError.message,
+      formId: mockFormId,
+      inputId: mockFormInputId,
+      type: FORM_INPUT_ERROR
+    });
   });
 
   it('should change value on a form input with a validator and not throw an error.', async () => {
@@ -337,15 +351,12 @@ describe('helpers/with-form-input.js', () => {
     );
     const container = renderer.root;
 
-    container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
+    jest.runAllTimers();
+
+    await container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
 
     const actions = mockStore.getActions();
 
-    await new Promise(resolve =>
-      setTimeout(() => {
-        expect(actions[3]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_COMPLETE });
-        resolve();
-      }, 1)
-    );
+    expect(actions[3]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_COMPLETE });
   });
 });
