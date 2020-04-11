@@ -9,12 +9,12 @@
 
 /* eslint-disable react/prop-types */
 
+import React from 'react';
+import FormContainer from '../containers/form';
+import FormInputContainer from '../containers/form-input';
 import Button from './button';
 import Form from './form';
-import FormContainer from '../containers/form';
 import FormInput from './form-input';
-import FormInputContainer from '../containers/form-input';
-import React from 'react';
 import Wrapper from './wrapper';
 
 const ExampleForm = props => (

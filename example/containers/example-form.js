@@ -9,10 +9,10 @@
 
 /* eslint-disable no-console */
 
-import { createFormDisabledSelector } from '../../src';
-import ExampleForm from '../components/example-form';
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
+import { createFormDisabledSelector } from '../../src';
+import ExampleForm from '../components/example-form';
 
 const mapStateToProps = (state, props) => {
   const formDisabledSelector = createFormDisabledSelector(props.id);

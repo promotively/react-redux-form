@@ -9,9 +9,9 @@
 
 /* eslint-disable react/prop-types */
 
+import React from 'react';
 import Alert from './alert';
 import GitHubLink from './github-link';
-import React from 'react';
 import WebLink from './web-link';
 
 const Header = () => (

@@ -9,9 +9,9 @@
 
 /* eslint-disable react/prop-types */
 
+import React from 'react';
 import { FormInput } from '../../src';
 import Meta from './meta';
-import React from 'react';
 import Wrapper from './wrapper';
 
 const WrappedFormInput = props => (

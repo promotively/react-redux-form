@@ -9,9 +9,9 @@
 
 /* eslint-disable react/prop-types */
 
+import React from 'react';
 import ExampleForm from '../containers/example-form';
 import Header from '../components/header';
-import React from 'react';
 
 const App = () => (
   <>

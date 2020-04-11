@@ -11,6 +11,7 @@
  * @see {@link https://github.com/reduxjs/redux}
  */
 
+import clone from 'clone';
 import {
   FORM_INPUT_BLUR,
   FORM_INPUT_CHANGE,
@@ -22,7 +23,6 @@ import {
   FORM_INPUT_COMPLETE,
   FORM_INPUT_ERROR
 } from 'actions/form-input';
-import clone from 'clone';
 
 /**
  * Initial state used for the first time the redux.js reducer function is called.

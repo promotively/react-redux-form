@@ -98,11 +98,13 @@ const handleSubmit = props => event => {
       handleValidation(props)(data)
         .then(() => {
           submitForm(id, data, onSubmit);
-          resolve();
+
+          return resolve();
         })
         .catch(error => {
           errorForm(id, error);
-          reject(error);
+
+          return reject(error);
         });
     } else {
       resolve();

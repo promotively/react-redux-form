@@ -11,8 +11,8 @@
  * @see {@link https://github.com/reduxjs/redux}
  */
 
-import { FORM_CREATE, FORM_REMOVE, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 import clone from 'clone';
+import { FORM_CREATE, FORM_REMOVE, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 
 /**
  * Initial state used for the first time the reducer function is called.

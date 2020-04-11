@@ -1,8 +1,8 @@
+const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const GenerateJSONPlugin = require('generate-json-webpack-plugin');
-const packageInfo = require('./package.json');
-const path = require('path');
 const webpack = require('webpack');
+const packageInfo = require('./package.json');
 
 delete packageInfo.husky;
 delete packageInfo.scripts;

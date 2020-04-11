@@ -7,9 +7,9 @@
  * @license MIT
  */
 
-import FormInput from 'components/form-input';
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
+import FormInput from 'components/form-input';
 
 const mockFormId = 'test-form';
 const mockFormInputId = 'test-form-input';

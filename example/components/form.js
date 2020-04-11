@@ -9,10 +9,10 @@
 
 /* eslint-disable react/prop-types */
 
-import Alert from './alert';
-import { Form } from '../../src';
-import Meta from './meta';
 import React from 'react';
+import { Form } from '../../src';
+import Alert from './alert';
+import Meta from './meta';
 import Wrapper from './wrapper';
 
 const WrappedForm = props => (

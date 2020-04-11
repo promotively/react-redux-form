@@ -7,6 +7,8 @@
  * @license MIT
  */
 
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import {
   completeForm,
   createForm,
@@ -20,8 +22,6 @@ import {
   removeForm,
   submitForm
 } from 'actions/form';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 const createMockStore = configureStore([thunk]);
 
