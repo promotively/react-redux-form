@@ -19,19 +19,19 @@ import Wrapper from './wrapper';
 
 const ExampleForm = props => (
   <Wrapper>
-    <FormContainer id={props.id} component={Form} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
+    <FormContainer id={props.id} component={Form} validate={props.validateForm} onSubmit={props.onSubmit}>
       <FormInputContainer
         id="email"
         name="email"
         defaultValue="name@example.com"
         component={FormInput}
-        onValidate={props.onValidateFormInput}
+        validate={props.validateFormInput}
       />
       <FormInputContainer
         id="password"
         name="password"
         component={FormInput}
-        onValidate={props.onValidateFormInput}
+        validate={props.validateFormInput}
         type="password"
       />
       <div style={{ marginTop: '10px' }}>

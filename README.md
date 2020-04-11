@@ -225,12 +225,7 @@ const handleFormValidation = data =>
 const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
 const LoginFormContainer = props => (
-  <LoginForm
-    id={props.id}
-    disabled={props.disabled}
-    onValidateForm={handleFormValidation}
-    onSubmit={handleFormSubmit}
-  />
+  <LoginForm id={props.id} disabled={props.disabled} validateForm={handleFormValidation} onSubmit={handleFormSubmit} />
 );
 
 export default LoginFormContainer;
@@ -244,7 +239,7 @@ import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
 const LoginForm = props => (
-  <FormContainer id={props.id} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
+  <FormContainer id={props.id} validate={props.validateForm} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" />
     <FormInputContainer id="password" name="Password" type="password" />
     <button disabled={props.disabled}>Submit</button>
@@ -264,7 +259,7 @@ import FormContainer from '../containers/form';
 import FormInputContainer from '../containers/form-input';
 
 const LoginForm = props => (
-  <FormContainer id={props.id} onValidate={props.onValidateForm} onSubmit={props.onSubmit}>
+  <FormContainer id={props.id} validate={props.validateForm} onSubmit={props.onSubmit}>
     <FormInputContainer id="email" name="Email" type="email" defaultValue="name@example.com" />
     <FormInputContainer id="password" name="Password" type="password" />
     <button disabled={props.disabled}>Submit</button>
@@ -310,7 +305,7 @@ const handleFormSubmit = (data) => (
 );
 
 const LoginFormContainer = (props) => (
-  <LoginForm id={props.id} disabled={props.disabled} onValidateEmail={handleFormEmailValidation} onValidatePassword={handleFormPasswordValidation} onSubmit={handleFormSubmit} />
+  <LoginForm id={props.id} disabled={props.disabled} validateEmail={handleFormEmailValidation} validatePassword={handleFormPasswordValidation} onSubmit={handleFormSubmit} />
 );
 
 export default LoginFormContainer;
@@ -325,8 +320,8 @@ import FormInputContainer from '../containers/form-input';
 
 const LoginForm = props => (
   <FormContainer id={props.id} onSubmit={props.onSubmit}>
-    <FormInputContainer id="email" name="Email" type="email" onValidate={props.onValidateEmail} />
-    <FormInputContainer id="password" name="Password" type="password" onValidate={props.onValidatePassword} />
+    <FormInputContainer id="email" name="Email" type="email" validate={props.validateEmail} />
+    <FormInputContainer id="password" name="Password" type="password" validate={props.validatePassword} />
     <button disabled={props.disabled}>Submit</button>
   </FormContainer>
 );
@@ -365,10 +360,10 @@ export default LoginForm;
 
 ### React Higher Order Components
 
-| Function        | Arguments | Description                                 | Props                                                                                                                  |
-| --------------- | --------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `withForm`      | (options) | An object containing configuration options. | { ...HTMLFormElementProps, ...HTMLElementProps, active, complete, data, dirty, error, errorForm, loading, onValidate } |
-| `withFormInput` | (options) | An object containing configuration options. | { ...HTMLInputElementProps, ...HTMLElementProps, active, complete, defaultValue, dirty, error, focus, onValidate }     |
+| Function        | Arguments | Description                                 | Props                                                                                                                |
+| --------------- | --------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `withForm`      | (options) | An object containing configuration options. | { ...HTMLFormElementProps, ...HTMLElementProps, active, complete, data, dirty, error, errorForm, loading, validate } |
+| `withFormInput` | (options) | An object containing configuration options. | { ...HTMLInputElementProps, ...HTMLElementProps, active, complete, defaultValue, dirty, error, focus, validate }     |
 
 ### Redux Reducers
 

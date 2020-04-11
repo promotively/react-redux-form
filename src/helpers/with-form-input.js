@@ -86,13 +86,13 @@ const mapDispatchToProps = {
  * @returns {Function} A function that creates a function that returns a promise to be resolved.
  */
 const handleValidation = props => (id, value) => {
-  const { onValidate } = props;
+  const { validate } = props;
 
   return new Promise((resolve, reject) => {
-    if (!onValidate) {
+    if (!validate) {
       resolve();
     } else {
-      onValidate(id, value).then(resolve).catch(reject);
+      validate(id, value).then(resolve).catch(reject);
     }
   });
 };
@@ -227,7 +227,7 @@ const withFormInput = options => Component => {
      * @property {String} id The form input id.
      * @property {Boolean} focus Form input focus state.
      * @property {Function} focusFormInput Redux action to focus the form input.
-     * @property {Function} onValidate Function that returns a promise that can
+     * @property {Function} validate Function that returns a promise that can
      * resolve any errors with the form input value.
      * @property [HTMLInputElementProps]  Any props you might usually use with a react form input component.
      * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.

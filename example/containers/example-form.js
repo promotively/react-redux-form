@@ -58,8 +58,8 @@ const handleSubmit = data =>
 const ExampleFormContainer = withRedux(mapStateToProps)(props => (
   <ExampleForm
     id={props.id}
-    onValidateForm={handleFormValidation}
-    onValidateFormInput={handleFormInputValidation}
+    validateForm={handleFormValidation}
+    validateFormInput={handleFormInputValidation}
     onSubmit={handleSubmit}
     disabled={props.disabled}
   />

@@ -75,10 +75,10 @@ const mapDispatchToProps = {
  */
 const handleValidation = props => data =>
   new Promise((resolve, reject) => {
-    if (!props.onValidate) {
+    if (!props.validate) {
       resolve();
     } else {
-      props.onValidate(data).then(resolve).catch(reject);
+      props.validate(data).then(resolve).catch(reject);
     }
   });
 
@@ -145,7 +145,7 @@ const withForm = options => Component => {
      * @property {String} id The ID for the form.
      * @property {Boolean} loading Form loading state.
      * @property {Function} onSubmit Function that returns a promise that resolves to an api endpoint.
-     * @property {Function} onValidate Function that returns a promise that can resolve any errors with the form values.
+     * @property {Function} validate Function that returns a promise that can resolve any errors with the form values.
      * @property [HTMLFormElementProps]  Any props you might usually use with a react form component.
      * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.
      */

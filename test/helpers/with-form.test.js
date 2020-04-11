@@ -163,11 +163,11 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const mockOnValidate = jest.fn(createRejectedPromise(mockError));
+    const mockvalidate = jest.fn(createRejectedPromise(mockError));
     const mockOnSubmit = jest.fn(createResolvedPromise(mockData));
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId} onValidate={mockOnValidate} onSubmit={mockOnSubmit} />
+        <FormContainer id={mockFormId} validate={mockvalidate} onSubmit={mockOnSubmit} />
       </Provider>
     );
     const container = renderer.root;

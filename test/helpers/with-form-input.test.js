@@ -299,14 +299,14 @@ describe('helpers/with-form-input.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const mockOnValidate = () => {
+    const mockvalidate = () => {
       throw Error(mockError.message);
     };
 
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} onValidate={mockOnValidate} />
+          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} validate={mockvalidate} />
         </FormContainer>
       </Provider>
     );
@@ -341,11 +341,11 @@ describe('helpers/with-form-input.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const mockOnValidate = () => Promise.resolve();
+    const mockvalidate = () => Promise.resolve();
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} onValidate={mockOnValidate} />
+          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} validate={mockvalidate} />
         </FormContainer>
       </Provider>
     );
