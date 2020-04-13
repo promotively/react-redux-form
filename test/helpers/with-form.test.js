@@ -150,7 +150,7 @@ describe('helpers/with-form.js', () => {
     expect(container.findAllByType(Form)[0].props.className).toMatch(mockFormInputKey);
   });
 
-  it('should handle client side errors when submitting the form.', async () => {
+  it('should fail async validation when submitting the form.', async () => {
     const FormContainer = withForm()(Form);
     const mockState = {
       form: {
@@ -163,11 +163,110 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const mockvalidate = jest.fn(createRejectedPromise(mockError));
-    const mockOnSubmit = jest.fn(createResolvedPromise(mockData));
+    const mockValidator = createRejectedPromise(mockError);
+    const mockOnSubmit = createResolvedPromise(mockData);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId} validate={mockvalidate} onSubmit={mockOnSubmit} />
+        <FormContainer id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    try {
+      await container.findAllByType(Form)[0].props.onSubmit(mockEvent);
+    } catch (error) {
+      const actions = mockStore.getActions();
+
+      expect(actions[1]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
+    }
+  });
+
+  it('should pass async validation when submitting the form.', async () => {
+    const FormContainer = withForm()(Form);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          dirty: true
+        }
+      }
+    };
+    const mockStore = createMockStore(mockState);
+    const mockValidator = createResolvedPromise();
+    const mockOnSubmit = createResolvedPromise(mockData);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    try {
+      await container.findAllByType(Form)[0].props.onSubmit(mockEvent);
+    } catch (error) {
+      const actions = mockStore.getActions();
+
+      expect(actions[1]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
+    }
+  });
+
+  it('should fail validation when submitting the form.', async () => {
+    const FormContainer = withForm()(Form);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          dirty: true
+        }
+      }
+    };
+    const mockStore = createMockStore(mockState);
+    const mockValidator = () => mockError.message;
+    const mockOnSubmit = createResolvedPromise(mockData);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    try {
+      await container.findAllByType(Form)[0].props.onSubmit(mockEvent);
+    } catch (error) {
+      const actions = mockStore.getActions();
+
+      expect(actions[1]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
+    }
+  });
+
+  it('should pass validation when submitting the form.', async () => {
+    const FormContainer = withForm()(Form);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          dirty: true
+        }
+      }
+    };
+    const mockStore = createMockStore(mockState);
+    const mockValidator = () => null;
+    const mockOnSubmit = createResolvedPromise(mockData);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
       </Provider>
     );
     const container = renderer.root;

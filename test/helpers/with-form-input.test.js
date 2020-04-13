@@ -39,6 +39,9 @@ const mockEvent = {
   }
 };
 const createMockStore = configureStore([thunk]);
+const createResolvedPromise = data => () => Promise.resolve(data);
+// eslint-disable-next-line promise/no-promise-in-callback
+const createRejectedPromise = error => () => Promise.reject(error);
 
 jest.useFakeTimers();
 
@@ -376,7 +379,7 @@ describe('helpers/with-form-input.js', () => {
     expect(mockOnChange.mock.calls.length).toBe(1);
   });
 
-  it('should change value on a form input with a validator and throw an error.', async () => {
+  it('should fail async validation when the value of a form input changes.', async () => {
     const FormContainer = withForm()(Form);
     const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
@@ -391,14 +394,12 @@ describe('helpers/with-form-input.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const mockvalidate = () => {
-      throw Error(mockError.message);
-    };
+    const mockValidator = createRejectedPromise(mockError);
 
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockvalidate} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
         </FormContainer>
       </Provider>
     );
@@ -418,7 +419,7 @@ describe('helpers/with-form-input.js', () => {
     });
   });
 
-  it('should change value on a form input with a validator and not throw an error.', async () => {
+  it('should pass async validation when the value of a form input changes.', async () => {
     const FormContainer = withForm()(Form);
     const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
@@ -433,11 +434,85 @@ describe('helpers/with-form-input.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const mockvalidate = () => Promise.resolve();
+    const mockValidator = createResolvedPromise();
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockvalidate} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    await container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
+
+    const actions = mockStore.getActions();
+
+    expect(actions[3]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_COMPLETE });
+  });
+
+  it('should fail validation when the value of a form input changes.', async () => {
+    const FormContainer = withForm()(Form);
+    const FormInputContainer = withFormInput()(FormInput);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          error: null,
+          value: initialValue
+        }
+      }
+    };
+    const mockStore = createMockStore(mockState);
+    const mockValidator = () => mockError.message;
+
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId}>
+          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    await container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
+
+    const actions = mockStore.getActions();
+
+    expect(actions[4]).toEqual({
+      error: mockError.message,
+      formId: mockFormId,
+      inputId: mockFormInputId,
+      type: FORM_INPUT_ERROR
+    });
+  });
+
+  it('should pass validation when the value of a form input changes.', async () => {
+    const FormContainer = withForm()(Form);
+    const FormInputContainer = withFormInput()(FormInput);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          error: mockError.message,
+          value: initialValue
+        }
+      }
+    };
+    const mockStore = createMockStore(mockState);
+    const mockValidator = () => null;
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId}>
+          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
         </FormContainer>
       </Provider>
     );

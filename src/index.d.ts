@@ -205,6 +205,7 @@ export interface iFormProps {
   onSubmit?: Function;
   render?: React.ComponentType;
   style?: object;
+  validate?: Function;
 }
 
 export function Form(props: iFormProps): React.ComponentType;
@@ -237,6 +238,7 @@ export interface iFormInputProps {
   step?: number;
   style?: object;
   type?: string;
+  validate?: Function;
   value?: string;
 }
 

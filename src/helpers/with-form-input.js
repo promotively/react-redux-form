@@ -80,22 +80,27 @@ const mapDispatchToProps = {
 };
 
 /**
- * Custom error handler for the form input.
+ * (A)synchronous form validation handler.
  * @function
  * @param {Object} props The properties available to the the parent component.
  * @returns {Function} A function that creates a function that returns a promise to be resolved.
  */
-const handleValidation = props => (id, value) => {
-  const { validate } = props;
-
-  return new Promise((resolve, reject) => {
-    if (!validate) {
+const handleValidation = props => (id, value) =>
+  new Promise((resolve, reject) => {
+    if (!props.validate) {
       resolve();
     } else {
-      validate(id, value).then(resolve).catch(reject);
+      const validator = props.validate(id, value);
+
+      if (validator instanceof Promise) {
+        validator.then(resolve).catch(reject);
+      } else if (validator) {
+        reject(new Error(validator));
+      } else {
+        resolve(validator);
+      }
     }
   });
-};
 
 /**
  * Changes and validates the value of a form input.

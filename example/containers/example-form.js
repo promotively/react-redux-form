@@ -23,22 +23,23 @@ const mapStateToProps = (state, props) => {
 };
 
 const handleFormValidation = data =>
-  new Promise((resolve, reject) => {
-    if (!data.email.includes('@example.com')) {
-      reject(new Error('Must be a valid email address from example.com'));
-    } else {
-      resolve();
-    }
-  });
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
+      if (!data.email.includes('@example.com')) {
+        reject(new Error('Must be a valid email address from example.com'));
+      } else {
+        resolve();
+      }
+    }, 100)
+  );
 
-const handleFormInputValidation = (id, value) =>
-  new Promise((resolve, reject) => {
-    if (!value) {
-      reject(new Error('Cannot be left empty'));
-    } else {
-      resolve();
-    }
-  });
+const handleFormInputValidation = (id, value) => {
+  if (!value) {
+    return 'Cannot be left empty';
+  }
+
+  return null;
+};
 
 const handleSubmit = data =>
   new Promise((resolve, reject) => {

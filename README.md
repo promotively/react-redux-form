@@ -206,21 +206,25 @@ const LoginForm = props => (
 export default LoginForm;
 ```
 
-Add inline error handling to the form (optional).
+Add inline error handling (synchronous or asynchronous) to the form (optional).
 
 ```javascript
 // containers/login-form.js
 import axios from 'axios';
 import React from 'react';
 
-const handleFormValidation = data =>
-  new Promise((resolve, reject) => {
-    if (!data.email.includes('@')) {
-      reject(new Error('Must be a valid email address.'));
-    } else {
-      resolve();
-    }
-  });
+const handleFormValidation = data => {
+  if (!data.email.includes('@')) {
+    return 'Must be a valid email address.';
+  }
+  // return new Promise((resolve, reject) => {
+  //   if (!data.email.includes('@')) {
+  //     reject(new Error('Must be a valid email address.'));
+  //   } else {
+  //     resolve();
+  //   }
+  // });
+};
 
 const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
@@ -269,14 +273,15 @@ const LoginForm = props => (
 export default LoginForm;
 ```
 
-Add inline error handling to the form inputs (optional).
+Add inline error handling (synchronous or asynchronous) to the form inputs (optional).
 
 ```javascript
 // containers/login-form.js
 import axios from 'axios';
 import React from 'react';
 
-const handleFormEmailValidation = (value) => (
+// Asynchronous validation
+const handleFormEmailValidation = (id, value) => (
   new Promise((resolve, reject) => {
     if (!value) {
       reject(new Error('Required'));
@@ -288,14 +293,11 @@ const handleFormEmailValidation = (value) => (
   })
 );
 
-const handleFormPasswordValidation = (value) => (
-  new Promise((resolve, reject) => {
-    if (!value) {
-      reject(new Error('Required'));
-    } else {
-      resolve();
-    }
-  })
+// Synchronous validation
+const handleFormPasswordValidation = (id, value) => (
+  if (!value) {
+    return 'Required';
+  }
 );
 
 const handleFormSubmit = (data) => (
