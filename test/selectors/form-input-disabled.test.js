@@ -12,6 +12,7 @@ import createFormInputDisabledSelector from 'selectors/form-input-disabled';
 const formId = 'test-form';
 const inputId = 'test-form-input';
 const inputKey = `${formId}__${inputId}`;
+const mockProps = {};
 
 describe('selectors/form-input-disabled.js', () => {
   it('should return a boolean indicating whether the form input is disabled.', () => {
@@ -27,6 +28,6 @@ describe('selectors/form-input-disabled.js', () => {
       }
     };
 
-    expect(formInputDisabledSelector(mockState)).toEqual(true);
+    expect(formInputDisabledSelector(mockState, mockProps)).toEqual(true);
   });
 });
