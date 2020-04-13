@@ -105,7 +105,11 @@ const handleValidation = props => (id, value) => {
  */
 const handleChange = props => event => {
   const { value } = event.target;
-  const { changeFormInput, error, formId, id: inputId, completeFormInput, errorFormInput } = props;
+  const { changeFormInput, error, formId, id: inputId, completeFormInput, errorFormInput, onChange } = props;
+
+  if (onChange) {
+    onChange(event);
+  }
 
   changeFormInput(formId, inputId, props.defaultValue, value);
 
@@ -120,8 +124,12 @@ const handleChange = props => event => {
  * @param {Object} props The properties available to the the parent component.
  * @returns {Function} Connected event handler for the blur action type.
  */
-const handleBlur = props => () => {
-  const { formId, id: inputId, blurFormInput } = props;
+const handleBlur = props => event => {
+  const { formId, id: inputId, blurFormInput, onBlur } = props;
+
+  if (onBlur) {
+    onBlur(event);
+  }
 
   blurFormInput(formId, inputId);
 };
@@ -132,8 +140,12 @@ const handleBlur = props => () => {
  * @param {Object} props The properties available to the the parent component.
  * @returns {Function} Connected event handler for the focus action type.
  */
-const handleFocus = props => () => {
-  const { formId, id: inputId, focusFormInput } = props;
+const handleFocus = props => event => {
+  const { formId, id: inputId, focusFormInput, onFocus } = props;
+
+  if (onFocus) {
+    onFocus(event);
+  }
 
   focusFormInput(formId, inputId);
 };

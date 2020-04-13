@@ -214,6 +214,37 @@ describe('helpers/with-form-input.js', () => {
     callback();
   });
 
+  it('should call custom event handler when the form input has lost focus.', () => {
+    const FormContainer = withForm()(Form);
+    const FormInputContainer = withFormInput()(FormInput);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          value: defaultValue
+        }
+      }
+    };
+    const mockOnBlur = jest.fn();
+    const mockStore = createMockStore(mockState);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId}>
+          <FormInputContainer id={mockFormInputId} onBlur={mockOnBlur} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    container.findAllByProps({ formId: mockFormId })[2].props.onBlur(mockEvent);
+
+    expect(mockOnBlur.mock.calls.length).toBe(1);
+  });
+
   it('should focus form input.', () => {
     const FormContainer = withForm()(Form);
     const FormInputContainer = withFormInput()(FormInput);
@@ -244,6 +275,37 @@ describe('helpers/with-form-input.js', () => {
     const actions = mockStore.getActions();
 
     expect(actions[2]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_FOCUS });
+  });
+
+  it('should call custom event handler when the form input has focus.', () => {
+    const FormContainer = withForm()(Form);
+    const FormInputContainer = withFormInput()(FormInput);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          value: defaultValue
+        }
+      }
+    };
+    const mockOnFocus = jest.fn();
+    const mockStore = createMockStore(mockState);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId}>
+          <FormInputContainer id={mockFormInputId} onFocus={mockOnFocus} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    container.findAllByProps({ formId: mockFormId })[2].props.onFocus(mockEvent);
+
+    expect(mockOnFocus.mock.calls.length).toBe(1);
   });
 
   it('should change form input value.', () => {
@@ -282,6 +344,37 @@ describe('helpers/with-form-input.js', () => {
       newValue,
       type: FORM_INPUT_CHANGE
     });
+  });
+
+  it('should call custom event handler when the form input value changes.', () => {
+    const FormContainer = withForm()(Form);
+    const FormInputContainer = withFormInput()(FormInput);
+    const mockState = {
+      form: {
+        [mockFormId]: {}
+      },
+      formInput: {
+        [mockFormInputKey]: {
+          value: defaultValue
+        }
+      }
+    };
+    const mockOnChange = jest.fn();
+    const mockStore = createMockStore(mockState);
+    const renderer = ReactTestRenderer.create(
+      <Provider store={mockStore}>
+        <FormContainer id={mockFormId}>
+          <FormInputContainer id={mockFormInputId} onChange={mockOnChange} />
+        </FormContainer>
+      </Provider>
+    );
+    const container = renderer.root;
+
+    jest.runAllTimers();
+
+    container.findAllByProps({ formId: mockFormId })[2].props.onChange(mockEvent);
+
+    expect(mockOnChange.mock.calls.length).toBe(1);
   });
 
   it('should change value on a form input with a validator and throw an error.', async () => {
