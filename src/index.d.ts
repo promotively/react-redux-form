@@ -44,7 +44,7 @@ export interface iFormInputActionBlur {
 export interface iFormInputActionChange {
   formId: string;
   inputId: string;
-  defaultValue: string;
+  initialValue: string;
   newValue: string;
   type: string;
 }
@@ -56,7 +56,7 @@ export interface iFormInputActionComplete {
 }
 
 export interface iFormInputActionCreate {
-  defaultValue: string;
+  initialValue: string;
   formId: string;
   inputId: string;
   type: string;
@@ -97,13 +97,13 @@ export function blurFormInput(formId: string, inputId: string): iFormInputAction
 export function changeFormInput(
   formId: string,
   inputId: string,
-  defaultValue: string,
+  initialValue: string,
   newValue: string
 ): iFormInputActionChange;
 
 export function completeFormInput(formId: string, inputId: string): iFormInputActionComplete;
 
-export function createFormInput(formId: string, inputId: string, defaultValue: string): iFormInputActionCreate;
+export function createFormInput(formId: string, inputId: string, initialValue: string): iFormInputActionCreate;
 
 export function disableFormInput(formId: string, inputId: string): iFormInputActionDisable;
 

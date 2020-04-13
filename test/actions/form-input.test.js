@@ -30,15 +30,15 @@ import {
 
 const formId = 'test-form';
 const inputId = 'test-form-input';
-const defaultValue = 'test-default-value';
+const initialValue = 'test-default-value';
 const newValue = 'test-value';
 const mockError = new Error('test-error');
 
 describe('actions/form-input.js', () => {
   it('should handle creating a form input.', () => {
-    expect(createFormInput(formId, inputId, defaultValue)).toEqual({
-      defaultValue,
+    expect(createFormInput(formId, inputId, initialValue)).toEqual({
       formId,
+      initialValue,
       inputId,
       type: FORM_INPUT_CREATE
     });
@@ -69,9 +69,9 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle changing a form input value.', () => {
-    expect(changeFormInput(formId, inputId, defaultValue, newValue)).toEqual({
-      defaultValue,
+    expect(changeFormInput(formId, inputId, initialValue, newValue)).toEqual({
       formId,
+      initialValue,
       inputId,
       newValue,
       type: FORM_INPUT_CHANGE

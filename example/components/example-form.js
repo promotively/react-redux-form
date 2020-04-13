@@ -23,7 +23,7 @@ const ExampleForm = props => (
       <FormInputContainer
         id="email"
         name="email"
-        defaultValue="name@example.com"
+        value="name@example.com"
         component={FormInput}
         validate={props.validateFormInput}
       />

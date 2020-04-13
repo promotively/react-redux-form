@@ -260,7 +260,7 @@ import FormInputContainer from '../containers/form-input';
 
 const LoginForm = props => (
   <FormContainer id={props.id} validate={props.validateForm} onSubmit={props.onSubmit}>
-    <FormInputContainer id="email" name="Email" type="email" defaultValue="name@example.com" />
+    <FormInputContainer id="email" name="Email" type="email" value="name@example.com" />
     <FormInputContainer id="password" name="Password" type="password" />
     <button disabled={props.disabled}>Submit</button>
   </FormContainer>
@@ -342,9 +342,9 @@ export default LoginForm;
 | `submitForm`        | (formId, data, action)                    | Submit a form.                      |
 | `removeForm`        | (formId)                                  | Remove a form.                      |
 | `blurFormInput`     | (formId, inputId)                         | Blur a form input.                  |
-| `changeFormInput`   | (formId, inputId, defaultValue, newValue) | Change the value of a form input.   |
+| `changeFormInput`   | (formId, inputId, initialValue, newValue) | Change the value of a form input.   |
 | `completeFormInput` | (formId, inputId)                         | Complete the value of a form input. |
-| `createFormInput`   | (formId, inputId, defaultValue)           | Create a form input.                |
+| `createFormInput`   | (formId, inputId, initialValue)           | Create a form input.                |
 | `disableFormInput`  | (formId, inputId)                         | Disable a form input.               |
 | `enableFormInput`   | (formId, inputId)                         | Enable a form input.                |
 | `errorFormInput`    | (formId, inputId, error)                  | Set the error on a form input.      |
@@ -363,7 +363,7 @@ export default LoginForm;
 | Function        | Arguments | Description                                 | Props                                                                                                                |
 | --------------- | --------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `withForm`      | (options) | An object containing configuration options. | { ...HTMLFormElementProps, ...HTMLElementProps, active, complete, data, dirty, error, errorForm, loading, validate } |
-| `withFormInput` | (options) | An object containing configuration options. | { ...HTMLInputElementProps, ...HTMLElementProps, active, complete, defaultValue, dirty, error, focus, validate }     |
+| `withFormInput` | (options) | An object containing configuration options. | { ...HTMLInputElementProps, ...HTMLElementProps, active, complete, dirty, error, focus, validate }                   |
 
 ### Redux Reducers
 

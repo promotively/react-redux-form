@@ -100,10 +100,10 @@ const handleValidation = props => (id, value) => {
 /**
  * Changes and validates the value of a form input.
  * @function
- * @param {Object} props The properties available to the the parent component.
+ * @param {Object} initialValue The initial value of the form input.
  * @returns {Function} A function that returns an event handler for the change and error action types.
  */
-const handleChange = props => event => {
+const handleChange = initialValue => props => event => {
   const { value } = event.target;
   const { changeFormInput, error, formId, id: inputId, completeFormInput, errorFormInput, onChange } = props;
 
@@ -111,7 +111,7 @@ const handleChange = props => event => {
     onChange(event);
   }
 
-  changeFormInput(formId, inputId, props.defaultValue, value);
+  changeFormInput(formId, inputId, initialValue, value);
 
   return handleValidation(props)(inputId, value)
     .then(() => error && completeFormInput(formId, inputId))
@@ -197,7 +197,6 @@ const withFormInput = options => Component => {
     static defaultProps = {
       active: false,
       complete: false,
-      defaultValue: '',
       disabled: false,
       error: '',
       focus: false,
@@ -212,12 +211,14 @@ const withFormInput = options => Component => {
     constructor(props) {
       super(props);
 
-      const { createFormInput, errorFormInput, formId, id: inputId, defaultValue } = props;
+      const { createFormInput, errorFormInput, formId, id: inputId, value } = props;
+
+      this.initialValue = value;
 
       setTimeout(() => {
-        createFormInput(formId, inputId, defaultValue);
+        createFormInput(formId, inputId, value);
 
-        handleValidation(props)(inputId, defaultValue).catch(error => {
+        handleValidation(props)(inputId, value).catch(error => {
           errorFormInput(formId, inputId, error.message);
         });
       }, 1);
@@ -231,7 +232,7 @@ const withFormInput = options => Component => {
      * @property {Function} changeFormInput Redux action to change the form input value.
      * @property {Boolean} complete Form input complete state.
      * @property {Function} completeFormInput Redux action to complete the form input value.
-     * @property {Boolean} defaultValue The default value of the form input.
+     * @property {Boolean} value The value of the form input.
      * @property {Boolean} dirty Form input dirty state.
      * @property {String} error Form input error state.
      * @property {Function} errorFormInput Redux action to change the form input error.
@@ -294,7 +295,7 @@ const withFormInput = options => Component => {
             return result;
           }, {}),
         onBlur: handleBlur(props),
-        onChange: handleChange(props),
+        onChange: handleChange(this.initialValue)(props),
         onFocus: handleFocus(props)
       };
     }

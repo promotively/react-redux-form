@@ -103,7 +103,7 @@ export const blurFormInput = (formId, inputId) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @param {String} defaultValue The initial value for the form input.
+ * @param {String} initialValue The initial value for the form input.
  * @param {String} newValue The new value for the form input.
  * @returns {Object} The redux.js action for the FORM_INPUT_CHANGE redux.js
  * action type.
@@ -119,9 +119,9 @@ export const blurFormInput = (formId, inputId) => ({
  *
  * ...
  */
-export const changeFormInput = (formId, inputId, defaultValue, newValue) => ({
-  defaultValue,
+export const changeFormInput = (formId, inputId, initialValue, newValue) => ({
   formId,
+  initialValue,
   inputId,
   newValue,
   type: FORM_INPUT_CHANGE
@@ -156,7 +156,7 @@ export const completeFormInput = (formId, inputId) => ({
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @param {String} defaultValue The initial value for the form input.
+ * @param {String} initialValue The initial value for the form input.
  * @returns {Object} The redux.js action for the FORM_INPUT_CREATE redux.js
  * action type.
  * @example
@@ -170,9 +170,9 @@ export const completeFormInput = (formId, inputId) => ({
  *
  * ...
  */
-export const createFormInput = (formId, inputId, defaultValue) => ({
-  defaultValue,
+export const createFormInput = (formId, inputId, initialValue) => ({
   formId,
+  initialValue,
   inputId,
   type: FORM_INPUT_CREATE
 });

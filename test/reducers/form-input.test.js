@@ -23,7 +23,7 @@ import formInputReducer from 'reducers/form-input';
 const formId = 'test-form';
 const inputId = 'test-form-input';
 const inputKey = `${formId}__${inputId}`;
-const defaultValue = 'test-value';
+const initialValue = 'test-value';
 const newValue = 'test-value-new';
 const initialState = {};
 const mockError = new Error('test-error');
@@ -48,8 +48,8 @@ describe('reducers/form-input.js', () => {
       formInputReducer(
         {},
         {
-          defaultValue,
           formId,
+          initialValue,
           inputId,
           type: FORM_INPUT_CREATE
         }
@@ -58,7 +58,7 @@ describe('reducers/form-input.js', () => {
       ...mockInputState,
       [inputKey]: {
         ...mockInputState[inputKey],
-        value: defaultValue
+        value: initialValue
       }
     });
   });
@@ -66,8 +66,8 @@ describe('reducers/form-input.js', () => {
   it('should handle FORM_INPUT_CHANGE action type.', () => {
     expect(
       formInputReducer(mockInputState, {
-        defaultValue,
         formId,
+        initialValue,
         inputId,
         newValue,
         type: FORM_INPUT_CHANGE

@@ -51,7 +51,7 @@ const formInputReducer = (state = initialState, action) => {
         disabled: false,
         error: null,
         focus: false,
-        value: action.defaultValue
+        value: action.initialValue
       };
 
       return newState;
@@ -86,11 +86,11 @@ const formInputReducer = (state = initialState, action) => {
     }
     case FORM_INPUT_CHANGE: {
       const newState = clone(state);
-      const { defaultValue, newValue } = action;
+      const { initialValue, newValue } = action;
 
       newState[formInputId] = {
         ...newState[formInputId],
-        dirty: newValue !== defaultValue,
+        dirty: newValue !== initialValue,
         value: newValue
       };
 

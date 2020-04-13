@@ -13,6 +13,7 @@ const formId = 'test-form';
 const inputId = 'test-form-input';
 const inputKey = `${formId}__${inputId}`;
 const newValue = 'test-value';
+const mockProps = {};
 
 describe('selectors/form-input-value.js', () => {
   it('should return the form input value.', () => {
@@ -28,7 +29,7 @@ describe('selectors/form-input-value.js', () => {
       }
     };
 
-    expect(formInputValueSelector(mockState)).toEqual(newValue);
+    expect(formInputValueSelector(mockState, mockProps)).toEqual(newValue);
   });
 
   it('should return an empty string if the form input has no value.', () => {
@@ -44,6 +45,6 @@ describe('selectors/form-input-value.js', () => {
       }
     };
 
-    expect(formInputValueSelector(mockState)).toEqual('');
+    expect(formInputValueSelector(mockState, mockProps)).toEqual('');
   });
 });

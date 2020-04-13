@@ -29,7 +29,7 @@ import withFormInput from 'helpers/with-form-input';
 const mockFormId = 'test-form';
 const mockFormInputId = 'test-form-input';
 const mockFormInputKey = `${mockFormId}__${mockFormInputId}`;
-const defaultValue = 'test-value';
+const initialValue = 'test-value';
 const newValue = 'test-value-new';
 const mockError = new Error('test-error');
 const mockEvent = {
@@ -56,14 +56,14 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} />
         </FormContainer>
       </Provider>
     );
     const container = renderer.root;
     const expectedPropKeys = [
       'id',
-      'defaultValue',
+      'value',
       'formId',
       'active',
       'complete',
@@ -71,7 +71,6 @@ describe('helpers/with-form-input.js', () => {
       'disabled',
       'error',
       'focus',
-      'value',
       'onBlur',
       'onChange',
       'onFocus'
@@ -94,7 +93,7 @@ describe('helpers/with-form-input.js', () => {
     ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} />
         </FormContainer>
       </Provider>
     );
@@ -103,7 +102,7 @@ describe('helpers/with-form-input.js', () => {
 
     const actions = mockStore.getActions();
 
-    expect(actions[1]).toEqual({ defaultValue, formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_CREATE });
+    expect(actions[1]).toEqual({ formId: mockFormId, initialValue, inputId: mockFormInputId, type: FORM_INPUT_CREATE });
   });
 
   it('should not render without a form id.', () => {
@@ -139,7 +138,7 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} />
         </FormContainer>
       </Provider>
     );
@@ -166,7 +165,7 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} />
         </FormContainer>
       </Provider>
     );
@@ -197,7 +196,7 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} />
         </FormContainer>
       </Provider>
     );
@@ -223,7 +222,7 @@ describe('helpers/with-form-input.js', () => {
       },
       formInput: {
         [mockFormInputKey]: {
-          value: defaultValue
+          value: initialValue
         }
       }
     };
@@ -262,7 +261,7 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} />
         </FormContainer>
       </Provider>
     );
@@ -286,7 +285,7 @@ describe('helpers/with-form-input.js', () => {
       },
       formInput: {
         [mockFormInputKey]: {
-          value: defaultValue
+          value: initialValue
         }
       }
     };
@@ -317,7 +316,7 @@ describe('helpers/with-form-input.js', () => {
       },
       formInput: {
         [mockFormInputKey]: {
-          value: defaultValue
+          value: initialValue
         }
       }
     };
@@ -325,7 +324,7 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} />
         </FormContainer>
       </Provider>
     );
@@ -338,8 +337,8 @@ describe('helpers/with-form-input.js', () => {
     const actions = mockStore.getActions();
 
     expect(actions[2]).toEqual({
-      defaultValue,
       formId: mockFormId,
+      initialValue,
       inputId: mockFormInputId,
       newValue,
       type: FORM_INPUT_CHANGE
@@ -355,7 +354,7 @@ describe('helpers/with-form-input.js', () => {
       },
       formInput: {
         [mockFormInputKey]: {
-          value: defaultValue
+          value: initialValue
         }
       }
     };
@@ -387,7 +386,7 @@ describe('helpers/with-form-input.js', () => {
       formInput: {
         [mockFormInputKey]: {
           error: null,
-          value: defaultValue
+          value: initialValue
         }
       }
     };
@@ -399,7 +398,7 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} validate={mockvalidate} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockvalidate} />
         </FormContainer>
       </Provider>
     );
@@ -429,7 +428,7 @@ describe('helpers/with-form-input.js', () => {
       formInput: {
         [mockFormInputKey]: {
           error: mockError.message,
-          value: defaultValue
+          value: initialValue
         }
       }
     };
@@ -438,7 +437,7 @@ describe('helpers/with-form-input.js', () => {
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
         <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} defaultValue={defaultValue} validate={mockvalidate} />
+          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockvalidate} />
         </FormContainer>
       </Provider>
     );
