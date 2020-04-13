@@ -73,7 +73,8 @@ module.exports = [
         ...packageInfo,
         browser: 'browser.js',
         main: 'server.js'
-      })
+      }),
+      new CopyPlugin([{ from: './src/index.d.ts', to: 'index.d.ts' }])
     ],
     resolve: {
       modules: [path.resolve('.'), path.resolve('./node_modules')]
