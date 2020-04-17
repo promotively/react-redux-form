@@ -68,11 +68,11 @@ export const FORM_INPUT_ERROR = '@@promotively/FORM_INPUT_ERROR';
 export const FORM_INPUT_FOCUS = '@@promotively/FORM_INPUT_FOCUS';
 
 /**
- * Value for the FORM_INPUT_REMOVE redux.js action type.
+ * Value for the FORM_INPUT_DESTROY redux.js action type.
  * @constant
  * @type {String}
  */
-export const FORM_INPUT_REMOVE = '@@promotively/FORM_INPUT_REMOVE';
+export const FORM_INPUT_DESTROY = '@@promotively/FORM_INPUT_DESTROY';
 
 /**
  * Creates a redux.js action that unsets the focus on a form input in the store.
@@ -282,25 +282,25 @@ export const focusFormInput = (formId, inputId) => ({
 });
 
 /**
- * Creates a redux.js action that removes a form input.
+ * Creates a redux.js action that destroys a form input.
  * @function
  * @param {String} formId The ID for the form.
  * @param {String} inputId The ID for the form input.
- * @returns {Object} The redux.js action for the FORM_INPUT_REMOVE redux.js
+ * @returns {Object} The redux.js action for the FORM_INPUT_DESTROY redux.js
  * action type.
  * @example
  * ...
  *
- * import { removeFormInput } from '@promotively/react-redux-form';
+ * import { destroyFormInput } from '@promotively/react-redux-form';
  *
  * const removeReferrerFromSignup() = (props) => (
- *   !props.active && props.dispatch(removeFormInput('signup', 'referral_code'))
+ *   !props.active && props.dispatch(destroyFormInput('signup', 'referral_code'))
  * );
  *
  * ...
  */
-export const removeFormInput = (formId, inputId) => ({
+export const destroyFormInput = (formId, inputId) => ({
   formId,
   inputId,
-  type: FORM_INPUT_REMOVE
+  type: FORM_INPUT_DESTROY
 });

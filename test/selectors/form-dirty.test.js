@@ -17,14 +17,16 @@ describe('selectors/form-dirty.js', () => {
     const formDirtySelector = createFormDirtySelector(formId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKeys[0]]: {
-          dirty: true
+        forms: {
+          [formId]: {}
         },
-        [inputKeys[1]]: {
-          dirty: false
+        inputs: {
+          [inputKeys[0]]: {
+            dirty: true
+          },
+          [inputKeys[1]]: {
+            dirty: false
+          }
         }
       }
     };
@@ -36,14 +38,16 @@ describe('selectors/form-dirty.js', () => {
     const formDirtySelector = createFormDirtySelector(formId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKeys[0]]: {
-          dirty: false
+        form: {
+          [formId]: {}
         },
-        [inputKeys[1]]: {
-          dirty: false
+        inputs: {
+          [inputKeys[0]]: {
+            dirty: false
+          },
+          [inputKeys[1]]: {
+            dirty: false
+          }
         }
       }
     };

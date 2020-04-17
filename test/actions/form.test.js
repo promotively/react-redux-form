@@ -18,8 +18,8 @@ import {
   FORM_CREATE,
   FORM_ERROR,
   FORM_LOADING,
-  FORM_REMOVE,
-  removeForm,
+  FORM_DESTROY,
+  destroyForm,
   submitForm
 } from 'actions/form';
 
@@ -62,9 +62,9 @@ describe('actions/form.js', () => {
   });
 
   it('should handle removing a form.', () => {
-    expect(removeForm(formId)).toEqual({
+    expect(destroyForm(formId)).toEqual({
       id: formId,
-      type: FORM_REMOVE
+      type: FORM_DESTROY
     });
   });
 

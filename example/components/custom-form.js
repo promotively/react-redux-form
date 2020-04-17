@@ -10,12 +10,11 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import { Form } from '../../src';
 import Alert from './alert';
 import Meta from './meta';
 import Wrapper from './wrapper';
 
-const WrappedForm = props => (
+const CustomForm = props => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>
       <div style={{ paddingBottom: '10px' }}>
@@ -30,9 +29,9 @@ const WrappedForm = props => (
         <Meta name="Loading" value={props.loading} />
       </div>
     </Wrapper>
-    <Form id={props.id} onSubmit={props.onSubmit}>
+    <form id={props.id} onSubmit={props.onSubmit}>
       {props.children}
-    </Form>
+    </form>
     <div style={{ marginTop: '10px' }}>
       {props.loading ? <Alert type="info">The form is submitting, please wait.</Alert> : null}
       {!props.loading && props.error ? <Alert type="error">{props.error}</Alert> : null}
@@ -41,4 +40,4 @@ const WrappedForm = props => (
   </div>
 );
 
-export default WrappedForm;
+export default CustomForm;

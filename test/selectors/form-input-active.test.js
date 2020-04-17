@@ -18,11 +18,13 @@ describe('selectors/form-input-active.js', () => {
     const formInputActiveSelector = createFormInputActiveSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          active: true
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            active: true
+          }
         }
       }
     };

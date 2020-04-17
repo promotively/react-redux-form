@@ -16,8 +16,10 @@ describe('selectors/form-complete.js', () => {
     const formCompleteSelector = createFormCompleteSelector(formId);
     const mockState = {
       form: {
-        [formId]: {
-          complete: true
+        forms: {
+          [formId]: {
+            complete: true
+          }
         }
       }
     };
@@ -29,8 +31,10 @@ describe('selectors/form-complete.js', () => {
     const formCompleteSelector = createFormCompleteSelector(formId);
     const mockState = {
       form: {
-        [formId]: {
-          complete: false
+        forms: {
+          [formId]: {
+            complete: false
+          }
         }
       }
     };

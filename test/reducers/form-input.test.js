@@ -14,7 +14,7 @@ import {
   FORM_INPUT_DISABLE,
   FORM_INPUT_ENABLE,
   FORM_INPUT_FOCUS,
-  FORM_INPUT_REMOVE,
+  FORM_INPUT_DESTROY,
   FORM_INPUT_COMPLETE,
   FORM_INPUT_ERROR
 } from 'actions/form-input';
@@ -180,12 +180,12 @@ describe('reducers/form-input.js', () => {
     });
   });
 
-  it('should handle FORM_INPUT_REMOVE action type.', () => {
+  it('should handle FORM_INPUT_DESTROY action type.', () => {
     expect(
       formInputReducer(mockInputState, {
         formId,
         inputId,
-        type: FORM_INPUT_REMOVE
+        type: FORM_INPUT_DESTROY
       })
     ).toEqual({});
   });

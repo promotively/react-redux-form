@@ -18,11 +18,13 @@ describe('selectors/form-input-error.js', () => {
     const formInputErrorSelector = createFormInputErrorSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          error: 'error'
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            error: 'error'
+          }
         }
       }
     };
@@ -30,15 +32,17 @@ describe('selectors/form-input-error.js', () => {
     expect(formInputErrorSelector(mockState)).toEqual('error');
   });
 
-  it('should return an empty string if the form input has no error', () => {
+  it('should return an empty string if the form input has no error.', () => {
     const formInputErrorSelector = createFormInputErrorSelector();
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          error: null
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            error: null
+          }
         }
       }
     };

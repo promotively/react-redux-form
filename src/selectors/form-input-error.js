@@ -35,7 +35,7 @@ import { createSelector } from 'reselect';
 const createFormInputErrorSelector = (formId, inputId) =>
   createSelector(
     state => {
-      const input = state.formInput[`${formId}__${inputId}`];
+      const input = state.form.inputs[`${formId}__${inputId}`];
 
       return input?.error || '';
     },

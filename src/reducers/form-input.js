@@ -19,7 +19,7 @@ import {
   FORM_INPUT_DISABLE,
   FORM_INPUT_ENABLE,
   FORM_INPUT_FOCUS,
-  FORM_INPUT_REMOVE,
+  FORM_INPUT_DESTROY,
   FORM_INPUT_COMPLETE,
   FORM_INPUT_ERROR
 } from 'actions/form-input';
@@ -56,7 +56,7 @@ const formInputReducer = (state = initialState, action) => {
 
       return newState;
     }
-    case FORM_INPUT_REMOVE: {
+    case FORM_INPUT_DESTROY: {
       const newState = clone(state);
 
       delete newState[formInputId];

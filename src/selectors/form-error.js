@@ -33,7 +33,7 @@ import { createSelector } from 'reselect';
  */
 const createFormErrorSelector = formId =>
   createSelector(
-    state => state.form[formId]?.error || '',
+    state => state.form.forms[formId]?.error || '',
     error => error
   );
 

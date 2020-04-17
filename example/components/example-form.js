@@ -10,27 +10,26 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import FormContainer from '../containers/form';
-import FormInputContainer from '../containers/form-input';
+import { Form, FormInput } from '../../src';
+import CustomForm from './custom-form';
+import CustomFormInput from './custom-form-input';
 import Button from './button';
-import Form from './form';
-import FormInput from './form-input';
 import Wrapper from './wrapper';
 
 const ExampleForm = props => (
   <Wrapper>
-    <FormContainer id={props.id} component={Form} validate={props.validateForm} onSubmit={props.onSubmit}>
-      <FormInputContainer
+    <Form id={props.id} component={CustomForm} validate={props.validateForm} onSubmit={props.onSubmit}>
+      <FormInput
         id="email"
         name="email"
         value="name@example.com"
-        component={FormInput}
+        component={CustomFormInput}
         validate={props.validateFormInput}
       />
-      <FormInputContainer
+      <FormInput
         id="password"
         name="password"
-        component={FormInput}
+        component={CustomFormInput}
         validate={props.validateFormInput}
         type="password"
       />
@@ -49,7 +48,7 @@ const ExampleForm = props => (
           </span>
         </Wrapper>
       </div>
-    </FormContainer>
+    </Form>
   </Wrapper>
 );
 

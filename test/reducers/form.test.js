@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import { FORM_CREATE, FORM_REMOVE, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
+import { FORM_CREATE, FORM_DESTROY, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 import formReducer from 'reducers/form';
 
 const formId = 'test-form';
@@ -102,11 +102,11 @@ describe('reducers/form.js', () => {
     ).toEqual(nextState);
   });
 
-  it('should handle FORM_REMOVE action type.', () => {
+  it('should handle FORM_DESTROY action type.', () => {
     expect(
       formReducer(previousState, {
         id: formId,
-        type: FORM_REMOVE
+        type: FORM_DESTROY
       })
     ).toEqual({});
   });

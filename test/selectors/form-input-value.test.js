@@ -20,11 +20,13 @@ describe('selectors/form-input-value.js', () => {
     const formInputValueSelector = createFormInputValueSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          value: newValue
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            value: newValue
+          }
         }
       }
     };
@@ -36,11 +38,13 @@ describe('selectors/form-input-value.js', () => {
     const formInputValueSelector = createFormInputValueSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          value: null
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            value: null
+          }
         }
       }
     };

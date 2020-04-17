@@ -14,15 +14,17 @@ const inputId = 'test-form-input';
 const inputKey = `${formId}__${inputId}`;
 
 describe('selectors/form-input-focus.js', () => {
-  it('should return a boolean indicating whether form input has focus,', () => {
+  it('should return a boolean indicating whether form input has focus.', () => {
     const formInputValueSelector = createFormInputFocusSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          focus: true
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            focus: true
+          }
         }
       }
     };

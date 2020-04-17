@@ -18,11 +18,13 @@ describe('selectors/form-input-active.js', () => {
     const formInputDirtySelector = createFormInputDirtySelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          dirty: true
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            dirty: true
+          }
         }
       }
     };

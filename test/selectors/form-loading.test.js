@@ -16,8 +16,10 @@ describe('selectors/form-loading.js', () => {
     const formLoadingSelector = createFormLoadingSelector(formId);
     const mockState = {
       form: {
-        [formId]: {
-          loading: true
+        forms: {
+          [formId]: {
+            loading: true
+          }
         }
       }
     };

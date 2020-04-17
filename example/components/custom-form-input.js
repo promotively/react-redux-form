@@ -10,11 +10,10 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import { FormInput } from '../../src';
 import Meta from './meta';
 import Wrapper from './wrapper';
 
-const WrappedFormInput = props => (
+const CustomFormInput = props => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>
       <div style={{ paddingBottom: '10px' }}>
@@ -22,7 +21,7 @@ const WrappedFormInput = props => (
         available for you to use in your own form input components.
       </div>
       <div style={{ display: 'flex' }}>
-        <FormInput
+        <input
           id={`${props.formId}__${props.id}`}
           onBlur={props.onBlur}
           onChange={props.onChange}
@@ -47,4 +46,4 @@ const WrappedFormInput = props => (
   </div>
 );
 
-export default WrappedFormInput;
+export default CustomFormInput;

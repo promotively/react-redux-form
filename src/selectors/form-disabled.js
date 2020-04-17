@@ -34,9 +34,9 @@ import { createSelector } from 'reselect';
 const createFormDisabledSelector = formId =>
   createSelector(
     state =>
-      !state.form[formId] ||
-      state.form[formId].loading ||
-      Object.keys(state.formInput).some(key => formId === key.split('__')[0] && state.formInput[key]?.error),
+      !state.form.forms[formId] ||
+      state.form.forms[formId].loading ||
+      Object.keys(state.form.inputs).some(key => formId === key.split('__')[0] && state.form.inputs[key]?.error),
     disabled => disabled
   );
 

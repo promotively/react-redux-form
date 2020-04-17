@@ -19,7 +19,7 @@ export const FORM_COMPLETE: string;
 export const FORM_CREATE: string;
 export const FORM_ERROR: string;
 export const FORM_LOADING: string;
-export const FORM_REMOVE: string;
+export const FORM_DESTROY: string;
 
 // form input constants
 
@@ -31,7 +31,7 @@ export const FORM_INPUT_DISABLE: string;
 export const FORM_INPUT_ENABLE: string;
 export const FORM_INPUT_ERROR: string;
 export const FORM_INPUT_FOCUS: string;
-export const FORM_INPUT_REMOVE: string;
+export const FORM_INPUT_DESTROY: string;
 
 // form input actions
 
@@ -113,7 +113,7 @@ export function errorFormInput(formId: string, inputId: string, error: string): 
 
 export function focusFormInput(formId: string, inputId: string): iFormInputActionFocus;
 
-export function removeFormInput(formId: string, inputId: string): iFormInputActionRemove;
+export function destroyFormInput(formId: string, inputId: string): iFormInputActionRemove;
 
 // form actions
 
@@ -144,7 +144,7 @@ export interface iFormActionComplete {
 
 export function createForm(id: string): iFormActionCreate;
 
-export function removeForm(id: string): iFormActionRemove;
+export function destroyForm(id: string): iFormActionRemove;
 
 export function errorForm(id: string, error: Error): iFormActionError;
 
@@ -157,6 +157,8 @@ export function submitForm(id: string, data: Object, props: Object, action: Func
 // form reducer
 
 export function formReducer(state: Object, action: Object): Object;
+
+export function reducer(state: Object, action: Object): Object;
 
 // form input reducer
 
@@ -194,13 +196,14 @@ export function createFormInputFocusSelector(formId: string, inputId: string): F
 
 export function createFormInputValueSelector(formId: string, inputId: string): Function;
 
-// form component
+// form components
 
 export interface iFormProps {
   autoComplete?: string;
   className?: string;
   children: React.ReactNode;
   component?: React.ComponentType;
+  destroy?: boolean;
   id: string;
   onSubmit?: Function;
   render?: React.ComponentType;
@@ -208,9 +211,11 @@ export interface iFormProps {
   validate?: Function;
 }
 
-export function Form(props: iFormProps): React.ComponentType;
+export function FormComponent(props: iFormProps): JSX.Element;
 
-// form input component
+export function Form(props: iFormProps): JSX.Element;
+
+// form input components
 
 export interface iFormInputProps {
   alt?: string;
@@ -220,6 +225,7 @@ export interface iFormInputProps {
   className?: string;
   children?: React.ReactNode;
   component?: React.ComponentType;
+  destroy?: boolean;
   disabled?: boolean;
   id: string;
   list?: string;
@@ -242,26 +248,18 @@ export interface iFormInputProps {
   value?: string;
 }
 
-export function FormInput(props: iFormInputProps): React.ComponentType;
+export function FormInputComponent(props: iFormInputProps): JSX.Element;
+
+export function FormInput(props: iFormInputProps): JSX.Element;
 
 // form helpers
 
 export function FormContext(): object;
 
-export interface iFormOptions {
-  destroy?: boolean;
-}
-
-export function withForm(
-  params?: iFormOptions
-): <P extends object>(Component: React.ComponentType<P>) => React.ComponentClass<P & iFormProps>;
+export function withForm<P extends object>(Component: React.ComponentType<P>): React.ComponentClass<P & iFormProps>;
 
 // form input helpers
 
-export interface iFormInputOptions {
-  destroy?: boolean;
-}
-
-export function withFormInput(
-  params?: iFormInputOptions
-): <P extends object>(Component: React.ComponentType<P>) => React.ComponentClass<P & iFormInputProps>;
+export function withFormInput<P extends object>(
+  Component: React.ComponentType<P>
+): React.ComponentClass<P & iFormInputProps>;

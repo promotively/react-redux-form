@@ -41,7 +41,7 @@ const handleFormInputValidation = (id, value) => {
   return null;
 };
 
-const handleSubmit = data =>
+const handleFormSubmit = data =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       if (Math.random() < 0.5) {
@@ -61,7 +61,7 @@ const ExampleFormContainer = withRedux(mapStateToProps)(props => (
     id={props.id}
     validateForm={handleFormValidation}
     validateFormInput={handleFormInputValidation}
-    onSubmit={handleSubmit}
+    onSubmit={handleFormSubmit}
     disabled={props.disabled}
   />
 ));

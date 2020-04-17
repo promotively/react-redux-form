@@ -41,11 +41,11 @@ export const FORM_ERROR = '@@promotively/FORM_ERROR';
 export const FORM_LOADING = '@@promotively/FORM_LOADING';
 
 /**
- * Value for the FORM_REMOVE redux.js action type.
+ * Value for the FORM_DESTROY redux.js action type.
  * @constant
  * @type {String}
  */
-export const FORM_REMOVE = '@@promotively/FORM_REMOVE';
+export const FORM_DESTROY = '@@promotively/FORM_DESTROY';
 
 /**
  * Creates a redux.js action that creates a form.
@@ -67,23 +67,23 @@ export const FORM_REMOVE = '@@promotively/FORM_REMOVE';
 export const createForm = id => ({ id, type: FORM_CREATE });
 
 /**
- * Creates a redux.js action that removes a form.
+ * Creates a redux.js action that destroys a form.
  * @function
  * @param {String} id The ID for the form.
- * @returns {Object} The redux.js action for the FORM_REMOVE redux.js
+ * @returns {Object} The redux.js action for the FORM_DESTROY redux.js
  * action type.
  * @example
  * ...
  *
- * import { removeForm } from '@promotively/react-redux-form';
+ * import { destroyForm } from '@promotively/react-redux-form';
  *
  * const destroyLoginForm = (props) => (
- *   props.dispatch(removeForm('login'))
+ *   props.dispatch(destroyForm('login'))
  * );
  *
  * ...
  */
-export const removeForm = id => ({ id, type: FORM_REMOVE });
+export const destroyForm = id => ({ id, type: FORM_DESTROY });
 
 /**
  * Creates a redux.js action that sets the error state on a form.

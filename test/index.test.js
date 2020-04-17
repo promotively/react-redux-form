@@ -13,10 +13,10 @@ import {
   FORM_CREATE,
   FORM_ERROR,
   FORM_LOADING,
-  FORM_REMOVE,
+  FORM_DESTROY,
   createForm,
   errorForm,
-  removeForm,
+  destroyForm,
   loadingForm,
   completeForm,
   submitForm
@@ -30,7 +30,7 @@ import {
   FORM_INPUT_ENABLE,
   FORM_INPUT_ERROR,
   FORM_INPUT_FOCUS,
-  FORM_INPUT_REMOVE,
+  FORM_INPUT_DESTROY,
   blurFormInput,
   changeFormInput,
   completeFormInput,
@@ -39,7 +39,7 @@ import {
   enableFormInput,
   errorFormInput,
   focusFormInput,
-  removeFormInput
+  destroyFormInput
 } from 'actions/form-input';
 import createFormActiveSelector from 'selectors/form-active';
 import createFormCompleteSelector from 'selectors/form-complete';
@@ -81,9 +81,9 @@ describe('index.js', () => {
     expect(exports.completeForm).not.toBeFalsy();
   });
 
-  it('should export removeForm action creator.', () => {
-    expect(exports.removeForm).toEqual(removeForm);
-    expect(exports.removeForm).not.toBeFalsy();
+  it('should export destroyForm action creator.', () => {
+    expect(exports.destroyForm).toEqual(destroyForm);
+    expect(exports.destroyForm).not.toBeFalsy();
   });
 
   it('should export submitForm action creator.', () => {
@@ -131,9 +131,9 @@ describe('index.js', () => {
     expect(exports.focusFormInput).not.toBeFalsy();
   });
 
-  it('should export removeFormInput action creator.', () => {
-    expect(exports.removeFormInput).toEqual(removeFormInput);
-    expect(exports.removeFormInput).not.toBeFalsy();
+  it('should export destroyFormInput action creator.', () => {
+    expect(exports.destroyFormInput).toEqual(destroyFormInput);
+    expect(exports.destroyFormInput).not.toBeFalsy();
   });
 
   it('should export FORM_COMPLETE action type.', () => {
@@ -166,9 +166,9 @@ describe('index.js', () => {
     expect(exports.FORM_LOADING).not.toBeFalsy();
   });
 
-  it('should export FORM_REMOVE action type.', () => {
-    expect(exports.FORM_REMOVE).toEqual(FORM_REMOVE);
-    expect(exports.FORM_REMOVE).not.toBeFalsy();
+  it('should export FORM_DESTROY action type.', () => {
+    expect(exports.FORM_DESTROY).toEqual(FORM_DESTROY);
+    expect(exports.FORM_DESTROY).not.toBeFalsy();
   });
 
   it('should export FORM_INPUT_BLUR action type.', () => {
@@ -201,9 +201,9 @@ describe('index.js', () => {
     expect(exports.FORM_INPUT_FOCUS).not.toBeFalsy();
   });
 
-  it('should export FORM_INPUT_REMOVE action type.', () => {
-    expect(exports.FORM_INPUT_REMOVE).toEqual(FORM_INPUT_REMOVE);
-    expect(exports.FORM_INPUT_REMOVE).not.toBeFalsy();
+  it('should export FORM_INPUT_DESTROY action type.', () => {
+    expect(exports.FORM_INPUT_DESTROY).toEqual(FORM_INPUT_DESTROY);
+    expect(exports.FORM_INPUT_DESTROY).not.toBeFalsy();
   });
 
   it('should export withForm higher order component.', () => {
@@ -216,82 +216,82 @@ describe('index.js', () => {
     expect(exports.withFormInput).not.toBeFalsy();
   });
 
-  it('should export the form reducer', () => {
+  it('should export the form reducer.', () => {
     expect(exports.formReducer).toEqual(formReducer);
     expect(exports.formReducer).not.toBeFalsy();
   });
 
-  it('should export the form input reducer', () => {
+  it('should export the form input reducer.', () => {
     expect(exports.formInputReducer).toEqual(formInputReducer);
     expect(exports.formInputReducer).not.toBeFalsy();
   });
 
-  it('should export the createFormActiveSelector function', () => {
+  it('should export the createFormActiveSelector function.', () => {
     expect(exports.createFormActiveSelector).toEqual(createFormActiveSelector);
     expect(exports.createFormActiveSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormCompleteSelector function', () => {
+  it('should export the createFormCompleteSelector function.', () => {
     expect(exports.createFormCompleteSelector).toEqual(createFormCompleteSelector);
     expect(exports.createFormCompleteSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormDataSelector function', () => {
+  it('should export the createFormDataSelector function.', () => {
     expect(exports.createFormDataSelector).toEqual(createFormDataSelector);
     expect(exports.createFormDataSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormDirtySelector function', () => {
+  it('should export the createFormDirtySelector function.', () => {
     expect(exports.createFormDirtySelector).toEqual(createFormDirtySelector);
     expect(exports.createFormDirtySelector).not.toBeFalsy();
   });
 
-  it('should export the createFormDisabledSelector function', () => {
+  it('should export the createFormDisabledSelector function.', () => {
     expect(exports.createFormDisabledSelector).toEqual(createFormDisabledSelector);
     expect(exports.createFormDisabledSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormErrorSelector function', () => {
+  it('should export the createFormErrorSelector function.', () => {
     expect(exports.createFormErrorSelector).toEqual(createFormErrorSelector);
     expect(exports.createFormErrorSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormLoadingSelector function', () => {
+  it('should export the createFormLoadingSelector function.', () => {
     expect(exports.createFormLoadingSelector).toEqual(createFormLoadingSelector);
     expect(exports.createFormLoadingSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputActiveSelector function', () => {
+  it('should export the createFormInputActiveSelector function.', () => {
     expect(exports.createFormInputActiveSelector).toEqual(createFormInputActiveSelector);
     expect(exports.createFormInputActiveSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputCompleteSelector function', () => {
+  it('should export the createFormInputCompleteSelector function.', () => {
     expect(exports.createFormInputCompleteSelector).toEqual(createFormInputCompleteSelector);
     expect(exports.createFormInputCompleteSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputDirtySelector function', () => {
+  it('should export the createFormInputDirtySelector function.', () => {
     expect(exports.createFormInputDirtySelector).toEqual(createFormInputDirtySelector);
     expect(exports.createFormInputDirtySelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputDisabledSelector function', () => {
+  it('should export the createFormInputDisabledSelector function.', () => {
     expect(exports.createFormInputDisabledSelector).toEqual(createFormInputDisabledSelector);
     expect(exports.createFormInputDisabledSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputErrorSelector function', () => {
+  it('should export the createFormInputErrorSelector function.', () => {
     expect(exports.createFormInputErrorSelector).toEqual(createFormInputErrorSelector);
     expect(exports.createFormInputErrorSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputFocusSelector function', () => {
+  it('should export the createFormInputFocusSelector function.', () => {
     expect(exports.createFormInputFocusSelector).toEqual(createFormInputFocusSelector);
     expect(exports.createFormInputFocusSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputValueSelector function', () => {
+  it('should export the createFormInputValueSelector function.', () => {
     expect(exports.createFormInputValueSelector).toEqual(createFormInputValueSelector);
     expect(exports.createFormInputValueSelector).not.toBeFalsy();
   });

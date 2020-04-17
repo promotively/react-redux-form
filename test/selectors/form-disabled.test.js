@@ -17,7 +17,10 @@ describe('selectors/form-disabled.js', () => {
   it('should return true if the form state is not yet initialized.', () => {
     const formDisabledSelector = createFormDisabledSelector(formId);
     const mockState = {
-      form: {}
+      form: {
+        forms: {},
+        inputs: {}
+      }
     };
 
     expect(formDisabledSelector(mockState)).toEqual(true);
@@ -27,11 +30,13 @@ describe('selectors/form-disabled.js', () => {
     const formDisabledSelector = createFormDisabledSelector(formId);
     const mockState = {
       form: {
-        [formId]: {
-          loading: true
-        }
-      },
-      formInput: {}
+        forms: {
+          [formId]: {
+            loading: true
+          }
+        },
+        inputs: {}
+      }
     };
 
     expect(formDisabledSelector(mockState)).toEqual(true);
@@ -41,11 +46,13 @@ describe('selectors/form-disabled.js', () => {
     const formDisabledSelector = createFormDisabledSelector(formId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          error: mockError.message
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            error: mockError.message
+          }
         }
       }
     };

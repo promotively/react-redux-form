@@ -17,14 +17,16 @@ describe('selectors/form-active.js', () => {
     const formActiveSelector = createFormActiveSelector(formId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKeys[0]]: {
-          active: true
+        forms: {
+          [formId]: {}
         },
-        [inputKeys[1]]: {
-          active: false
+        inputs: {
+          [inputKeys[0]]: {
+            active: true
+          },
+          [inputKeys[1]]: {
+            active: false
+          }
         }
       }
     };
@@ -36,14 +38,16 @@ describe('selectors/form-active.js', () => {
     const formActiveSelector = createFormActiveSelector(formId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKeys[0]]: {
-          active: false
+        forms: {
+          [formId]: {}
         },
-        [inputKeys[1]]: {
-          active: false
+        inputs: {
+          [inputKeys[0]]: {
+            active: false
+          },
+          [inputKeys[1]]: {
+            active: false
+          }
         }
       }
     };

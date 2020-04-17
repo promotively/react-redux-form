@@ -19,17 +19,19 @@ describe('selectors/form-data.js', () => {
     const formDataSelector = createFormDataSelector(formId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKeys[0]]: {
-          value: inputValues[0]
+        forms: {
+          [formId]: {}
         },
-        [inputKeys[1]]: {
-          value: inputValues[1]
-        },
-        [inputKeys[2]]: {
-          value: inputValues[2]
+        inputs: {
+          [inputKeys[0]]: {
+            value: inputValues[0]
+          },
+          [inputKeys[1]]: {
+            value: inputValues[1]
+          },
+          [inputKeys[2]]: {
+            value: inputValues[2]
+          }
         }
       }
     };

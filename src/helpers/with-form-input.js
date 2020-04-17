@@ -24,7 +24,7 @@ import {
   changeFormInput,
   completeFormInput,
   errorFormInput,
-  removeFormInput
+  destroyFormInput
 } from 'actions/form-input';
 import createFormInputActiveSelector from 'selectors/form-input-active';
 import createFormInputCompleteSelector from 'selectors/form-input-complete';
@@ -74,9 +74,9 @@ const mapDispatchToProps = {
   changeFormInput,
   completeFormInput,
   createFormInput,
+  destroyFormInput,
   errorFormInput,
-  focusFormInput,
-  removeFormInput
+  focusFormInput
 };
 
 /**
@@ -164,7 +164,9 @@ const handleFocus = props => event => {
 const withFormContext = Component => {
   const WrappedComponent = props => (
     <FormContext.Consumer>
-      {context => (context && context.id ? <Component {...props} formId={context.id} /> : null)}
+      {context =>
+        context && context.id ? <Component {...props} destroy={context.destroy} formId={context.id} /> : null
+      }
     </FormContext.Consumer>
   );
 
@@ -176,8 +178,8 @@ const withFormContext = Component => {
 /**
  * Creates a new component wrapped by the withFormInput higher order component.
  * @function
- * @param {Object} options An object containing configuration options.
- * @returns {Function} A function that that wraps your form input component
+ * @param {Function} Component A react.js form input component.
+ * @returns {Function} A react.js component that that wraps your form input component
  * using the withFormInput higher order component.
  * @example
  * ...
@@ -191,7 +193,7 @@ const withFormContext = Component => {
  *
  * ...
  */
-const withFormInput = options => Component => {
+const withFormInput = Component => {
   class WrappedComponent extends React.PureComponent {
     /**
      * The default props passed down to the component.
@@ -202,8 +204,9 @@ const withFormInput = options => Component => {
     static defaultProps = {
       active: false,
       complete: false,
+      destroy: true,
       disabled: false,
-      error: '',
+      error: null,
       focus: false,
       value: ''
     };
@@ -252,25 +255,6 @@ const withFormInput = options => Component => {
      */
 
     /**
-     * The default configuration options for this component.
-     * @constant
-     * @type {Object}
-     */
-    defaults = {
-      destroy: true
-    };
-
-    /**
-     * The default configuration options merged with the specified options.
-     * @constant
-     * @type {Object}
-     */
-    options = {
-      ...this.defaults,
-      ...options
-    };
-
-    /**
      * Returns only the component properties that need to be passed to the child component.
      * @function
      * @memberof WrappedComponent
@@ -289,9 +273,10 @@ const withFormInput = options => Component => {
                 'changeFormInput',
                 'completeFormInput',
                 'createFormInput',
+                'destroy',
                 'errorFormInput',
                 'focusFormInput',
-                'removeFormInput'
+                'destroyFormInput'
               ].includes(name)
           )
           .reduce((result, name) => {
@@ -312,11 +297,10 @@ const withFormInput = options => Component => {
      * @returns {Undefined} Function does not return a value.
      */
     componentWillUnmount() {
-      const { destroy } = this.options;
-      const { formId, id: inputId, removeFormInput } = this.props;
+      const { destroy, formId, id: inputId, destroyFormInput } = this.props;
 
       if (destroy) {
-        setTimeout(() => removeFormInput(formId, inputId), 1);
+        setTimeout(() => destroyFormInput(formId, inputId), 1);
       }
     }
 

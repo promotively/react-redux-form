@@ -17,7 +17,7 @@
 
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
-import { createForm, errorForm, removeForm, submitForm } from 'actions/form';
+import { createForm, errorForm, destroyForm, submitForm } from 'actions/form';
 import createFormActiveSelector from 'selectors/form-active';
 import createFormCompleteSelector from 'selectors/form-complete';
 import createFormDataSelector from 'selectors/form-data';
@@ -62,8 +62,8 @@ const mapStateToProps = (state, props) => {
  */
 const mapDispatchToProps = {
   createForm,
+  destroyForm,
   errorForm,
-  removeForm,
   submitForm
 };
 
@@ -115,8 +115,9 @@ const handleSubmit = props => event => {
 /**
  * Creates a new component wrapped by the withForm higher order component.
  * @function
- * @param {Object} options An object containing configuration options.
- * @returns {Function} A function that that wraps your form component using the withForm higher order component.
+ * @param {Function} Component A react.js form component.
+ * @returns {Function} A react.js component that that wraps your form component
+ * using the withForm higher order component.
  * @example
  * ...
  *
@@ -131,7 +132,7 @@ const handleSubmit = props => event => {
  *
  * ...
  */
-const withForm = options => Component => {
+const withForm = Component => {
   class WrappedComponent extends React.PureComponent {
     /**
      * @typedef WrappedFormComponentProps
@@ -151,25 +152,6 @@ const withForm = options => Component => {
      */
 
     /**
-     * The default configuration options for this component.
-     * @constant
-     * @type {Object}
-     */
-    defaults = {
-      destroy: true
-    };
-
-    /**
-     * The default configuration options merged with the specified options.
-     * @constant
-     * @type {Object}
-     */
-    options = {
-      ...this.defaults,
-      ...options
-    };
-
-    /**
      * Returns only the component properties that need to be passed to the child component.
      * @function
      * @memberof WrappedComponent
@@ -178,7 +160,7 @@ const withForm = options => Component => {
     getComponentProps() {
       return {
         ...Object.keys(this.props)
-          .filter(name => !['data', 'createForm', 'errorForm', 'removeForm', 'submitForm'].includes(name))
+          .filter(name => !['data', 'destroy', 'createForm', 'errorForm', 'destroyForm', 'submitForm'].includes(name))
           .reduce((result, name) => {
             result[name] = this.props[name];
 
@@ -187,6 +169,13 @@ const withForm = options => Component => {
         onSubmit: handleSubmit(this.props)
       };
     }
+
+    static defaultProps = {
+      complete: false,
+      destroy: true,
+      error: null,
+      loading: false
+    };
 
     /**
      * Creates the form state before the first render.
@@ -208,11 +197,10 @@ const withForm = options => Component => {
      * @returns {Undefined} Function does not return a value.
      */
     componentWillUnmount() {
-      const { destroy } = this.options;
-      const { id, removeForm } = this.props;
+      const { destroy, id, destroyForm } = this.props;
 
       if (destroy) {
-        setTimeout(() => removeForm(id), 1);
+        setTimeout(() => destroyForm(id), 1);
       }
     }
 
@@ -225,6 +213,7 @@ const withForm = options => Component => {
     render() {
       const props = this.getComponentProps();
       const context = {
+        destroy: this.props.destroy,
         id: props.id
       };
 

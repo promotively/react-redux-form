@@ -20,13 +20,12 @@ Universal/isomorphic react.js/redux.js library for building forms.
 - You want to be able to debug your forms through redux dev tools.
 - You need a library that is compatible with server side rendering.
 - You need to handle advanced A/B testing scenarios with your forms.
+- You want to retain your form state even when a form is not rendered (ie: multi step forms)
 - You need to integrate with external applications and/or tools.
 - You need to know if a form or input has been touched, changed or completed.
-- You need client side error validation on a form or form input(s).
+- You need client side async/sync validation on a form or form input(s).
 
 ## Installation
-
-Requires **React 16.8 or later and Redux 7.0.0 or later.**
 
 With Yarn
 
@@ -42,7 +41,7 @@ A working example is available inside the `/example` folder.
 
 Once you have executed `yarn build` go to the `dist/example` folder and from there you can open the `index.html` file to run the example.
 
-An example is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/example/index.html).
+The example is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/example/index.html).
 
 ## Documentation
 
@@ -52,107 +51,40 @@ Once you have executed `yarn docs` documentation is available inside the `dist/d
 
 Documentation for the most recent release is also [available online](https://promotively-react-redux-form.s3-us-west-1.amazonaws.com/docs/index.html).
 
+TypeScript definitions are also available in the `dist/lib` folder.
+
 ## Setup
 
-Add `formReducer` and `formInputReducer` to your redux store and make sure that `redux-thunk` is also added to your store middleware.
+Add `reducer` to your redux store and make sure that `redux-thunk` is also added to your store middleware.
 
 ```javascript
 // store.js
 
 import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { formReducer, formInputReducer } from '@promotively/react-redux-form';
+import { reducer } from '@promotively/react-redux-form';
 import thunk from 'redux-thunk';
 
-const store = createStore(
-  combineReducers({
-    form: formReducer,
-    formInput: formInputReducer
-  }),
-  applyMiddleware(...[thunk])
-);
+const store = createStore({ form: reducer }, applyMiddleware(...[thunk]));
 
 export default store;
 ```
 
 ## Usage
 
-Wrap the provided `Form` component using the `withForm` higher order component.
-
-```javascript
-// containers/form.js
-
-import { Form, withForm } from '@promotively/react-redux-form';
-
-const FormContainer = withForm()(Form);
-
-export default FormContainer;
-```
-
-Wrap the provided `FormInput` component using the `withFormInput` higher order component.
-
-```javascript
-// containers/form-input.js
-
-import { FormInput, withFormInput } from '@promotively/react-redux-form';
-
-const FormInputContainer = withFormInput()(FormInput);
-
-export default FormInputContainer;
-```
-
-Create a custom form component (optional but recommended).
-
-```javascript
-// components/form.js
-import { Form } from '@promotively/react-redux-form';
-import React from 'react';
-
-const WrappedForm = props => (
-  <>
-    {props.error ? error : null}
-    <Form {...props} />
-  </>
-);
-
-export default WrappedForm;
-```
-
-Create a custom form input component (optional but recommended).
-
-```javascript
-// components/form-input.js
-import { FormInput } from '@promotively/react-redux-form';
-import React from 'react';
-
-const WrappedFormInput = props => (
-  <label>
-    <span>{props.name}</span>
-    <FormInput {...props} />
-    {props.active && props.error ? error : null}
-  </label>
-);
-
-export default WrappedFormInput;
-```
-
-Use your form and form input container components to compose a form. (id is the only prop that is required)
-
-You can wrap your custom form and form input components using `withForm` and `withFormInput` or using the provided `Form` and `FormInput` components using the `component` or `render` prop.
+Use the provided form and form input components to compose a form. (id is the only prop that is required)
 
 ```javascript
 // components/login-form.js
 
 import React from 'react';
-import FormContainer from '../containers/form';
-import FormInputContainer from '../containers/form-input';
-import FormInput from '../components/form-input';
+import { Form, FormInput } from '@promotively/react-redux-form';
 
 const LoginForm = props => (
-  <FormContainer id={props.id}>
-    <FormInputContainer id="email" name="Email" type="email" component={FormInput} />
-    <FormInputContainer id="password" name="Password" type="password" component={FormInput} />
-    <button disabled={props.disabled}>Submit</button>
-  </FormContainer>
+  <Form id={props.id}>
+    <FormInput id="email" name="Email" type="email" />
+    <FormInput id="password" name="Password" type="password" />
+    <button>Submit</button>
+  </Form>
 );
 
 export default LoginForm;
@@ -161,171 +93,227 @@ export default LoginForm;
 ```javascript
 // app.js
 
-import createReduxStore from './store';
 import { render } from 'react-dom';
+import createReduxStore from './store';
+import LoginForm from 'components/login-form';
 
 const store = createReduxStore();
 const app = (
   <Provider store={store}>
-    <LoginForm id="login-form" />
+    <LoginForm id="login-form-example" />
   </Provider>
 );
 
 render(app, document.getElementsByTagName('main')[0]);
 ```
 
-Add an onSubmit handler to the form (optional).
+(Optional) Use custom form and form input components.
 
 ```javascript
-// containers/login-form.js
-import axios from 'axios';
+// components/custom-form.js
+
 import React from 'react';
 
-const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
+const CustomForm = props => (
+  <div>
+    {props.error ? error : null}
+    <form {...props} />
+  </div>
+);
 
-const LoginFormContainer = props => <LoginForm id={props.id} disabled={props.disabled} onSubmit={handleFormSubmit} />;
-
-export default LoginFormContainer;
+export default CustomForm;
 ```
 
 ```javascript
-// component/login-form.js
+// components/custom-form-input.js
 
 import React from 'react';
-import FormContainer from '../containers/form';
-import FormInputContainer from '../containers/form-input';
+
+const CustomFormInput = props => (
+  <label>
+    <span>{props.name}</span>
+    <input {...props} />
+    {props.active && props.error ? error : null}
+  </label>
+);
+
+export default CustomFormInput;
+```
+
+```javascript
+// components/login-form.js
+
+import React from 'react';
+import { Form, FormInput } from '@promotively/react-redux-form';
+import CustomForm from 'components/custom-form';
+import CustomFormInput from 'components/custom-form-input';
 
 const LoginForm = props => (
-  <FormContainer id={props.id} onSubmit={props.onSubmit}>
-    <FormInputContainer id="email" name="Email" type="email" />
-    <FormInputContainer id="password" name="Password" type="password" />
-    <button disabled={props.disabled}>Submit</button>
-  </FormContainer>
+  <Form id={props.id} component={CustomForm}>
+    <FormInput id="email" name="Email" type="email" component={CustomFormInput} />
+    <FormInput id="password" name="Password" type="password" render={props => <CustomFormInput {...props} />} />
+    <button>Submit</button>
+  </Form>
 );
 
 export default LoginForm;
 ```
 
-Add inline error handling (synchronous or asynchronous) to the form (optional).
+(Optional) Add a submission handler to the form.
 
 ```javascript
-// containers/login-form.js
-import axios from 'axios';
+// components/login-form.js
+
 import React from 'react';
+import { Form, FormInput } from '@promotively/react-redux-form';
+
+const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
+
+const LoginForm = props => (
+  <Form id={props.id} onSubmit={handleFormSubmit}>
+    <FormInput id="email" name="Email" type="email" />
+    <FormInput id="password" name="Password" type="password" />
+    <button>Submit</button>
+  </Form>
+);
+
+export default LoginForm;
+```
+
+(Optional) Add validation (synchronous or asynchronous) to the form.
+
+```javascript
+// component/login-form.js
+
+import React from 'react';
+import { Form, FormInput } from '@promotively/react-redux-form';
 
 const handleFormValidation = data => {
-  if (!data.email.includes('@')) {
-    return 'Must be a valid email address.';
+  if (data.email) {
+    return new Promise((resolve, reject) => {
+      if (!data.email.includes('@')) {
+        reject(new Error('email is invalid'));
+      } else {
+        resolve();
+      }
+    });
   }
-  // return new Promise((resolve, reject) => {
-  //   if (!data.email.includes('@')) {
-  //     reject(new Error('Must be a valid email address.'));
-  //   } else {
-  //     resolve();
-  //   }
-  // });
+
+  if (!data.email) {
+    return 'email is required';
+  }
+
+  if (!data.password) {
+    return 'password is required';
+  }
 };
 
 const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
-const LoginFormContainer = props => (
-  <LoginForm id={props.id} disabled={props.disabled} validateForm={handleFormValidation} onSubmit={handleFormSubmit} />
-);
-
-export default LoginFormContainer;
-```
-
-```javascript
-// component/login-form.js
-
-import React from 'react';
-import FormContainer from '../containers/form';
-import FormInputContainer from '../containers/form-input';
-
 const LoginForm = props => (
-  <FormContainer id={props.id} validate={props.validateForm} onSubmit={props.onSubmit}>
-    <FormInputContainer id="email" name="Email" type="email" />
-    <FormInputContainer id="password" name="Password" type="password" />
-    <button disabled={props.disabled}>Submit</button>
-  </FormContainer>
+  <Form id={props.id} validate={handleFormValidation} onSubmit={handleFormSubmit}>
+    <FormInput id="email" name="Email" type="email" />
+    <FormInput id="password" name="Password" type="password" />
+    <button>Submit</button>
+  </Form>
 );
 
 export default LoginForm;
 ```
 
-Add a default value to a form input (optional).
+(Optional) Disable the form when there are no changes detected or validation errors are found.
 
 ```javascript
-// component/login-form.js
+// components/login-form.js
 
 import React from 'react';
-import FormContainer from '../containers/form';
-import FormInputContainer from '../containers/form-input';
+import { Form, FormInput } from '@promotively/react-redux-form';
+
+const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
 const LoginForm = props => (
-  <FormContainer id={props.id} validate={props.validateForm} onSubmit={props.onSubmit}>
-    <FormInputContainer id="email" name="Email" type="email" value="name@example.com" />
-    <FormInputContainer id="password" name="Password" type="password" />
+  <Form id={props.id} onSubmit={handleFormSubmit}>
+    <FormInput id="email" name="Email" type="email" />
+    <FormInput id="password" name="Password" type="password" />
     <button disabled={props.disabled}>Submit</button>
-  </FormContainer>
+  </Form>
 );
 
 export default LoginForm;
 ```
 
-Add inline error handling (synchronous or asynchronous) to the form inputs (optional).
+(Optional) Avoid destroying the form state when the component unmounts.
 
 ```javascript
-// containers/login-form.js
-import axios from 'axios';
-import React from 'react';
+// components/login-form.js
 
-// Asynchronous validation
-const handleFormEmailValidation = (id, value) => (
+import React from 'react';
+import { Form, FormInput } from '@promotively/react-redux-form';
+
+const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
+
+const LoginForm = props => (
+  <Form id={props.id} onSubmit={handleFormSubmit} destroy={false}>
+    <FormInput id="email" name="Email" type="email" />
+    <FormInput id="password" name="Password" type="password" />
+    <button>Submit</button>
+  </Form>
+);
+
+export default LoginForm;
+```
+
+(Optional) Add validation (synchronous or asynchronous) to the form inputs.
+
+```javascript
+// component/login-form.js
+
+import React from 'react';
+import { Form, FormInput } from '@promotively/react-redux-form';
+
+const handleFormInputEmailValidation = (id, value) => (
   new Promise((resolve, reject) => {
     if (!value) {
-      reject(new Error('Required'));
+      reject(new Error('email is required'));
     else if (!value.includes('@')) {
-      reject(new Error('Invalid'));
+      reject(new Error('email is invalid'));
     } else {
       resolve();
     }
   })
 );
 
-// Synchronous validation
-const handleFormPasswordValidation = (id, value) => (
+const handleFormInputPasswordValidation = (id, value) => (
   if (!value) {
-    return 'Required';
+    return 'password is required';
   }
 );
 
-const handleFormSubmit = (data) => (
-  axios.post('http://localhost:3000/api/v1/login', data).then((response) => (
-    response.data
-  ))
+const LoginForm = props => (
+  <Form id={props.id}>
+    <FormInput id="email" name="Email" type="email" validate={handleFormInputEmailValidation} />
+    <FormInput id="password" name="Password" type="password" validate={handleFormInputPasswordValidation} />
+    <button>Submit</button>
+  </Form>
 );
 
-const LoginFormContainer = (props) => (
-  <LoginForm id={props.id} disabled={props.disabled} validateEmail={handleFormEmailValidation} validatePassword={handleFormPasswordValidation} onSubmit={handleFormSubmit} />
-);
-
-export default LoginFormContainer;
+export default LoginForm;
 ```
+
+(Optional) Add a default value to a form input.
 
 ```javascript
 // component/login-form.js
 
 import React from 'react';
-import FormContainer from '../containers/form';
-import FormInputContainer from '../containers/form-input';
+import { Form, FormInput } from '@promotively/react-redux-form';
 
 const LoginForm = props => (
-  <FormContainer id={props.id} onSubmit={props.onSubmit}>
-    <FormInputContainer id="email" name="Email" type="email" validate={props.validateEmail} />
-    <FormInputContainer id="password" name="Password" type="password" validate={props.validatePassword} />
-    <button disabled={props.disabled}>Submit</button>
-  </FormContainer>
+  <Form id={props.id}>
+    <FormInput id="email" name="Email" type="email" value="name@example.com" />
+    <FormInput id="password" name="Password" type="password" />
+    <button>Submit</button>
+  </Form>
 );
 
 export default LoginForm;
@@ -342,7 +330,7 @@ export default LoginForm;
 | `errorForm`         | (formId, error)                           | Set the error state on a form.      |
 | `loadingForm`       | (formId)                                  | Sets the loading state on a form.   |
 | `submitForm`        | (formId, data, action)                    | Submit a form.                      |
-| `removeForm`        | (formId)                                  | Remove a form.                      |
+| `destroyForm`       | (formId)                                  | Destroy a form.                     |
 | `blurFormInput`     | (formId, inputId)                         | Blur a form input.                  |
 | `changeFormInput`   | (formId, inputId, initialValue, newValue) | Change the value of a form input.   |
 | `completeFormInput` | (formId, inputId)                         | Complete the value of a form input. |
@@ -351,14 +339,16 @@ export default LoginForm;
 | `enableFormInput`   | (formId, inputId)                         | Enable a form input.                |
 | `errorFormInput`    | (formId, inputId, error)                  | Set the error on a form input.      |
 | `focusFormInput`    | (formId, inputId)                         | Focus a form input.                 |
-| `removeFormInput`   | (formId, inputId)                         | Remove a form input.                |
+| `destroyFormInput`  | (formId, inputId)                         | Destroy a form input.               |
 
 ### React Components
 
-| Function    | Arguments   | Description                       | Props                                                                |
-| ----------- | ----------- | --------------------------------- | -------------------------------------------------------------------- |
-| `Form`      | (Component) | Any react.js form component       | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
-| `FormInput` | (Component) | Any react.js form input component | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
+| Function             | Arguments | Description                                                       | Props                                                                |
+| -------------------- | --------- | ----------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `FormComponent`      | (props)   | React.js component to render forms.                               | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
+| `FormInputComponent` | (props)   | React.js component to render form inputs.                         | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
+| `Form`               | (props)   | React.js container component to render forms with redux.js.       | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
+| `FormInput`          | (props)   | React.js container component to render form inputs with redux.js. | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
 
 ### React Higher Order Components
 
@@ -369,10 +359,11 @@ export default LoginForm;
 
 ### Redux Reducers
 
-| Function           | Description                                                                |
-| ------------------ | -------------------------------------------------------------------------- |
-| `formReducer`      | A redux.js reducer function to handle the state mutations for forms.       |
-| `formInputReducer` | A redux.js reducer function to handle the state mutations for form inputs. |
+| Function           | Description                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| `reducer`          | A combined redux.js reducer to handle all state mutations for forms and form inputs. |
+| `formReducer`      | A redux.js reducer function to handle the state mutations for forms.                 |
+| `formInputReducer` | A redux.js reducer function to handle the state mutations for form inputs.           |
 
 ### React Redux Selectors
 

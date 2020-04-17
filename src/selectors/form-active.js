@@ -33,7 +33,8 @@ import { createSelector } from 'reselect';
  */
 const createFormActiveSelector = formId =>
   createSelector(
-    state => Object.keys(state.formInput).some(key => formId === key.split('__')[0] && state.formInput[key]?.active),
+    state =>
+      Object.keys(state.form.inputs).some(key => formId === key.split('__')[0] && state.form.inputs[key]?.active),
     active => active
   );
 

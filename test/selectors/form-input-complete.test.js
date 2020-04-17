@@ -20,12 +20,14 @@ describe('selectors/form-input-complete.js', () => {
     const formInputCompleteSelector = createFormInputCompleteSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          error: null,
-          value: newValue
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            error: null,
+            value: newValue
+          }
         }
       }
     };
@@ -37,12 +39,14 @@ describe('selectors/form-input-complete.js', () => {
     const formInputCompleteSelector = createFormInputCompleteSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          error: mockError.message,
-          value: newValue
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            error: mockError.message,
+            value: newValue
+          }
         }
       }
     };

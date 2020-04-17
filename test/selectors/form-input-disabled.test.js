@@ -19,11 +19,13 @@ describe('selectors/form-input-disabled.js', () => {
     const formInputDisabledSelector = createFormInputDisabledSelector(formId, inputId);
     const mockState = {
       form: {
-        [formId]: {}
-      },
-      formInput: {
-        [inputKey]: {
-          disabled: true
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            disabled: true
+          }
         }
       }
     };

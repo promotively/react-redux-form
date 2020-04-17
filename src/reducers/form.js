@@ -12,7 +12,7 @@
  */
 
 import clone from 'clone';
-import { FORM_CREATE, FORM_REMOVE, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
+import { FORM_CREATE, FORM_DESTROY, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 
 /**
  * Initial state used for the first time the reducer function is called.
@@ -43,7 +43,7 @@ const formReducer = (state = initialState, action) => {
 
       return newState;
     }
-    case FORM_REMOVE: {
+    case FORM_DESTROY: {
       const newState = clone(state);
 
       delete newState[formId];

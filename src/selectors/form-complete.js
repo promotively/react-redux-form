@@ -33,7 +33,7 @@ import { createSelector } from 'reselect';
  */
 const createFormCompleteSelector = formId =>
   createSelector(
-    state => Boolean(state.form[formId]?.complete),
+    state => Boolean(state.form.forms[formId]?.complete),
     complete => complete
   );
 

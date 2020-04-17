@@ -17,8 +17,10 @@ describe('selectors/form-error.js', () => {
     const formErrorSelector = createFormErrorSelector(formId);
     const mockState = {
       form: {
-        [formId]: {
-          error: mockError.message
+        forms: {
+          [formId]: {
+            error: mockError.message
+          }
         }
       }
     };
@@ -30,7 +32,9 @@ describe('selectors/form-error.js', () => {
     const formErrorSelector = createFormErrorSelector(formId);
     const mockState = {
       form: {
-        [formId]: {}
+        forms: {
+          [formId]: {}
+        }
       }
     };
 

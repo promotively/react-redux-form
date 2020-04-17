@@ -10,13 +10,12 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { formReducer, formInputReducer } from '../src';
+import { reducer } from '../src';
 
 const createReduxStore = () =>
   createStore(
     combineReducers({
-      form: formReducer,
-      formInput: formInputReducer
+      form: reducer
     }),
     composeWithDevTools(applyMiddleware(...[thunk]))
   );

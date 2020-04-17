@@ -24,8 +24,8 @@ import {
   FORM_INPUT_ENABLE,
   FORM_INPUT_ERROR,
   FORM_INPUT_FOCUS,
-  FORM_INPUT_REMOVE,
-  removeFormInput
+  FORM_INPUT_DESTROY,
+  destroyFormInput
 } from 'actions/form-input';
 
 const formId = 'test-form';
@@ -45,10 +45,10 @@ describe('actions/form-input.js', () => {
   });
 
   it('should handle removing a form input.', () => {
-    expect(removeFormInput(formId, inputId)).toEqual({
+    expect(destroyFormInput(formId, inputId)).toEqual({
       formId,
       inputId,
-      type: FORM_INPUT_REMOVE
+      type: FORM_INPUT_DESTROY
     });
   });
 

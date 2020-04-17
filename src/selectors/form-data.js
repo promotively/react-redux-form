@@ -34,11 +34,11 @@ import { createSelector } from 'reselect';
 const createFormDataSelector = formId =>
   createSelector(
     state =>
-      Object.keys(state.formInput)
+      Object.keys(state.form.inputs)
         .filter(key => formId === key.split('__')[0])
         .map(key => ({
           name: key.split('__')[1],
-          value: state.formInput[key].value
+          value: state.form.inputs[key].value
         }))
         .reduce((result, item) => {
           result[item.name] = item.value;

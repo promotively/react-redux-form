@@ -12,8 +12,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import thunk from 'redux-thunk';
-import FormInput from 'components/form-input';
-import Form from 'components/form';
+import FormInput from 'containers/form-input';
+import Form from 'containers/form';
 import {
   FORM_INPUT_BLUR,
   FORM_INPUT_CHANGE,
@@ -21,10 +21,8 @@ import {
   FORM_INPUT_CREATE,
   FORM_INPUT_ERROR,
   FORM_INPUT_FOCUS,
-  FORM_INPUT_REMOVE
+  FORM_INPUT_DESTROY
 } from 'actions/form-input';
-import withForm from 'helpers/with-form';
-import withFormInput from 'helpers/with-form-input';
 
 const mockFormId = 'test-form';
 const mockFormInputId = 'test-form-input';
@@ -47,20 +45,20 @@ jest.useFakeTimers();
 
 describe('helpers/with-form-input.js', () => {
   it('should mapStateToProps and mapDispatchToProps.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {}
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {}
+      }
     };
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -85,19 +83,19 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should create form input.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
-      form: {},
-      formInput: {}
+      form: {
+        forms: {},
+        inputs: {}
+      }
     };
     const mockStore = createMockStore(mockState);
 
     ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} />
+        </Form>
       </Provider>
     );
 
@@ -109,18 +107,18 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should not render without a form id.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
-      form: {},
-      formInput: {}
+      form: {
+        forms: {},
+        inputs: {}
+      }
     };
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer>
-          <FormInputContainer id={mockFormInputId} />
-        </FormContainer>
+        <Form>
+          <FormInput id={mockFormInputId} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -128,21 +126,21 @@ describe('helpers/with-form-input.js', () => {
     expect(container.findAllByProps({ id: mockFormId })).toHaveLength(0);
   });
 
-  it('should remove form input.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
+  it('should destroy form input.', () => {
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {}
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {}
+      }
     };
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} />
+        </Form>
       </Provider>
     );
 
@@ -152,24 +150,24 @@ describe('helpers/with-form-input.js', () => {
 
     const actions = mockStore.getActions();
 
-    expect(actions[3]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_REMOVE });
+    expect(actions[3]).toEqual({ formId: mockFormId, inputId: mockFormInputId, type: FORM_INPUT_DESTROY });
   });
 
-  it('should not remove form input when options.destroy is set to false.', () => {
-    const FormContainer = withForm({ destroy: false })(Form);
-    const FormInputContainer = withFormInput({ destroy: false })(FormInput);
+  it('should not destroy form input when destroy prop is set to false.', () => {
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {}
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {}
+      }
     };
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} />
-        </FormContainer>
+        <Form destroy={false} id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} />
+        </Form>
       </Provider>
     );
 
@@ -183,24 +181,24 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should blur form input.', callback => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          focus: true
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            focus: true
+          }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -217,15 +215,15 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should call custom event handler when the form input has lost focus.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            value: initialValue
+          }
         }
       }
     };
@@ -233,9 +231,9 @@ describe('helpers/with-form-input.js', () => {
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} onBlur={mockOnBlur} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} onBlur={mockOnBlur} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -248,24 +246,24 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should focus form input.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          focus: false
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            focus: false
+          }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -280,15 +278,15 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should call custom event handler when the form input has focus.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            value: initialValue
+          }
         }
       }
     };
@@ -296,9 +294,9 @@ describe('helpers/with-form-input.js', () => {
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} onFocus={mockOnFocus} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} onFocus={mockOnFocus} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -311,24 +309,24 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should change form input value.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            value: initialValue
+          }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -349,15 +347,15 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should call custom event handler when the form input value changes.', () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            value: initialValue
+          }
         }
       }
     };
@@ -365,9 +363,9 @@ describe('helpers/with-form-input.js', () => {
     const mockStore = createMockStore(mockState);
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} onChange={mockOnChange} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} onChange={mockOnChange} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -380,27 +378,26 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should fail async validation when the value of a form input changes.', async () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          error: null,
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            error: null,
+            value: initialValue
+          }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const mockValidator = createRejectedPromise(mockError);
-
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} validate={mockValidator} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -420,16 +417,16 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should pass async validation when the value of a form input changes.', async () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          error: mockError.message,
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            error: mockError.message,
+            value: initialValue
+          }
         }
       }
     };
@@ -437,9 +434,9 @@ describe('helpers/with-form-input.js', () => {
     const mockValidator = createResolvedPromise();
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} validate={mockValidator} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -454,27 +451,26 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should fail validation when the value of a form input changes.', async () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          error: null,
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            error: null,
+            value: initialValue
+          }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const mockValidator = () => mockError.message;
-
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} validate={mockValidator} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;
@@ -494,16 +490,16 @@ describe('helpers/with-form-input.js', () => {
   });
 
   it('should pass validation when the value of a form input changes.', async () => {
-    const FormContainer = withForm()(Form);
-    const FormInputContainer = withFormInput()(FormInput);
     const mockState = {
       form: {
-        [mockFormId]: {}
-      },
-      formInput: {
-        [mockFormInputKey]: {
-          error: mockError.message,
-          value: initialValue
+        forms: {
+          [mockFormId]: {}
+        },
+        inputs: {
+          [mockFormInputKey]: {
+            error: mockError.message,
+            value: initialValue
+          }
         }
       }
     };
@@ -511,9 +507,9 @@ describe('helpers/with-form-input.js', () => {
     const mockValidator = () => null;
     const renderer = ReactTestRenderer.create(
       <Provider store={mockStore}>
-        <FormContainer id={mockFormId}>
-          <FormInputContainer id={mockFormInputId} value={initialValue} validate={mockValidator} />
-        </FormContainer>
+        <Form id={mockFormId}>
+          <FormInput id={mockFormInputId} value={initialValue} validate={mockValidator} />
+        </Form>
       </Provider>
     );
     const container = renderer.root;

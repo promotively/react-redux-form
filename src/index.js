@@ -12,18 +12,23 @@ export {
   FORM_CREATE,
   FORM_ERROR,
   FORM_LOADING,
-  FORM_REMOVE,
+  FORM_DESTROY,
   createForm,
   errorForm,
-  removeForm,
+  destroyForm,
   loadingForm,
   completeForm,
   submitForm
 } from 'actions/form';
-export { default as Form } from 'components/form';
-export { default as FormInput } from 'components/form-input';
+export { default as FormComponent } from 'components/form';
+export { default as FormInputComponent } from 'components/form-input';
+export { default as Form } from 'containers/form';
+export { default as FormInput } from 'containers/form-input';
 export { default as withForm } from 'helpers/with-form';
+export { default as withFormInput } from 'helpers/with-form-input';
+export { default as reducer } from 'reducers';
 export { default as formReducer } from 'reducers/form';
+export { default as formInputReducer } from 'reducers/form-input';
 export { default as createFormActiveSelector } from 'selectors/form-active';
 export { default as createFormCompleteSelector } from 'selectors/form-complete';
 export { default as createFormDataSelector } from 'selectors/form-data';
@@ -40,7 +45,7 @@ export {
   FORM_INPUT_ENABLE,
   FORM_INPUT_ERROR,
   FORM_INPUT_FOCUS,
-  FORM_INPUT_REMOVE,
+  FORM_INPUT_DESTROY,
   blurFormInput,
   changeFormInput,
   completeFormInput,
@@ -49,10 +54,8 @@ export {
   enableFormInput,
   errorFormInput,
   focusFormInput,
-  removeFormInput
+  destroyFormInput
 } from 'actions/form-input';
-export { default as withFormInput } from 'helpers/with-form-input';
-export { default as formInputReducer } from 'reducers/form-input';
 export { default as createFormInputActiveSelector } from 'selectors/form-input-active';
 export { default as createFormInputCompleteSelector } from 'selectors/form-input-complete';
 export { default as createFormInputDirtySelector } from 'selectors/form-input-dirty';
