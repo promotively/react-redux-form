@@ -97,12 +97,12 @@ const handleValidation = props => data =>
  * @returns {Function} Connected event handler for the submit action type.
  */
 const handleSubmit = props => event => {
-  const { errorForm, onSubmit, data, id, dirty, disabled, loading, submitForm } = props;
+  const { errorForm, onSubmit, data, id, disabled, loading, submitForm } = props;
 
   event.preventDefault();
 
   return new Promise((resolve, reject) => {
-    if (onSubmit && !loading && !disabled && dirty) {
+    if (onSubmit && !loading && !disabled) {
       handleValidation(props)(data)
         .then(() => submitForm(id, data, onSubmit) && resolve())
         .catch(error => errorForm(id, error) && reject(error));

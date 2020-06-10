@@ -354,35 +354,6 @@ describe('helpers/with-form.js', () => {
     expect(mockOnSubmit).toBeCalled();
   });
 
-  it('should not submit the form when it has not been changed.', async () => {
-    const mockState = {
-      form: {
-        forms: {
-          [mockFormId]: {}
-        },
-        inputs: {
-          [mockFormInputKey]: {
-            dirty: false
-          }
-        }
-      }
-    };
-    const mockStore = createMockStore(mockState);
-    const mockOnSubmit = jest.fn(() => Promise.resolve());
-    const renderer = ReactTestRenderer.create(
-      <Provider store={mockStore}>
-        <Form id={mockFormId} onSubmit={mockOnSubmit} />
-      </Provider>
-    );
-    const container = renderer.root;
-
-    jest.runAllTimers();
-
-    await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
-
-    expect(mockOnSubmit).not.toBeCalled();
-  });
-
   it('should not submit the form when it is already submitting.', async () => {
     const mockState = {
       form: {
