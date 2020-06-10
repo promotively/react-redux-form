@@ -51,4 +51,27 @@ describe('selectors/form-input-value.js', () => {
 
     expect(formInputValueSelector(mockState, mockProps)).toEqual('');
   });
+
+  it('should return an empty string if the form input has an initial value and its current value is empty.', () => {
+    const formInputValueSelector = createFormInputValueSelector(formId, inputId);
+    const mockState = {
+      form: {
+        forms: {
+          [formId]: {}
+        },
+        inputs: {
+          [inputKey]: {
+            value: ''
+          }
+        }
+      }
+    };
+
+    expect(
+      formInputValueSelector(mockState, {
+        ...mockProps,
+        value: newValue
+      })
+    ).toEqual('');
+  });
 });
