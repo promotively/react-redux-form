@@ -152,6 +152,19 @@ const withForm = Component => {
      */
 
     /**
+     * The default props passed down to the component.
+     * @static
+     * @memberof WrappedComponent
+     * @type {Object}
+     */
+    static defaultProps = {
+      complete: false,
+      destroy: true,
+      error: null,
+      loading: false
+    };
+
+    /**
      * Returns only the component properties that need to be passed to the child component.
      * @function
      * @memberof WrappedComponent
@@ -169,13 +182,6 @@ const withForm = Component => {
         onSubmit: handleSubmit(this.props)
       };
     }
-
-    static defaultProps = {
-      complete: false,
-      destroy: true,
-      error: null,
-      loading: false
-    };
 
     /**
      * Creates the form state before the first render.

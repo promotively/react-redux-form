@@ -196,6 +196,28 @@ const withFormContext = Component => {
 const withFormInput = Component => {
   class WrappedComponent extends React.PureComponent {
     /**
+     * @typedef WrappedFormInputComponentProps
+     * @type {Object}
+     * @property {Boolean} active Form input active state.
+     * @property {Function} blurFormInput Redux action to blur the form input.
+     * @property {Function} changeFormInput Redux action to change the form input value.
+     * @property {Boolean} complete Form input complete state.
+     * @property {Function} completeFormInput Redux action to complete the form input value.
+     * @property {Boolean} value The value of the form input.
+     * @property {Boolean} dirty Form input dirty state.
+     * @property {String} error Form input error state.
+     * @property {Function} errorFormInput Redux action to change the form input error.
+     * @property {String} formId The form id.
+     * @property {String} id The form input id.
+     * @property {Boolean} focus Form input focus state.
+     * @property {Function} focusFormInput Redux action to focus the form input.
+     * @property {Function} validate Function that returns a promise that can
+     * resolve any errors with the form input value.
+     * @property [HTMLInputElementProps]  Any props you might usually use with a react form input component.
+     * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.
+     */
+
+    /**
      * The default props passed down to the component.
      * @static
      * @memberof WrappedComponent
@@ -231,28 +253,6 @@ const withFormInput = Component => {
         });
       }, 1);
     }
-
-    /**
-     * @typedef WrappedFormInputComponentProps
-     * @type {Object}
-     * @property {Boolean} active Form input active state.
-     * @property {Function} blurFormInput Redux action to blur the form input.
-     * @property {Function} changeFormInput Redux action to change the form input value.
-     * @property {Boolean} complete Form input complete state.
-     * @property {Function} completeFormInput Redux action to complete the form input value.
-     * @property {Boolean} value The value of the form input.
-     * @property {Boolean} dirty Form input dirty state.
-     * @property {String} error Form input error state.
-     * @property {Function} errorFormInput Redux action to change the form input error.
-     * @property {String} formId The form id.
-     * @property {String} id The form input id.
-     * @property {Boolean} focus Form input focus state.
-     * @property {Function} focusFormInput Redux action to focus the form input.
-     * @property {Function} validate Function that returns a promise that can
-     * resolve any errors with the form input value.
-     * @property [HTMLInputElementProps]  Any props you might usually use with a react form input component.
-     * @property [HTMLElementProps]  Any props you might usually use with a react component that renders HTMLElement's.
-     */
 
     /**
      * Returns only the component properties that need to be passed to the child component.
