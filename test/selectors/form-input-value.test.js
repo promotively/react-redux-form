@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormInputValueSelector from 'selectors/form-input-value';
+import { createFormInputValueSelector } from 'selectors/form-input-value';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

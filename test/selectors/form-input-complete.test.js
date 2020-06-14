@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormInputCompleteSelector from 'selectors/form-input-complete';
+import { createFormInputCompleteSelector } from 'selectors/form-input-complete';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

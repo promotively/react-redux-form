@@ -8,7 +8,7 @@
  */
 
 import { FORM_CREATE, FORM_DESTROY, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
-import formReducer from 'reducers/form';
+import { formReducer } from 'reducers/form';
 
 const formId = 'test-form';
 const mockError = new Error('test-error');

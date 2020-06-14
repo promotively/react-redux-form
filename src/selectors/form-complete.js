@@ -31,10 +31,8 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormCompleteSelector = formId =>
+export const createFormCompleteSelector = formId =>
   createSelector(
     state => Boolean(state.form.forms[formId]?.complete),
     complete => complete
   );
-
-export default createFormCompleteSelector;

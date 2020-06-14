@@ -18,14 +18,14 @@
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
 import { createForm, errorForm, destroyForm, submitForm } from 'actions/form';
-import createFormActiveSelector from 'selectors/form-active';
-import createFormCompleteSelector from 'selectors/form-complete';
-import createFormDataSelector from 'selectors/form-data';
-import createFormDirtySelector from 'selectors/form-dirty';
-import createFormDisabledSelector from 'selectors/form-disabled';
-import createFormErrorSelector from 'selectors/form-error';
-import createFormLoadingSelector from 'selectors/form-loading';
-import FormContext from 'helpers/form-context';
+import { createFormActiveSelector } from 'selectors/form-active';
+import { createFormCompleteSelector } from 'selectors/form-complete';
+import { createFormDataSelector } from 'selectors/form-data';
+import { createFormDirtySelector } from 'selectors/form-dirty';
+import { createFormDisabledSelector } from 'selectors/form-disabled';
+import { createFormErrorSelector } from 'selectors/form-error';
+import { createFormLoadingSelector } from 'selectors/form-loading';
+import { FormContext } from 'helpers/form-context';
 
 /**
  * Maps the state from the redux.js store back to props that are passed down to the react.js component.
@@ -132,7 +132,7 @@ const handleSubmit = props => event => {
  *
  * ...
  */
-const withForm = Component => {
+export const withForm = Component => {
   class WrappedComponent extends React.PureComponent {
     /**
      * @typedef WrappedFormComponentProps
@@ -235,5 +235,3 @@ const withForm = Component => {
 
   return withRedux(mapStateToProps, mapDispatchToProps)(WrappedComponent);
 };
-
-export default withForm;

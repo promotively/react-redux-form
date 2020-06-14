@@ -31,10 +31,8 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormErrorSelector = formId =>
+export const createFormErrorSelector = formId =>
   createSelector(
     state => state.form.forms[formId]?.error || '',
     error => error
   );
-
-export default createFormErrorSelector;

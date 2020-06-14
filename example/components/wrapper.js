@@ -11,7 +11,7 @@
 
 import React from 'react';
 
-const Wrapper = props => (
+export const Wrapper = props => (
   <div
     style={{
       border: '1px solid #000',
@@ -22,5 +22,3 @@ const Wrapper = props => (
     {props.children}
   </div>
 );
-
-export default Wrapper;

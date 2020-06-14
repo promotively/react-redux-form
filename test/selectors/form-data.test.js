@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormDataSelector from 'selectors/form-data';
+import { createFormDataSelector } from 'selectors/form-data';
 
 const formId = 'test-form';
 const inputIds = ['test-form-input-1', 'test-form-input-2', 'test-form-input-3'];

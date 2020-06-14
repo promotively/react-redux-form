@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormLoadingSelector from 'selectors/form-loading';
+import { createFormLoadingSelector } from 'selectors/form-loading';
 
 const formId = 'test-form';
 

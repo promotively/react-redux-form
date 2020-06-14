@@ -15,7 +15,7 @@ import React from 'react';
  * @param {Object} inputProps The properties used to render the component.
  * @returns {Function} A react.js component that renders a default or custom form input component.
  */
-const FormInput = inputProps => {
+export const WrappedFormInput = inputProps => {
   const { component: Component, render, ...props } = inputProps;
 
   if (Component) {
@@ -54,5 +54,3 @@ const FormInput = inputProps => {
     />
   );
 };
-
-export default FormInput;

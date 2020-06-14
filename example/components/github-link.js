@@ -12,7 +12,7 @@
 
 import React from 'react';
 
-const GitHubLink = props => (
+export const GitHubLink = props => (
   <a
     href={`https://github.com/promotively/${props.project}`}
     style={{
@@ -26,5 +26,3 @@ const GitHubLink = props => (
     }}
   />
 );
-
-export default GitHubLink;

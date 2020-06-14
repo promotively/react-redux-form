@@ -28,7 +28,7 @@ const initialState = {};
  * @param {Object} action The last redux.js action that was dispatched.
  * @returns {Object} Deep clone of the existing state of the store with any mutations related to handling forms.
  */
-const formReducer = (state = initialState, action) => {
+export const formReducer = (state = initialState, action) => {
   const formId = action.id;
 
   switch (action.type) {
@@ -89,5 +89,3 @@ const formReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default formReducer;

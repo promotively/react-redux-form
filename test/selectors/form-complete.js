@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormCompleteSelector from 'selectors/form-complete';
+import { createFormCompleteSelector } from 'selectors/form-complete';
 
 const formId = 'test-form';
 

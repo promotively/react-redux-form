@@ -11,7 +11,7 @@
 
 import React from 'react';
 
-const Meta = props => (
+export const Meta = props => (
   <div
     style={{
       border: '1px solid black',
@@ -24,5 +24,3 @@ const Meta = props => (
     {props.name}: {props.value ? 'Yes' : 'No'}
   </div>
 );
-
-export default Meta;

@@ -11,7 +11,7 @@
 
 import React from 'react';
 
-const Alert = props => (
+export const Alert = props => (
   <div
     style={{
       background: '#fff',
@@ -48,5 +48,3 @@ const Alert = props => (
     {props.children}
   </div>
 );
-
-export default Alert;

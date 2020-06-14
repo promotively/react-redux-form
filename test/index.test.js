@@ -41,24 +41,24 @@ import {
   focusFormInput,
   destroyFormInput
 } from 'actions/form-input';
-import createFormActiveSelector from 'selectors/form-active';
-import createFormCompleteSelector from 'selectors/form-complete';
-import createFormDataSelector from 'selectors/form-data';
-import createFormDirtySelector from 'selectors/form-dirty';
-import createFormDisabledSelector from 'selectors/form-disabled';
-import createFormErrorSelector from 'selectors/form-error';
-import createFormInputActiveSelector from 'selectors/form-input-active';
-import createFormInputCompleteSelector from 'selectors/form-input-complete';
-import createFormInputDirtySelector from 'selectors/form-input-dirty';
-import createFormInputDisabledSelector from 'selectors/form-input-disabled';
-import createFormInputErrorSelector from 'selectors/form-input-error';
-import createFormInputFocusSelector from 'selectors/form-input-focus';
-import createFormInputValueSelector from 'selectors/form-input-value';
-import createFormLoadingSelector from 'selectors/form-loading';
-import formInputReducer from 'reducers/form-input';
-import formReducer from 'reducers/form';
-import withForm from 'helpers/with-form';
-import withFormInput from 'helpers/with-form-input';
+import { createFormActiveSelector } from 'selectors/form-active';
+import { createFormCompleteSelector } from 'selectors/form-complete';
+import { createFormDataSelector } from 'selectors/form-data';
+import { createFormDirtySelector } from 'selectors/form-dirty';
+import { createFormDisabledSelector } from 'selectors/form-disabled';
+import { createFormErrorSelector } from 'selectors/form-error';
+import { createFormInputActiveSelector } from 'selectors/form-input-active';
+import { createFormInputCompleteSelector } from 'selectors/form-input-complete';
+import { createFormInputDirtySelector } from 'selectors/form-input-dirty';
+import { createFormInputDisabledSelector } from 'selectors/form-input-disabled';
+import { createFormInputErrorSelector } from 'selectors/form-input-error';
+import { createFormInputFocusSelector } from 'selectors/form-input-focus';
+import { createFormInputValueSelector } from 'selectors/form-input-value';
+import { createFormLoadingSelector } from 'selectors/form-loading';
+import { formInputReducer } from 'reducers/form-input';
+import { formReducer } from 'reducers/form';
+import { withForm } from 'helpers/with-form';
+import { withFormInput } from 'helpers/with-form-input';
 
 describe('index.js', () => {
   it('should export createForm action creator.', () => {

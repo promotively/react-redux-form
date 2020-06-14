@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import form from './form';
-import formInput from './form-input';
+import { formReducer } from './form';
+import { formInputReducer } from './form-input';
 
-export default combineReducers({
-  forms: form,
-  inputs: formInput
+export const reducer = combineReducers({
+  forms: formReducer,
+  inputs: formInputReducer
 });

@@ -10,14 +10,12 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import ExampleForm from '../containers/example-form';
-import Header from '../components/header';
+import { ExampleFormContainer } from '../containers/example-form';
+import { Header } from '../components/header';
 
-const App = () => (
+export const App = () => (
   <>
     <Header />
-    <ExampleForm id="example-test-form" />
+    <ExampleFormContainer id="example-test-form" />
   </>
 );
-
-export default App;

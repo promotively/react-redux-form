@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormInputDisabledSelector from 'selectors/form-input-disabled';
+import { createFormInputDisabledSelector } from 'selectors/form-input-disabled';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

@@ -211,7 +211,7 @@ export interface iFormProps {
   validate?: Function;
 }
 
-export function FormComponent(props: iFormProps): JSX.Element;
+export function WrappedForm(props: iFormProps): JSX.Element;
 
 export function Form(props: iFormProps): JSX.Element;
 
@@ -248,7 +248,7 @@ export interface iFormInputProps {
   value?: string;
 }
 
-export function FormInputComponent(props: iFormInputProps): JSX.Element;
+export function WrappedFormInput(props: iFormInputProps): JSX.Element;
 
 export function FormInput(props: iFormInputProps): JSX.Element;
 

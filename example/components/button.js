@@ -11,7 +11,7 @@
 
 import React from 'react';
 
-const Button = props => (
+export const Button = props => (
   <button
     style={{
       ...(!props.disabled
@@ -35,5 +35,3 @@ const Button = props => (
     {props.children}
   </button>
 );
-
-export default Button;

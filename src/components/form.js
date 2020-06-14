@@ -15,7 +15,7 @@ import React from 'react';
  * @param {Object} formProps The properties used to render the component.
  * @returns {Function} A react.js component that renders a default or custom form component.
  */
-const Form = formProps => {
+export const WrappedForm = formProps => {
   const { component: Component, render, ...props } = formProps;
 
   if (Component) {
@@ -38,5 +38,3 @@ const Form = formProps => {
     </form>
   );
 };
-
-export default Form;

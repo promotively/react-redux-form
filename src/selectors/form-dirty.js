@@ -31,10 +31,8 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormDirtySelector = formId =>
+export const createFormDirtySelector = formId =>
   createSelector(
     state => Object.keys(state.form.inputs).some(key => formId === key.split('__')[0] && state.form.inputs[key]?.dirty),
     dirty => dirty
   );
-
-export default createFormDirtySelector;

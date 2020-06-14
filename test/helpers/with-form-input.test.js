@@ -12,8 +12,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import thunk from 'redux-thunk';
-import FormInput from 'containers/form-input';
-import Form from 'containers/form';
+import { FormInput } from 'containers/form-input';
+import { Form } from 'containers/form';
 import {
   FORM_INPUT_BLUR,
   FORM_INPUT_CHANGE,

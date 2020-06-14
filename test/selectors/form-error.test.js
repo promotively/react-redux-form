@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormErrorSelector from 'selectors/form-error';
+import { createFormErrorSelector } from 'selectors/form-error';
 
 const formId = 'test-form';
 const mockError = new Error('test-error');

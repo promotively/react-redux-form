@@ -12,7 +12,7 @@
 import React from 'react';
 import { connect as withRedux } from 'react-redux';
 import { createFormDisabledSelector } from '../../src';
-import ExampleForm from '../components/example-form';
+import { ExampleForm } from '../components/example-form';
 
 const mapStateToProps = (state, props) => {
   const formDisabledSelector = createFormDisabledSelector(props.id);
@@ -56,7 +56,7 @@ const handleFormSubmit = data =>
     }, 500);
   });
 
-const ExampleFormContainer = withRedux(mapStateToProps)(props => (
+export const ExampleFormContainer = withRedux(mapStateToProps)(props => (
   <ExampleForm
     id={props.id}
     validateForm={handleFormValidation}
@@ -65,5 +65,3 @@ const ExampleFormContainer = withRedux(mapStateToProps)(props => (
     disabled={props.disabled}
   />
 ));
-
-export default ExampleFormContainer;

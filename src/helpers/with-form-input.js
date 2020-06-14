@@ -26,14 +26,14 @@ import {
   errorFormInput,
   destroyFormInput
 } from 'actions/form-input';
-import createFormInputActiveSelector from 'selectors/form-input-active';
-import createFormInputCompleteSelector from 'selectors/form-input-complete';
-import createFormInputDirtySelector from 'selectors/form-input-dirty';
-import createFormInputDisabledSelector from 'selectors/form-input-disabled';
-import createFormInputErrorSelector from 'selectors/form-input-error';
-import createFormInputFocusSelector from 'selectors/form-input-focus';
-import createFormInputValueSelector from 'selectors/form-input-value';
-import FormContext from 'helpers/form-context';
+import { createFormInputActiveSelector } from 'selectors/form-input-active';
+import { createFormInputCompleteSelector } from 'selectors/form-input-complete';
+import { createFormInputDirtySelector } from 'selectors/form-input-dirty';
+import { createFormInputDisabledSelector } from 'selectors/form-input-disabled';
+import { createFormInputErrorSelector } from 'selectors/form-input-error';
+import { createFormInputFocusSelector } from 'selectors/form-input-focus';
+import { createFormInputValueSelector } from 'selectors/form-input-value';
+import { FormContext } from 'helpers/form-context';
 
 /**
  * Maps the state from the redux.js store back to props that are passed down
@@ -193,7 +193,7 @@ const withFormContext = Component => {
  *
  * ...
  */
-const withFormInput = Component => {
+export const withFormInput = Component => {
   class WrappedComponent extends React.PureComponent {
     /**
      * @typedef WrappedFormInputComponentProps
@@ -321,5 +321,3 @@ const withFormInput = Component => {
 
   return withFormContext(withRedux(mapStateToProps, mapDispatchToProps)(WrappedComponent));
 };
-
-export default withFormInput;

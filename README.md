@@ -64,9 +64,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { reducer } from '@promotively/react-redux-form';
 import thunk from 'redux-thunk';
 
-const store = createStore({ form: reducer }, applyMiddleware(...[thunk]));
-
-export default store;
+export const store = createStore({ form: reducer }, applyMiddleware(...[thunk]));
 ```
 
 ## Usage
@@ -79,25 +77,24 @@ Use the provided form and form input components to compose a form. (id is the on
 import React from 'react';
 import { Form, FormInput } from '@promotively/react-redux-form';
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id}>
     <FormInput id="email" name="Email" type="email" />
     <FormInput id="password" name="Password" type="password" />
     <button>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 ```javascript
 // app.js
 
 import { render } from 'react-dom';
-import createReduxStore from './store';
-import LoginForm from 'components/login-form';
+import { createReduxStore } from './store';
+import { LoginForm } from 'components/login-form';
 
 const store = createReduxStore();
+
 const app = (
   <Provider store={store}>
     <LoginForm id="login-form-example" />
@@ -114,14 +111,12 @@ render(app, document.getElementsByTagName('main')[0]);
 
 import React from 'react';
 
-const CustomForm = props => (
+export const CustomForm = props => (
   <div>
     {props.error ? error : null}
     <form {...props} />
   </div>
 );
-
-export default CustomForm;
 ```
 
 ```javascript
@@ -129,15 +124,13 @@ export default CustomForm;
 
 import React from 'react';
 
-const CustomFormInput = props => (
+export const CustomFormInput = props => (
   <label>
     <span>{props.name}</span>
     <input {...props} />
     {props.active && props.error ? error : null}
   </label>
 );
-
-export default CustomFormInput;
 ```
 
 ```javascript
@@ -145,18 +138,16 @@ export default CustomFormInput;
 
 import React from 'react';
 import { Form, FormInput } from '@promotively/react-redux-form';
-import CustomForm from 'components/custom-form';
-import CustomFormInput from 'components/custom-form-input';
+import { CustomForm } from 'components/custom-form';
+import { CustomFormInput } from 'components/custom-form-input';
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id} component={CustomForm}>
     <FormInput id="email" name="Email" type="email" component={CustomFormInput} />
     <FormInput id="password" name="Password" type="password" render={props => <CustomFormInput {...props} />} />
     <button>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 (Optional) Add a submission handler to the form.
@@ -169,15 +160,13 @@ import { Form, FormInput } from '@promotively/react-redux-form';
 
 const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id} onSubmit={handleFormSubmit}>
     <FormInput id="email" name="Email" type="email" />
     <FormInput id="password" name="Password" type="password" />
     <button>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 (Optional) Add validation (synchronous or asynchronous) to the form.
@@ -210,15 +199,13 @@ const handleFormValidation = data => {
 
 const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id} validate={handleFormValidation} onSubmit={handleFormSubmit}>
     <FormInput id="email" name="Email" type="email" />
     <FormInput id="password" name="Password" type="password" />
     <button>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 (Optional) Disable the form when there are no changes detected or validation errors are found.
@@ -231,15 +218,13 @@ import { Form, FormInput } from '@promotively/react-redux-form';
 
 const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id} onSubmit={handleFormSubmit}>
     <FormInput id="email" name="Email" type="email" />
     <FormInput id="password" name="Password" type="password" />
     <button disabled={props.disabled}>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 (Optional) Avoid destroying the form state when the component unmounts.
@@ -252,15 +237,13 @@ import { Form, FormInput } from '@promotively/react-redux-form';
 
 const handleFormSubmit = data => axios.post('http://localhost:3000/api/v1/login', data).then(response => response.data);
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id} onSubmit={handleFormSubmit} destroy={false}>
     <FormInput id="email" name="Email" type="email" />
     <FormInput id="password" name="Password" type="password" />
     <button>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 (Optional) Add validation (synchronous or asynchronous) to the form inputs.
@@ -289,15 +272,13 @@ const handleFormInputPasswordValidation = (id, value) => (
   }
 );
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id}>
     <FormInput id="email" name="Email" type="email" validate={handleFormInputEmailValidation} />
     <FormInput id="password" name="Password" type="password" validate={handleFormInputPasswordValidation} />
     <button>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 (Optional) Add a default value to a form input.
@@ -308,15 +289,13 @@ export default LoginForm;
 import React from 'react';
 import { Form, FormInput } from '@promotively/react-redux-form';
 
-const LoginForm = props => (
+export const LoginForm = props => (
   <Form id={props.id}>
     <FormInput id="email" name="Email" type="email" value="name@example.com" />
     <FormInput id="password" name="Password" type="password" />
     <button>Submit</button>
   </Form>
 );
-
-export default LoginForm;
 ```
 
 ## API
@@ -343,12 +322,12 @@ export default LoginForm;
 
 ### React Components
 
-| Function             | Arguments | Description                                                       | Props                                                                |
-| -------------------- | --------- | ----------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `FormComponent`      | (props)   | React.js component to render forms.                               | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
-| `FormInputComponent` | (props)   | React.js component to render form inputs.                         | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
-| `Form`               | (props)   | React.js container component to render forms with redux.js.       | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
-| `FormInput`          | (props)   | React.js container component to render form inputs with redux.js. | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
+| Function           | Arguments | Description                                                       | Props                                                                |
+| ------------------ | --------- | ----------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `WrappedForm`      | (props)   | React.js component to render forms.                               | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
+| `WrappedFormInput` | (props)   | React.js component to render form inputs.                         | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
+| `Form`             | (props)   | React.js container component to render forms with redux.js.       | { ...HTMLFormElementProps, ...HTMLElementProps, component, render }  |
+| `FormInput`        | (props)   | React.js container component to render form inputs with redux.js. | { ...HTMLInputElementProps, ...HTMLElementProps, component, render } |
 
 ### React Higher Order Components
 

@@ -12,7 +12,7 @@
 
 import React from 'react';
 
-const WebLink = () => (
+export const WebLink = () => (
   <a
     href="https://promotively.com"
     style={{
@@ -25,5 +25,3 @@ const WebLink = () => (
     }}
   />
 );
-
-export default WebLink;

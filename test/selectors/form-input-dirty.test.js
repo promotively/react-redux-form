@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormInputDirtySelector from 'selectors/form-input-dirty';
+import { createFormInputDirtySelector } from 'selectors/form-input-dirty';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

@@ -11,12 +11,12 @@
 
 import React from 'react';
 import { Form, FormInput } from '../../src';
-import CustomForm from './custom-form';
-import CustomFormInput from './custom-form-input';
-import Button from './button';
-import Wrapper from './wrapper';
+import { CustomForm } from './custom-form';
+import { CustomFormInput } from './custom-form-input';
+import { Button } from './button';
+import { Wrapper } from './wrapper';
 
-const ExampleForm = props => (
+export const ExampleForm = props => (
   <Wrapper>
     <Form id={props.id} component={CustomForm} validate={props.validateForm} onSubmit={props.onSubmit}>
       <FormInput
@@ -51,5 +51,3 @@ const ExampleForm = props => (
     </Form>
   </Wrapper>
 );
-
-export default ExampleForm;

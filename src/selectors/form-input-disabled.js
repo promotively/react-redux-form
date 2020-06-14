@@ -32,7 +32,7 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormInputDisabledSelector = (formId, inputId) =>
+export const createFormInputDisabledSelector = (formId, inputId) =>
   createSelector(
     (state, props) => {
       const input = state.form.inputs[`${formId}__${inputId}`];
@@ -41,5 +41,3 @@ const createFormInputDisabledSelector = (formId, inputId) =>
     },
     disabled => disabled
   );
-
-export default createFormInputDisabledSelector;

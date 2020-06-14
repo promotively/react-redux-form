@@ -18,7 +18,7 @@ import {
   FORM_INPUT_COMPLETE,
   FORM_INPUT_ERROR
 } from 'actions/form-input';
-import formInputReducer from 'reducers/form-input';
+import { formInputReducer } from 'reducers/form-input';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

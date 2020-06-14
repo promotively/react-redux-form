@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormInputErrorSelector from 'selectors/form-input-error';
+import { createFormInputErrorSelector } from 'selectors/form-input-error';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

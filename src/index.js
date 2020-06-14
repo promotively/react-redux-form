@@ -20,22 +20,22 @@ export {
   completeForm,
   submitForm
 } from 'actions/form';
-export { default as FormComponent } from 'components/form';
-export { default as FormInputComponent } from 'components/form-input';
-export { default as Form } from 'containers/form';
-export { default as FormInput } from 'containers/form-input';
-export { default as withForm } from 'helpers/with-form';
-export { default as withFormInput } from 'helpers/with-form-input';
-export { default as reducer } from 'reducers';
-export { default as formReducer } from 'reducers/form';
-export { default as formInputReducer } from 'reducers/form-input';
-export { default as createFormActiveSelector } from 'selectors/form-active';
-export { default as createFormCompleteSelector } from 'selectors/form-complete';
-export { default as createFormDataSelector } from 'selectors/form-data';
-export { default as createFormDirtySelector } from 'selectors/form-dirty';
-export { default as createFormDisabledSelector } from 'selectors/form-disabled';
-export { default as createFormErrorSelector } from 'selectors/form-error';
-export { default as createFormLoadingSelector } from 'selectors/form-loading';
+export { WrappedForm } from 'components/form';
+export { WrappedFormInput } from 'components/form-input';
+export { Form } from 'containers/form';
+export { FormInput } from 'containers/form-input';
+export { withForm } from 'helpers/with-form';
+export { withFormInput } from 'helpers/with-form-input';
+export { reducer } from 'reducers';
+export { formReducer } from 'reducers/form';
+export { formInputReducer } from 'reducers/form-input';
+export { createFormActiveSelector } from 'selectors/form-active';
+export { createFormCompleteSelector } from 'selectors/form-complete';
+export { createFormDataSelector } from 'selectors/form-data';
+export { createFormDirtySelector } from 'selectors/form-dirty';
+export { createFormDisabledSelector } from 'selectors/form-disabled';
+export { createFormErrorSelector } from 'selectors/form-error';
+export { createFormLoadingSelector } from 'selectors/form-loading';
 export {
   FORM_INPUT_BLUR,
   FORM_INPUT_CHANGE,
@@ -56,10 +56,10 @@ export {
   focusFormInput,
   destroyFormInput
 } from 'actions/form-input';
-export { default as createFormInputActiveSelector } from 'selectors/form-input-active';
-export { default as createFormInputCompleteSelector } from 'selectors/form-input-complete';
-export { default as createFormInputDirtySelector } from 'selectors/form-input-dirty';
-export { default as createFormInputDisabledSelector } from 'selectors/form-input-disabled';
-export { default as createFormInputErrorSelector } from 'selectors/form-input-error';
-export { default as createFormInputFocusSelector } from 'selectors/form-input-focus';
-export { default as createFormInputValueSelector } from 'selectors/form-input-value';
+export { createFormInputActiveSelector } from 'selectors/form-input-active';
+export { createFormInputCompleteSelector } from 'selectors/form-input-complete';
+export { createFormInputDirtySelector } from 'selectors/form-input-dirty';
+export { createFormInputDisabledSelector } from 'selectors/form-input-disabled';
+export { createFormInputErrorSelector } from 'selectors/form-input-error';
+export { createFormInputFocusSelector } from 'selectors/form-input-focus';
+export { createFormInputValueSelector } from 'selectors/form-input-value';

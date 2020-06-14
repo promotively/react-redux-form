@@ -31,7 +31,7 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormDisabledSelector = formId =>
+export const createFormDisabledSelector = formId =>
   createSelector(
     state =>
       !state.form.forms[formId] ||
@@ -39,5 +39,3 @@ const createFormDisabledSelector = formId =>
       Object.keys(state.form.inputs).some(key => formId === key.split('__')[0] && state.form.inputs[key]?.error),
     disabled => disabled
   );
-
-export default createFormDisabledSelector;

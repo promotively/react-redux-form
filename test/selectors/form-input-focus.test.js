@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormInputFocusSelector from 'selectors/form-input-focus';
+import { createFormInputFocusSelector } from 'selectors/form-input-focus';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

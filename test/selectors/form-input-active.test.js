@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-import createFormInputActiveSelector from 'selectors/form-input-active';
+import { createFormInputActiveSelector } from 'selectors/form-input-active';
 
 const formId = 'test-form';
 const inputId = 'test-form-input';

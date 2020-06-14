@@ -10,11 +10,11 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import Alert from './alert';
-import Meta from './meta';
-import Wrapper from './wrapper';
+import { Alert } from './alert';
+import { Meta } from './meta';
+import { Wrapper } from './wrapper';
 
-const CustomForm = props => (
+export const CustomForm = props => (
   <div style={{ marginTop: '10px' }}>
     <Wrapper>
       <div style={{ paddingBottom: '10px' }}>
@@ -39,5 +39,3 @@ const CustomForm = props => (
     </div>
   </div>
 );
-
-export default CustomForm;

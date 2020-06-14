@@ -31,7 +31,7 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormDataSelector = formId =>
+export const createFormDataSelector = formId =>
   createSelector(
     state =>
       Object.keys(state.form.inputs)
@@ -47,5 +47,3 @@ const createFormDataSelector = formId =>
         }, {}),
     data => data
   );
-
-export default createFormDataSelector;

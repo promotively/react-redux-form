@@ -12,8 +12,8 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
 import thunk from 'redux-thunk';
-import Form from 'containers/form';
-import FormComponent from 'components/form';
+import { Form } from 'containers/form';
+import { WrappedForm } from 'components/form';
 import { FORM_CREATE, FORM_ERROR, FORM_DESTROY } from 'actions/form';
 
 const mockFormId = 'test-form';
@@ -54,7 +54,7 @@ describe('helpers/with-form.js', () => {
 
     jest.runAllTimers();
 
-    expect(Object.keys(container.findAllByType(FormComponent)[0].props).join()).toEqual(expectedPropKeys.join());
+    expect(Object.keys(container.findAllByType(WrappedForm)[0].props).join()).toEqual(expectedPropKeys.join());
   });
 
   it('should create form.', () => {
@@ -152,7 +152,7 @@ describe('helpers/with-form.js', () => {
 
     jest.runAllTimers();
 
-    expect(container.findAllByType(FormComponent)[0].props.className).toMatch(mockFormInputKey);
+    expect(container.findAllByType(WrappedForm)[0].props.className).toMatch(mockFormInputKey);
   });
 
   it('should fail async validation when submitting the form.', async () => {
@@ -181,7 +181,7 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -215,7 +215,7 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -249,7 +249,7 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -283,7 +283,7 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -316,7 +316,7 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -349,7 +349,7 @@ describe('helpers/with-form.js', () => {
 
     jest.runAllTimers();
 
-    await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
+    await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
 
     expect(mockOnSubmit).toBeCalled();
   });
@@ -380,7 +380,7 @@ describe('helpers/with-form.js', () => {
 
     jest.runAllTimers();
 
-    await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
+    await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
 
     expect(mockOnSubmit).not.toBeCalled();
   });

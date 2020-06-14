@@ -31,10 +31,8 @@ import { createSelector } from 'reselect';
  *
  * ...
  */
-const createFormLoadingSelector = formId =>
+export const createFormLoadingSelector = formId =>
   createSelector(
     state => Boolean(state.form.forms[formId] && state.form.forms[formId].loading),
     loading => loading
   );
-
-export default createFormLoadingSelector;

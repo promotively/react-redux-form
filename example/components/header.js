@@ -10,11 +10,11 @@
 /* eslint-disable react/prop-types */
 
 import React from 'react';
-import Alert from './alert';
-import GitHubLink from './github-link';
-import WebLink from './web-link';
+import { Alert } from './alert';
+import { GitHubLink } from './github-link';
+import { WebLink } from './web-link';
 
-const Header = () => (
+export const Header = () => (
   <div style={{ position: 'relative' }}>
     <WebLink />
     <GitHubLink project="react-redux-form" />
@@ -44,5 +44,3 @@ const Header = () => (
     </p>
   </div>
 );
-
-export default Header;
