@@ -1,89 +1,119 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
-/*
+/**
+ * @module reducers
+ *
  * @see {@link https://github.com/reduxjs/redux}
  */
 
-import clone from 'clone';
 import { FORM_CREATE, FORM_DESTROY, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 
 /**
  * Initial state used for the first time the reducer function is called.
+ *
  * @constant
- * @type {Object}
+ * @type {object}
  */
 const initialState = {};
 
 /**
  * The redux.js reducer function to handle any state mutations that are required for handling forms.
+ *
  * @function
- * @param {Object} state The current state inside the redux.js store.
- * @param {Object} action The last redux.js action that was dispatched.
- * @returns {Object} Deep clone of the existing state of the store with any mutations related to handling forms.
+ * @param {object} state The current state inside the redux.js store.
+ * @param {object} action The last redux.js action that was dispatched.
+ * @returns {object} Deep clone of the existing state of the store with any mutations related to handling forms.
  */
 export const formReducer = (state = initialState, action) => {
-  const formId = action.id;
+  const { error, id: formId, payload, type } = action;
 
-  switch (action.type) {
+  switch (type) {
     case FORM_CREATE: {
-      const newState = clone(state);
+      return {
+        ...Object.keys(state).reduce((result, key) => {
+          result[key] = {
+            ...state[key]
+          };
 
-      newState[formId] = {
-        complete: false,
-        error: null,
-        loading: false
+          return result;
+        }, {}),
+        ...{
+          [formId]: {
+            complete: false,
+            error: null,
+            loading: false
+          }
+        }
       };
-
-      return newState;
     }
     case FORM_DESTROY: {
-      const newState = clone(state);
+      return Object.keys(state).reduce((result, key) => {
+        if (formId !== key) {
+          result[key] = {
+            ...state[key]
+          };
+        }
 
-      delete newState[formId];
-
-      return newState;
+        return result;
+      }, {});
     }
     case FORM_LOADING: {
-      const newState = clone(state);
+      return Object.keys(state).reduce((result, key) => {
+        result[key] = {
+          ...state[key],
+          ...(formId === key
+            ? {
+                complete: false,
+                error: null,
+                loading: true,
+                values: payload
+              }
+            : null)
+        };
 
-      newState[formId] = {
-        ...newState[formId],
-        error: null,
-        loading: true
-      };
-
-      return newState;
+        return result;
+      }, {});
     }
     case FORM_COMPLETE: {
-      const newState = clone(state);
+      return Object.keys(state).reduce((result, key) => {
+        result[key] = {
+          ...state[key],
+          ...(formId === key
+            ? {
+                complete: true,
+                error: null,
+                loading: false
+              }
+            : null)
+        };
 
-      newState[formId] = {
-        ...newState[formId],
-        complete: true,
-        error: null,
-        loading: false
-      };
-
-      return newState;
+        return result;
+      }, {});
     }
     case FORM_ERROR: {
-      const newState = clone(state);
+      return Object.keys(state).reduce((result, key) => {
+        result[key] = {
+          ...state[key],
+          ...(formId === key
+            ? {
+                complete: false,
+                error,
+                loading: false
+              }
+            : null)
+        };
 
-      newState[formId] = {
-        ...newState[formId],
-        complete: false,
-        error: action.error,
-        loading: false
-      };
-
-      return newState;
+        return result;
+      }, {});
     }
     default:
       return state;

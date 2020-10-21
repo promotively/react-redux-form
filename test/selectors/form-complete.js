@@ -1,10 +1,12 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 import { createFormCompleteSelector } from 'selectors/form-complete';

@@ -2,32 +2,35 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const GenerateJSONPlugin = require('generate-json-webpack-plugin');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 const packageInfo = require('./package.json');
 
 delete packageInfo.husky;
 delete packageInfo.scripts;
 delete packageInfo.devDependencies;
 
-const dependencies = ['react', 'redux', 'react-redux'];
+const dependencies = ['react', 'redux', 'react-redux', 'reselect'];
 
 const copyright = `
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */\n\n
 `;
 
 module.exports = [
   {
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     entry: {
       browser: 'src/index.js'
     },
-    externals: dependencies,
+    externals: [nodeExternals()],
     mode: 'production',
     module: {
       rules: [
@@ -63,7 +66,6 @@ module.exports = [
       path: path.resolve('./dist/lib')
     },
     plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.BannerPlugin({
         banner: copyright,
         entryOnly: true,
@@ -74,23 +76,17 @@ module.exports = [
         browser: 'browser.js',
         main: 'server.js'
       }),
-      new CopyPlugin([{ from: './src/index.d.ts', to: 'index.d.ts' }])
+      new CopyPlugin({ patterns: [{ from: './src/index.d.ts', to: 'index.d.ts' }] })
     ],
     resolve: {
       modules: [path.resolve('.'), path.resolve('./node_modules')]
-    },
-    stats: {
-      builtAt: false,
-      hash: false,
-      maxModules: 0,
-      version: false
     },
     target: 'web'
   },
   {
     devtool: 'inline-source-map',
     entry: {
-      browser: 'example/browser.js'
+      browser: 'example/with-hocs/app/browser.js'
     },
     mode: 'development',
     module: {
@@ -125,31 +121,24 @@ module.exports = [
       path: path.resolve('./dist/example')
     },
     plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.BannerPlugin({
         banner: copyright,
         entryOnly: true,
         raw: true
       }),
-      new CopyPlugin([{ from: './example/index.html', to: 'index.html' }])
+      new CopyPlugin({ patterns: [{ from: './example/common/index.html', to: 'index.html' }] })
     ],
     resolve: {
       modules: [path.resolve('.'), path.resolve('./node_modules'), path.resolve('../node_modules')]
     },
-    stats: {
-      builtAt: false,
-      hash: false,
-      maxModules: 0,
-      version: false
-    },
     target: 'web'
   },
   {
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     entry: {
       server: 'src/index.js'
     },
-    externals: dependencies,
+    externals: [nodeExternals()],
     mode: 'production',
     module: {
       rules: [
@@ -172,7 +161,6 @@ module.exports = [
       path: path.resolve('./dist/lib')
     },
     plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.BannerPlugin({
         banner: copyright,
         entryOnly: true,
@@ -182,11 +170,48 @@ module.exports = [
     resolve: {
       modules: [path.resolve('.'), path.resolve('./node_modules')]
     },
-    stats: {
-      builtAt: false,
-      hash: false,
-      maxModules: 0,
-      version: false
+    target: 'node'
+  },
+  {
+    devtool: 'inline-source-map',
+    entry: {
+      'example/server': ['source-map-support/register', 'example/with-hocs/app/server.js'],
+      'lib/server': 'src/index.js'
+    },
+    externals: [...dependencies, 'express'],
+    mode: 'development',
+    module: {
+      rules: [
+        {
+          exclude: [/node_modules/],
+          loader: 'babel-loader',
+          test: /(example|src)\/(.*)\.js$/
+        },
+        {
+          exclude: [/node_modules/],
+          loader: 'remove-comments-loader',
+          test: /src\/(.*)\.js$/
+        }
+      ]
+    },
+    optimization: {
+      nodeEnv: false
+    },
+    output: {
+      filename: '[name].js',
+      library: '@promotively/react-redux-form',
+      libraryTarget: 'commonjs2',
+      path: path.resolve('./dist')
+    },
+    plugins: [
+      new webpack.BannerPlugin({
+        banner: copyright,
+        entryOnly: true,
+        raw: true
+      })
+    ],
+    resolve: {
+      modules: [path.resolve('.'), path.resolve('./node_modules'), path.resolve('../node_modules')]
     },
     target: 'node'
   }

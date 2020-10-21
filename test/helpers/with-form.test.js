@@ -1,23 +1,28 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
+/* eslint-disable promise/no-promise-in-callback */
+
+import mockConsole from 'jest-mock-console';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import React from 'react';
-import ReactTestRenderer from 'react-test-renderer';
+import { act, create } from 'react-test-renderer';
 import thunk from 'redux-thunk';
 import { Form } from 'containers/form';
-import { WrappedForm } from 'components/form';
+import { FormComponent } from 'components/form';
 import { FORM_CREATE, FORM_ERROR, FORM_DESTROY } from 'actions/form';
 
 const mockFormId = 'test-form';
-const mockFormInputKey = `${mockFormId}__test-form-input`;
+const mockInputKey = `${mockFormId}__test-input`;
 const mockData = {
   test: true
 };
@@ -27,12 +32,36 @@ const mockEvent = {
 const mockError = new Error('test-error');
 const createMockStore = configureStore([thunk]);
 const createResolvedPromise = data => () => Promise.resolve(data);
-// eslint-disable-next-line promise/no-promise-in-callback
 const createRejectedPromise = error => () => Promise.reject(error);
 
 jest.useFakeTimers();
 
 describe('helpers/with-form.js', () => {
+  it('should throw an error when the form identifier is undefined.', () => {
+    const restoreConsole = mockConsole();
+    const mockState = {
+      form: {
+        forms: {},
+        inputs: {}
+      }
+    };
+    const mockStore = createMockStore(mockState);
+
+    try {
+      act(() => {
+        create(
+          <Provider store={mockStore}>
+            <Form />
+          </Provider>
+        );
+      });
+    } catch (error) {
+      expect(error.message).toEqual('No form identifier.');
+    }
+
+    restoreConsole();
+  });
+
   it('should mapStateToProps and mapDispatchToProps.', () => {
     const mockState = {
       form: {
@@ -44,17 +73,28 @@ describe('helpers/with-form.js', () => {
     };
     const mockStore = createMockStore(mockState);
     const mockOnSubmit = jest.fn();
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
         <Form id={mockFormId} onSubmit={mockOnSubmit} />
       </Provider>
     );
     const container = renderer.root;
-    const expectedPropKeys = ['id', 'onSubmit', 'active', 'complete', 'dirty', 'disabled', 'error', 'loading'];
+    const expectedPropKeys = [
+      'id',
+      'onSubmit',
+      'complete',
+      'dirty',
+      'disabled',
+      'error',
+      'focus',
+      'loading',
+      'touched',
+      'values'
+    ];
 
     jest.runAllTimers();
 
-    expect(Object.keys(container.findAllByType(WrappedForm)[0].props).join()).toEqual(expectedPropKeys.join());
+    expect(Object.keys(container.findAllByType(FormComponent)[0].props).join()).toEqual(expectedPropKeys.join());
   });
 
   it('should create form.', () => {
@@ -66,7 +106,7 @@ describe('helpers/with-form.js', () => {
     };
     const mockStore = createMockStore(mockState);
 
-    ReactTestRenderer.create(
+    create(
       <Provider store={mockStore}>
         <Form id={mockFormId} />
       </Provider>
@@ -89,7 +129,7 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
         <Form id={mockFormId} />
       </Provider>
@@ -101,7 +141,7 @@ describe('helpers/with-form.js', () => {
 
     const actions = mockStore.getActions();
 
-    expect(actions[1]).toEqual({ id: mockFormId, type: FORM_DESTROY });
+    expect(actions[0]).toEqual({ id: mockFormId, type: FORM_DESTROY });
   });
 
   it('should not destroy form when destroy prop is set to false.', () => {
@@ -114,9 +154,9 @@ describe('helpers/with-form.js', () => {
       }
     };
     const mockStore = createMockStore(mockState);
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
-        <Form id={mockFormId} destroy={false} />
+        <Form destroy={false} id={mockFormId} />
       </Provider>
     );
 
@@ -126,7 +166,7 @@ describe('helpers/with-form.js', () => {
 
     const actions = mockStore.getActions();
 
-    expect(actions.length).toEqual(1);
+    expect(actions.length).toEqual(0);
   });
 
   it('should pass props through to child component.', () => {
@@ -136,23 +176,23 @@ describe('helpers/with-form.js', () => {
           [mockFormId]: {}
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: false
+          [mockInputKey]: {
+            touched: false
           }
         }
       }
     };
     const mockStore = createMockStore(mockState);
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
-        <Form id={mockFormId} className={mockFormInputKey} />
+        <Form className={mockInputKey} id={mockFormId} />
       </Provider>
     );
     const container = renderer.root;
 
     jest.runAllTimers();
 
-    expect(container.findAllByType(WrappedForm)[0].props.className).toMatch(mockFormInputKey);
+    expect(container.findAllByType(FormComponent)[0].props.className).toMatch(mockInputKey);
   });
 
   it('should fail async validation when submitting the form.', async () => {
@@ -162,8 +202,8 @@ describe('helpers/with-form.js', () => {
           [mockFormId]: {}
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: true
+          [mockInputKey]: {
+            touched: true
           }
         }
       }
@@ -171,9 +211,9 @@ describe('helpers/with-form.js', () => {
     const mockStore = createMockStore(mockState);
     const mockValidator = createRejectedPromise(mockError);
     const mockOnSubmit = createResolvedPromise(mockData);
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
-        <Form id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
+        <Form id={mockFormId} onSubmit={mockOnSubmit} validate={mockValidator} />
       </Provider>
     );
     const container = renderer.root;
@@ -181,11 +221,11 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
-      expect(actions[1]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
+      expect(actions[0]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
     }
   });
 
@@ -196,8 +236,8 @@ describe('helpers/with-form.js', () => {
           [mockFormId]: {}
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: true
+          [mockInputKey]: {
+            touched: true
           }
         }
       }
@@ -205,9 +245,9 @@ describe('helpers/with-form.js', () => {
     const mockStore = createMockStore(mockState);
     const mockValidator = createResolvedPromise();
     const mockOnSubmit = createResolvedPromise(mockData);
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
-        <Form id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
+        <Form id={mockFormId} onSubmit={mockOnSubmit} validate={mockValidator} />
       </Provider>
     );
     const container = renderer.root;
@@ -215,11 +255,11 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
-      expect(actions[1]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
+      expect(actions[0]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
     }
   });
 
@@ -230,8 +270,8 @@ describe('helpers/with-form.js', () => {
           [mockFormId]: {}
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: true
+          [mockInputKey]: {
+            touched: true
           }
         }
       }
@@ -239,9 +279,9 @@ describe('helpers/with-form.js', () => {
     const mockStore = createMockStore(mockState);
     const mockValidator = () => mockError.message;
     const mockOnSubmit = createResolvedPromise(mockData);
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
-        <Form id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
+        <Form id={mockFormId} onSubmit={mockOnSubmit} validate={mockValidator} />
       </Provider>
     );
     const container = renderer.root;
@@ -249,11 +289,11 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
-      expect(actions[1]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
+      expect(actions[0]).toEqual({ error: error.message, id: mockFormId, type: FORM_ERROR });
     }
   });
 
@@ -264,8 +304,8 @@ describe('helpers/with-form.js', () => {
           [mockFormId]: {}
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: true
+          [mockInputKey]: {
+            touched: true
           }
         }
       }
@@ -273,9 +313,9 @@ describe('helpers/with-form.js', () => {
     const mockStore = createMockStore(mockState);
     const mockValidator = () => null;
     const mockOnSubmit = createResolvedPromise(mockData);
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
-        <Form id={mockFormId} validate={mockValidator} onSubmit={mockOnSubmit} />
+        <Form id={mockFormId} onSubmit={mockOnSubmit} validate={mockValidator} />
       </Provider>
     );
     const container = renderer.root;
@@ -283,7 +323,7 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -298,15 +338,15 @@ describe('helpers/with-form.js', () => {
           [mockFormId]: {}
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: true
+          [mockInputKey]: {
+            touched: true
           }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const mockOnSubmit = jest.fn(createRejectedPromise(mockError));
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
         <Form id={mockFormId} onSubmit={mockOnSubmit} />
       </Provider>
@@ -316,7 +356,7 @@ describe('helpers/with-form.js', () => {
     jest.runAllTimers();
 
     try {
-      await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
+      await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -332,15 +372,15 @@ describe('helpers/with-form.js', () => {
           [mockFormId]: {}
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: true
+          [mockInputKey]: {
+            touched: true
           }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const mockOnSubmit = jest.fn(createResolvedPromise());
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
         <Form id={mockFormId} onSubmit={mockOnSubmit} />
       </Provider>
@@ -349,7 +389,7 @@ describe('helpers/with-form.js', () => {
 
     jest.runAllTimers();
 
-    await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
+    await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
 
     expect(mockOnSubmit).toBeCalled();
   });
@@ -363,15 +403,15 @@ describe('helpers/with-form.js', () => {
           }
         },
         inputs: {
-          [mockFormInputKey]: {
-            dirty: true
+          [mockInputKey]: {
+            touched: true
           }
         }
       }
     };
     const mockStore = createMockStore(mockState);
     const mockOnSubmit = jest.fn(() => Promise.resolve());
-    const renderer = ReactTestRenderer.create(
+    const renderer = create(
       <Provider store={mockStore}>
         <Form id={mockFormId} onSubmit={mockOnSubmit} />
       </Provider>
@@ -380,7 +420,7 @@ describe('helpers/with-form.js', () => {
 
     jest.runAllTimers();
 
-    await container.findAllByType(WrappedForm)[0].props.onSubmit(mockEvent);
+    await container.findAllByType(FormComponent)[0].props.onSubmit(mockEvent);
 
     expect(mockOnSubmit).not.toBeCalled();
   });

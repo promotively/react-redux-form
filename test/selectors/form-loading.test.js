@@ -1,10 +1,12 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 import { createFormLoadingSelector } from 'selectors/form-loading';
@@ -25,5 +27,18 @@ describe('selectors/form-loading.js', () => {
     };
 
     expect(formLoadingSelector(mockState)).toEqual(true);
+  });
+
+  it('should return false when the form is not submitting.', () => {
+    const formLoadingSelector = createFormLoadingSelector(formId);
+    const mockState = {
+      form: {
+        forms: {
+          [formId]: {}
+        }
+      }
+    };
+
+    expect(formLoadingSelector(mockState)).toEqual(false);
   });
 });

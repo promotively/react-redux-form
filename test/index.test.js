@@ -1,10 +1,12 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 import * as exports from 'index';
@@ -14,11 +16,13 @@ import {
   FORM_ERROR,
   FORM_LOADING,
   FORM_DESTROY,
+  FORM_RESET,
   createForm,
   errorForm,
   destroyForm,
   loadingForm,
   completeForm,
+  resetForm,
   submitForm
 } from 'actions/form';
 import {
@@ -31,34 +35,56 @@ import {
   FORM_INPUT_ERROR,
   FORM_INPUT_FOCUS,
   FORM_INPUT_DESTROY,
-  blurFormInput,
-  changeFormInput,
-  completeFormInput,
-  createFormInput,
-  disableFormInput,
-  enableFormInput,
-  errorFormInput,
-  focusFormInput,
-  destroyFormInput
-} from 'actions/form-input';
-import { createFormActiveSelector } from 'selectors/form-active';
+  FORM_INPUT_RESET,
+  blurInput,
+  changeInput,
+  completeInput,
+  createInput,
+  disableInput,
+  enableInput,
+  errorInput,
+  focusInput,
+  destroyInput,
+  resetInput
+} from 'actions/input';
+import { Form } from 'containers/form';
+import { FormComponent } from 'components/form';
+import { Input } from 'containers/input';
+import { InputComponent } from 'components/input';
+import { Select } from 'containers/select';
+import { SelectComponent } from 'components/select';
+import { Textarea } from 'containers/textarea';
+import { TextareaComponent } from 'components/textarea';
+
 import { createFormCompleteSelector } from 'selectors/form-complete';
-import { createFormDataSelector } from 'selectors/form-data';
 import { createFormDirtySelector } from 'selectors/form-dirty';
 import { createFormDisabledSelector } from 'selectors/form-disabled';
 import { createFormErrorSelector } from 'selectors/form-error';
-import { createFormInputActiveSelector } from 'selectors/form-input-active';
-import { createFormInputCompleteSelector } from 'selectors/form-input-complete';
-import { createFormInputDirtySelector } from 'selectors/form-input-dirty';
-import { createFormInputDisabledSelector } from 'selectors/form-input-disabled';
-import { createFormInputErrorSelector } from 'selectors/form-input-error';
-import { createFormInputFocusSelector } from 'selectors/form-input-focus';
-import { createFormInputValueSelector } from 'selectors/form-input-value';
+import { createFormFocusSelector } from 'selectors/form-focus';
+import { createFormReadySelector } from 'selectors/form-ready';
+import { createFormTouchedSelector } from 'selectors/form-touched';
+import { createInputCompleteSelector } from 'selectors/input-complete';
+import { createInputDirtySelector } from 'selectors/input-dirty';
+import { createInputDisabledSelector } from 'selectors/input-disabled';
+import { createInputErrorSelector } from 'selectors/input-error';
+import { createInputFocusSelector } from 'selectors/input-focus';
+import { createInputReadySelector } from 'selectors/input-ready';
+import { createInputTouchedSelector } from 'selectors/input-touched';
+import { createInputRevalidateSelector } from 'selectors/input-revalidate';
+import { createInputValueSelector } from 'selectors/input-value';
 import { createFormLoadingSelector } from 'selectors/form-loading';
-import { formInputReducer } from 'reducers/form-input';
+import { createFormPayloadSelector } from 'selectors/form-payload';
+import { createFormValuesSelector } from 'selectors/form-values';
+import { inputReducer } from 'reducers/input';
 import { formReducer } from 'reducers/form';
+import { useFormContext } from 'helpers/use-form-context';
+import { useForm } from 'helpers/use-form';
 import { withForm } from 'helpers/with-form';
-import { withFormInput } from 'helpers/with-form-input';
+import { useInput } from 'helpers/use-input';
+import { withInput } from 'helpers/with-input';
+
+import { handleInputValidation, handleFormValidation } from 'helpers/validation';
+import { parseValue, stringifyValue } from 'helpers/value';
 
 describe('index.js', () => {
   it('should export createForm action creator.', () => {
@@ -91,49 +117,49 @@ describe('index.js', () => {
     expect(exports.submitForm).not.toBeFalsy();
   });
 
-  it('should export blurFormInput action creator.', () => {
-    expect(exports.blurFormInput).toEqual(blurFormInput);
-    expect(exports.blurFormInput).not.toBeFalsy();
+  it('should export blurInput action creator.', () => {
+    expect(exports.blurInput).toEqual(blurInput);
+    expect(exports.blurInput).not.toBeFalsy();
   });
 
-  it('should export changeFormInput action creator.', () => {
-    expect(exports.changeFormInput).toEqual(changeFormInput);
-    expect(exports.changeFormInput).not.toBeFalsy();
+  it('should export changeInput action creator.', () => {
+    expect(exports.changeInput).toEqual(changeInput);
+    expect(exports.changeInput).not.toBeFalsy();
   });
 
-  it('should export completeFormInput action creator.', () => {
-    expect(exports.completeFormInput).toEqual(completeFormInput);
-    expect(exports.completeFormInput).not.toBeFalsy();
+  it('should export completeInput action creator.', () => {
+    expect(exports.completeInput).toEqual(completeInput);
+    expect(exports.completeInput).not.toBeFalsy();
   });
 
-  it('should export createFormInput action creator.', () => {
-    expect(exports.createFormInput).toEqual(createFormInput);
-    expect(exports.createFormInput).not.toBeFalsy();
+  it('should export createInput action creator.', () => {
+    expect(exports.createInput).toEqual(createInput);
+    expect(exports.createInput).not.toBeFalsy();
   });
 
-  it('should export disableFormInput action creator.', () => {
-    expect(exports.disableFormInput).toEqual(disableFormInput);
-    expect(exports.disableFormInput).not.toBeFalsy();
+  it('should export disableInput action creator.', () => {
+    expect(exports.disableInput).toEqual(disableInput);
+    expect(exports.disableInput).not.toBeFalsy();
   });
 
-  it('should export enableFormInput action creator.', () => {
-    expect(exports.enableFormInput).toEqual(enableFormInput);
-    expect(exports.enableFormInput).not.toBeFalsy();
+  it('should export enableInput action creator.', () => {
+    expect(exports.enableInput).toEqual(enableInput);
+    expect(exports.enableInput).not.toBeFalsy();
   });
 
-  it('should export errorFormInput action creator.', () => {
-    expect(exports.errorFormInput).toEqual(errorFormInput);
-    expect(exports.errorFormInput).not.toBeFalsy();
+  it('should export errorInput action creator.', () => {
+    expect(exports.errorInput).toEqual(errorInput);
+    expect(exports.errorInput).not.toBeFalsy();
   });
 
-  it('should export focusFormInput action creator.', () => {
-    expect(exports.focusFormInput).toEqual(focusFormInput);
-    expect(exports.focusFormInput).not.toBeFalsy();
+  it('should export focusInput action creator.', () => {
+    expect(exports.focusInput).toEqual(focusInput);
+    expect(exports.focusInput).not.toBeFalsy();
   });
 
-  it('should export destroyFormInput action creator.', () => {
-    expect(exports.destroyFormInput).toEqual(destroyFormInput);
-    expect(exports.destroyFormInput).not.toBeFalsy();
+  it('should export destroyInput action creator.', () => {
+    expect(exports.destroyInput).toEqual(destroyInput);
+    expect(exports.destroyInput).not.toBeFalsy();
   });
 
   it('should export FORM_COMPLETE action type.', () => {
@@ -211,9 +237,9 @@ describe('index.js', () => {
     expect(exports.withForm).not.toBeFalsy();
   });
 
-  it('should export withFormInput higher order component.', () => {
-    expect(exports.withFormInput).toEqual(withFormInput);
-    expect(exports.withFormInput).not.toBeFalsy();
+  it('should export withInput higher order component.', () => {
+    expect(exports.withInput).toEqual(withInput);
+    expect(exports.withInput).not.toBeFalsy();
   });
 
   it('should export the form reducer.', () => {
@@ -221,24 +247,19 @@ describe('index.js', () => {
     expect(exports.formReducer).not.toBeFalsy();
   });
 
-  it('should export the form input reducer.', () => {
-    expect(exports.formInputReducer).toEqual(formInputReducer);
-    expect(exports.formInputReducer).not.toBeFalsy();
+  it('should export the input reducer.', () => {
+    expect(exports.inputReducer).toEqual(inputReducer);
+    expect(exports.inputReducer).not.toBeFalsy();
   });
 
-  it('should export the createFormActiveSelector function.', () => {
-    expect(exports.createFormActiveSelector).toEqual(createFormActiveSelector);
-    expect(exports.createFormActiveSelector).not.toBeFalsy();
+  it('should export the createFormTouchedSelector function.', () => {
+    expect(exports.createFormTouchedSelector).toEqual(createFormTouchedSelector);
+    expect(exports.createFormTouchedSelector).not.toBeFalsy();
   });
 
   it('should export the createFormCompleteSelector function.', () => {
     expect(exports.createFormCompleteSelector).toEqual(createFormCompleteSelector);
     expect(exports.createFormCompleteSelector).not.toBeFalsy();
-  });
-
-  it('should export the createFormDataSelector function.', () => {
-    expect(exports.createFormDataSelector).toEqual(createFormDataSelector);
-    expect(exports.createFormDataSelector).not.toBeFalsy();
   });
 
   it('should export the createFormDirtySelector function.', () => {
@@ -256,43 +277,58 @@ describe('index.js', () => {
     expect(exports.createFormErrorSelector).not.toBeFalsy();
   });
 
+  it('should export the createFormFocusSelector function.', () => {
+    expect(exports.createFormFocusSelector).toEqual(createFormFocusSelector);
+    expect(exports.createFormFocusSelector).not.toBeFalsy();
+  });
+
   it('should export the createFormLoadingSelector function.', () => {
     expect(exports.createFormLoadingSelector).toEqual(createFormLoadingSelector);
     expect(exports.createFormLoadingSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputActiveSelector function.', () => {
-    expect(exports.createFormInputActiveSelector).toEqual(createFormInputActiveSelector);
-    expect(exports.createFormInputActiveSelector).not.toBeFalsy();
+  it('should export the createFormPayloadSelector function.', () => {
+    expect(exports.createFormPayloadSelector).toEqual(createFormPayloadSelector);
+    expect(exports.createFormPayloadSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputCompleteSelector function.', () => {
-    expect(exports.createFormInputCompleteSelector).toEqual(createFormInputCompleteSelector);
-    expect(exports.createFormInputCompleteSelector).not.toBeFalsy();
+  it('should export the createFormValuesSelector function.', () => {
+    expect(exports.createFormValuesSelector).toEqual(createFormValuesSelector);
+    expect(exports.createFormValuesSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputDirtySelector function.', () => {
-    expect(exports.createFormInputDirtySelector).toEqual(createFormInputDirtySelector);
-    expect(exports.createFormInputDirtySelector).not.toBeFalsy();
+  it('should export the createInputTouchedSelector function.', () => {
+    expect(exports.createInputTouchedSelector).toEqual(createInputTouchedSelector);
+    expect(exports.createInputTouchedSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputDisabledSelector function.', () => {
-    expect(exports.createFormInputDisabledSelector).toEqual(createFormInputDisabledSelector);
-    expect(exports.createFormInputDisabledSelector).not.toBeFalsy();
+  it('should export the createInputCompleteSelector function.', () => {
+    expect(exports.createInputCompleteSelector).toEqual(createInputCompleteSelector);
+    expect(exports.createInputCompleteSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputErrorSelector function.', () => {
-    expect(exports.createFormInputErrorSelector).toEqual(createFormInputErrorSelector);
-    expect(exports.createFormInputErrorSelector).not.toBeFalsy();
+  it('should export the createInputDirtySelector function.', () => {
+    expect(exports.createInputDirtySelector).toEqual(createInputDirtySelector);
+    expect(exports.createInputDirtySelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputFocusSelector function.', () => {
-    expect(exports.createFormInputFocusSelector).toEqual(createFormInputFocusSelector);
-    expect(exports.createFormInputFocusSelector).not.toBeFalsy();
+  it('should export the createInputDisabledSelector function.', () => {
+    expect(exports.createInputDisabledSelector).toEqual(createInputDisabledSelector);
+    expect(exports.createInputDisabledSelector).not.toBeFalsy();
   });
 
-  it('should export the createFormInputValueSelector function.', () => {
-    expect(exports.createFormInputValueSelector).toEqual(createFormInputValueSelector);
-    expect(exports.createFormInputValueSelector).not.toBeFalsy();
+  it('should export the createInputErrorSelector function.', () => {
+    expect(exports.createInputErrorSelector).toEqual(createInputErrorSelector);
+    expect(exports.createInputErrorSelector).not.toBeFalsy();
+  });
+
+  it('should export the createInputFocusSelector function.', () => {
+    expect(exports.createInputFocusSelector).toEqual(createInputFocusSelector);
+    expect(exports.createInputFocusSelector).not.toBeFalsy();
+  });
+
+  it('should export the createInputValueSelector function.', () => {
+    expect(exports.createInputValueSelector).toEqual(createInputValueSelector);
+    expect(exports.createInputValueSelector).not.toBeFalsy();
   });
 });

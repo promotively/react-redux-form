@@ -1,13 +1,17 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
-/*
+/**
+ * @module helpers
+ *
  * @see {@link https://github.com/facebook/react}
  */
 
@@ -15,7 +19,8 @@ import React from 'react';
 
 /**
  * The form context.
+ *
  * @constant
- * @type {Object}
+ * @type {object}
  */
 export const FormContext = React.createContext();

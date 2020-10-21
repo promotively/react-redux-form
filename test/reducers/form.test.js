@@ -1,19 +1,27 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 import { FORM_CREATE, FORM_DESTROY, FORM_LOADING, FORM_COMPLETE, FORM_ERROR } from 'actions/form';
 import { formReducer } from 'reducers/form';
 
 const formId = 'test-form';
+const anotherFormId = `${formId}-2`;
 const mockError = new Error('test-error');
 const initialState = {};
 const previousState = {
+  [anotherFormId]: {
+    complete: false,
+    error: null,
+    loading: false
+  },
   [formId]: {
     complete: false,
     error: null,
@@ -38,7 +46,13 @@ describe('reducers/form.js', () => {
 
     expect(
       formReducer(
-        {},
+        {
+          [anotherFormId]: {
+            complete: false,
+            error: null,
+            loading: false
+          }
+        },
         {
           id: formId,
           type: FORM_CREATE
@@ -104,10 +118,19 @@ describe('reducers/form.js', () => {
 
   it('should handle FORM_DESTROY action type.', () => {
     expect(
-      formReducer(previousState, {
-        id: formId,
-        type: FORM_DESTROY
-      })
-    ).toEqual({});
+      formReducer(
+        { ...previousState },
+        {
+          id: formId,
+          type: FORM_DESTROY
+        }
+      )
+    ).toEqual({
+      [anotherFormId]: {
+        complete: false,
+        error: null,
+        loading: false
+      }
+    });
   });
 });

@@ -1,22 +1,34 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
+
+/**
+ * @module components
+ *
+ * @see {@link https://github.com/facebook/react}
+ */
+
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 
 import React from 'react';
 
 /**
  * Renders a react.js form component.
+ *
  * @function
- * @param {Object} formProps The properties used to render the component.
+ * @param {object} props The properties used to render the component.
  * @returns {Function} A react.js component that renders a default or custom form component.
  */
-export const WrappedForm = formProps => {
-  const { component: Component, render, ...props } = formProps;
+export const FormComponent = props => {
+  const { component: Component, render, validate, ...formProps } = props;
 
   if (Component) {
     return <Component {...props} />;
@@ -26,15 +38,5 @@ export const WrappedForm = formProps => {
     return render(props);
   }
 
-  return (
-    <form
-      autoComplete={props.autoComplete}
-      className={props.className}
-      id={props.id}
-      onSubmit={props.onSubmit}
-      style={props.style}
-    >
-      {props.children}
-    </form>
-  );
+  return <form {...formProps} />;
 };

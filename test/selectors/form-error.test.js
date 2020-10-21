@@ -1,10 +1,12 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 import { createFormErrorSelector } from 'selectors/form-error';
@@ -28,7 +30,7 @@ describe('selectors/form-error.js', () => {
     expect(formErrorSelector(mockState)).toEqual(mockError.message);
   });
 
-  it('should return an empty string if there is no form error.', () => {
+  it('should return null if there is no form error.', () => {
     const formErrorSelector = createFormErrorSelector(formId);
     const mockState = {
       form: {
@@ -38,6 +40,6 @@ describe('selectors/form-error.js', () => {
       }
     };
 
-    expect(formErrorSelector(mockState)).toEqual('');
+    expect(formErrorSelector(mockState)).toBeNull();
   });
 });

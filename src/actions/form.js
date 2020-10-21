@@ -1,57 +1,77 @@
 /*
- * @promotively/react-redux-form
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
-/*
+/**
+ * @module actions
+ *
  * @see {@link https://github.com/reduxjs/redux}
  * @see {@link https://github.com/reduxjs/redux-thunk}
  */
 
+/* eslint-disable promise/prefer-await-to-then */
+
 /**
  * Value for the FORM_COMPLETE redux.js action type.
+ *
  * @constant
- * @type {String}
+ * @type {string}
  */
 export const FORM_COMPLETE = '@@promotively/FORM_COMPLETE';
 
 /**
  * Value for the FORM_CREATE redux.js action type.
+ *
  * @constant
- * @type {String}
+ * @type {string}
  */
 export const FORM_CREATE = '@@promotively/FORM_CREATE';
 
 /**
- * Value for the FORM_ERROR redux.js action type.
+ * Value for the FORM_DESTROY redux.js action type.
+ *
  * @constant
- * @type {String}
+ * @type {string}
+ */
+export const FORM_DESTROY = '@@promotively/FORM_DESTROY';
+
+/**
+ * Value for the FORM_ERROR redux.js action type.
+ *
+ * @constant
+ * @type {string}
  */
 export const FORM_ERROR = '@@promotively/FORM_ERROR';
 
 /**
  * Value for the FORM_LOADING redux.js action type.
+ *
  * @constant
- * @type {String}
+ * @type {string}
  */
 export const FORM_LOADING = '@@promotively/FORM_LOADING';
 
 /**
- * Value for the FORM_DESTROY redux.js action type.
+ * Value for the FORM_RESET redux.js action type.
+ *
  * @constant
- * @type {String}
+ * @type {string}
  */
-export const FORM_DESTROY = '@@promotively/FORM_DESTROY';
+export const FORM_RESET = '@@promotively/FORM_RESET';
 
 /**
  * Creates a redux.js action that creates a form.
+ *
  * @function
- * @param {String} id The ID for the form.
- * @returns {Object} The redux.js action for the FORM_CREATE redux.js
+ * @param {string} id The ID for the form.
+ * @returns {object} The redux.js action for the FORM_CREATE redux.js
  * action type.
  * @example
  * ...
@@ -68,9 +88,10 @@ export const createForm = id => ({ id, type: FORM_CREATE });
 
 /**
  * Creates a redux.js action that destroys a form.
+ *
  * @function
- * @param {String} id The ID for the form.
- * @returns {Object} The redux.js action for the FORM_DESTROY redux.js
+ * @param {string} id The ID for the form.
+ * @returns {object} The redux.js action for the FORM_DESTROY redux.js
  * action type.
  * @example
  * ...
@@ -87,11 +108,12 @@ export const destroyForm = id => ({ id, type: FORM_DESTROY });
 
 /**
  * Creates a redux.js action that sets the error state on a form.
+ *
  * @function
- * @param {String} id The ID for the form.
+ * @param {string} id The ID for the form.
  * @param {Error} error An error object containing the error message for
  * the form.
- * @returns {Object} The redux.js action for the FORM_ERROR redux.js
+ * @returns {object} The redux.js action for the FORM_ERROR redux.js
  * action type.
  * @example
  * ...
@@ -114,9 +136,12 @@ export const errorForm = (id, error) => ({
 
 /**
  * Creates a redux.js action that sets the loading state on a form.
+ *
  * @function
- * @param {String} id The ID for the form.
- * @returns {Object} The redux.js action for the FORM_LOADING redux.js
+ * @param {string} id The ID for the form.
+ * @param {object} payload An object or array containing the data from
+ * the form submission.
+ * @returns {object} The redux.js action for the FORM_LOADING redux.js
  * action type.
  * @example
  * ...
@@ -131,15 +156,40 @@ export const errorForm = (id, error) => ({
  *
  * ...
  */
-export const loadingForm = id => ({ id, type: FORM_LOADING });
+export const loadingForm = (id, payload) => ({ id, payload, type: FORM_LOADING });
+
+/**
+ * Creates a redux.js action that sets the loading state on a form.
+ *
+ * @function
+ * @param {string} id The ID for the form.
+ * @param {object} payload An object or array containing the data from
+ * the form submission.
+ * @returns {object} The redux.js action for the FORM_LOADING redux.js
+ * action type.
+ * @example
+ * ...
+ *
+ * import { loadingForm } from '@promotively/react-redux-form';
+ *
+ * // 50% chance of a form not loading and getting stuck on a spinning
+ * wheel of death :))
+ * const triggerTrollFormLoadingBug = (props) => (
+ *   Math.random() < 0.5 && props.dispatch(loadingForm(props.id))
+ * );
+ *
+ * ...
+ */
+export const resetForm = id => ({ id, type: FORM_RESET });
 
 /**
  * Creates a redux.js action that sets the complete state on a form.
+ *
  * @function
- * @param {String} id The ID for the form.
- * @param {Object|Array} data An object or array containing the data from
- * the form submission.
- * @returns {Object} The redux.js action for the FORM_LOADING redux.js
+ * @param payload
+ * @param response
+ * @param {string} id The ID for the form.
+ * @returns {object} The redux.js action for the FORM_LOADING redux.js
  * action type.
  * @example
  * ...
@@ -147,21 +197,22 @@ export const loadingForm = id => ({ id, type: FORM_LOADING });
  * import { completeForm } from '@promotively/react-redux-form';
  *
  * const completeLoginForm = (props) => (
- *   props.dispatch(completeForm('login', {
- *     email: 'steven.ewing@promotively.com',
- *     token: '2afa99040e27b9'
- *   }))
+ * props.dispatch(completeForm('login', {
+ * email: 'steven.ewing@promotively.com',
+ * token: '2afa99040e27b9'
+ * }))
  * );
  *
  * ...
  */
-export const completeForm = (id, data) => ({ data, id, type: FORM_COMPLETE });
+export const completeForm = (id, payload, response) => ({ id, payload, response, type: FORM_COMPLETE });
 
 /**
  * Creates a redux.js thunk that submits a form.
+ *
  * @function
- * @param {String} id The ID for the form.
- * @param {Object} data The data payload for the form.
+ * @param {string} id The ID for the form.
+ * @param {object} payload The data payload for the form.
  * @param {Function} action A function that returns a promise to be resolved
  * during form submission.
  * @returns {Function} A function that returns a promise that dispatches
@@ -179,10 +230,14 @@ export const completeForm = (id, data) => ({ data, id, type: FORM_COMPLETE });
  *
  * ...
  */
-export const submitForm = (id, data, action) => dispatch => {
-  dispatch(loadingForm(id));
+export const submitForm = (id, payload, action) => dispatch => {
+  dispatch(loadingForm(id, payload));
 
-  return action(data)
-    .then(response => dispatch(completeForm(id, response)))
-    .catch(error => dispatch(errorForm(id, error)));
+  if (action) {
+    return action(payload)
+      .then(response => dispatch(completeForm(id, payload, response)))
+      .catch(error => dispatch(errorForm(id, error)));
+  }
+
+  return dispatch(completeForm(id, payload, {}));
 };

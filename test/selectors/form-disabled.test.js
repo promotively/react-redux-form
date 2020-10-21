@@ -1,16 +1,18 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 import { createFormDisabledSelector } from 'selectors/form-disabled';
 
 const formId = 'test-form';
-const inputKey = `${formId}__test-form-input`;
+const inputKey = `${formId}__test-input`;
 const mockError = new Error('test-error');
 
 describe('selectors/form-disabled.js', () => {
@@ -42,7 +44,7 @@ describe('selectors/form-disabled.js', () => {
     expect(formDisabledSelector(mockState)).toEqual(true);
   });
 
-  it('should return true if any form inputs have an error.', () => {
+  it('should return true if any inputs have an error.', () => {
     const formDisabledSelector = createFormDisabledSelector(formId);
     const mockState = {
       form: {

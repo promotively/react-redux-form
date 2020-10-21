@@ -1,15 +1,19 @@
-/*
- * @promotively/react-redux-data
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 /**
  * @see {@link https://github.com/microsoft/typescript}
  */
+
+import { ParametricSelector } from 'reselect';
 
 // Type definitions for @promotively/react-redux-form
 
@@ -20,8 +24,57 @@ export const FORM_CREATE: string;
 export const FORM_ERROR: string;
 export const FORM_LOADING: string;
 export const FORM_DESTROY: string;
+export const FORM_RESET: string;
 
-// form input constants
+// form interfaces
+
+export interface FormCompleteAction {
+  id: string;
+  type: string;
+}
+
+export interface FormCreateAction {
+  id: string;
+  type: string;
+}
+
+export interface FormDestroyAction {
+  id: string;
+  type: string;
+}
+
+export interface FormErrorAction {
+  id: string;
+  type: string;
+}
+
+export interface FormLoadingAction {
+  id: string;
+  type: string;
+}
+
+export interface FormResetAction {
+  id: string;
+  type: string;
+}
+
+// form action creators
+
+export function completeForm(id: string, data: string): FormCompleteAction;
+
+export function createForm(id: string): FormCreateAction;
+
+export function destroyForm(id: string): FormDestroyAction;
+
+export function errorForm(id: string, error: Error): FormErrorAction;
+
+export function loadingForm(id: string): FormLoadingAction;
+
+export function resetForm(id: string): FormResetAction;
+
+export function submitForm(id: string, data: Object, props: Object, action: Function): Function;
+
+// input constants
 
 export const FORM_INPUT_BLUR: string;
 export const FORM_INPUT_CHANGE: string;
@@ -33,199 +86,174 @@ export const FORM_INPUT_ERROR: string;
 export const FORM_INPUT_FOCUS: string;
 export const FORM_INPUT_DESTROY: string;
 
-// form input actions
+// input interfaces
 
-export interface iFormInputActionBlur {
+export interface InputBlurAction {
   formId: string;
   inputId: string;
   type: string;
 }
 
-export interface iFormInputActionChange {
+export interface InputChangeAction {
   formId: string;
   inputId: string;
-  initialValue: string;
+  defaultValue: string;
   newValue: string;
   type: string;
 }
 
-export interface iFormInputActionComplete {
+export interface InputCompleteAction {
   formId: string;
   inputId: string;
   type: string;
 }
 
-export interface iFormInputActionCreate {
-  initialValue: string;
+export interface InputCreateAction {
+  defaultValue: string;
   formId: string;
   inputId: string;
   type: string;
 }
 
-export interface iFormInputActionDisable {
+export interface InputDisableAction {
   formId: string;
   inputId: string;
   type: string;
 }
 
-export interface iFormInputActionEnable {
+export interface InputEnableAction {
   formId: string;
   inputId: string;
   type: string;
 }
 
-export interface iFormInputActionError {
+export interface InputErrorAction {
   formId: string;
   inputId: string;
   type: string;
 }
 
-export interface iFormInputActionFocus {
+export interface InputFocusAction {
   formId: string;
   inputId: string;
   type: string;
 }
 
-export interface iFormInputActionRemove {
+export interface InputDestroyAction {
   formId: string;
   inputId: string;
   type: string;
 }
 
-export function blurFormInput(formId: string, inputId: string): iFormInputActionBlur;
+// input action creators
 
-export function changeFormInput(
+export function blurInput(formId: string, inputId: string): InputBlurAction;
+
+export function changeInput(
   formId: string,
   inputId: string,
-  initialValue: string,
+  defaultValue: string,
   newValue: string
-): iFormInputActionChange;
+): InputChangeAction;
 
-export function completeFormInput(formId: string, inputId: string): iFormInputActionComplete;
+export function completeInput(formId: string, inputId: string): InputCompleteAction;
 
-export function createFormInput(formId: string, inputId: string, initialValue: string): iFormInputActionCreate;
+export function createInput(formId: string, inputId: string, defaultValue: string): InputCreateAction;
 
-export function disableFormInput(formId: string, inputId: string): iFormInputActionDisable;
+export function disableInput(formId: string, inputId: string): InputDisableAction;
 
-export function enableFormInput(formId: string, inputId: string): iFormInputActionEnable;
+export function enableInput(formId: string, inputId: string): InputEnableAction;
 
-export function errorFormInput(formId: string, inputId: string, error: string): iFormInputActionError;
+export function errorInput(formId: string, inputId: string, error: string): InputErrorAction;
 
-export function focusFormInput(formId: string, inputId: string): iFormInputActionFocus;
+export function focusInput(formId: string, inputId: string): InputFocusAction;
 
-export function destroyFormInput(formId: string, inputId: string): iFormInputActionRemove;
-
-// form actions
-
-export interface iFormActionCreate {
-  id: string;
-  type: string;
-}
-
-export interface iFormActionRemove {
-  id: string;
-  type: string;
-}
-
-export interface iFormActionError {
-  id: string;
-  type: string;
-}
-
-export interface iFormActionLoading {
-  id: string;
-  type: string;
-}
-
-export interface iFormActionComplete {
-  id: string;
-  type: string;
-}
-
-export function createForm(id: string): iFormActionCreate;
-
-export function destroyForm(id: string): iFormActionRemove;
-
-export function errorForm(id: string, error: Error): iFormActionError;
-
-export function loadingForm(id: string): iFormActionLoading;
-
-export function completeForm(id: string, data: string): iFormActionComplete;
-
-export function submitForm(id: string, data: Object, props: Object, action: Function): Function;
+export function destroyInput(formId: string, inputId: string): InputDestroyAction;
 
 // form reducer
 
 export function formReducer(state: Object, action: Object): Object;
 
+// input reducer
+
+export function inputReducer(state: Object, action: Object): Object;
+
+// combined reducer
 export function reducer(state: Object, action: Object): Object;
-
-// form input reducer
-
-export function formInputReducer(state: Object, action: Object): Object;
 
 // form selectors
 
-export function createFormActiveSelector(id: string): Function;
+export function createFormCompleteSelector(id: string): ParametricSelector;
 
-export function createFormCompleteSelector(id: string): Function;
+export function createFormDirtySelector(id: string): ParametricSelector;
 
-export function createFormDataSelector(id: string): Function;
+export function createFormDisabledSelector(id: string): ParametricSelector;
 
-export function createFormDirtySelector(id: string): Function;
+export function createFormErrorSelector(id: string): ParametricSelector;
 
-export function createFormDisabledSelector(id: string): Function;
+export function createFormFocusSelector(id: string): ParametricSelector;
 
-export function createFormErrorSelector(id: string): Function;
+export function createFormLoadingSelector(id: string): ParametricSelector;
 
-export function createFormLoadingSelector(id: string): Function;
+export function createFormPayloadSelector(id: string): ParametricSelector;
 
-// form input selectors
+export function createFormReadySelector(id: string): ParametricSelector;
 
-export function createFormInputActiveSelector(formId: string, inputId: string): Function;
+export function createFormTouchedSelector(id: string): ParametricSelector;
 
-export function createFormInputCompleteSelector(formId: string, inputId: string): Function;
+export function createFormValuesSelector(id: string): ParametricSelector;
 
-export function createFormInputDirtySelector(formId: string, inputId: string): Function;
+// input selectors
 
-export function createFormInputDisabledSelector(formId: string, inputId: string): Function;
+export function createInputCompleteSelector(formId: string, inputId: string): ParametricSelector;
 
-export function createFormInputErrorSelector(formId: string, inputId: string): Function;
+export function createInputDirtySelector(formId: string, inputId: string): ParametricSelector;
 
-export function createFormInputFocusSelector(formId: string, inputId: string): Function;
+export function createInputDisabledSelector(formId: string, inputId: string): ParametricSelector;
 
-export function createFormInputValueSelector(formId: string, inputId: string): Function;
+export function createInputErrorSelector(formId: string, inputId: string): ParametricSelector;
+
+export function createInputFocusSelector(formId: string, inputId: string): ParametricSelector;
+
+export function createInputReadySelector(formId: string, inputId: string): ParametricSelector;
+
+export function createInpuRevalidateSelector(formId: string, inputId: string): ParametricSelector;
+
+export function createInputTouchedSelector(formId: string, inputId: string): ParametricSelector;
+
+export function createInputValueSelector(formId: string, inputId: string): ParametricSelector;
 
 // form components
 
-export interface iFormProps {
+export interface FormProps {
   autoComplete?: string;
   className?: string;
   children: React.ReactNode;
   component?: React.ComponentType;
-  destroy?: boolean;
   id: string;
   onSubmit?: Function;
   render?: React.ComponentType;
   style?: object;
+}
+
+export interface FormExtendedProps extends FormProps {
+  destroy?: boolean;
   validate?: Function;
 }
 
-export function WrappedForm(props: iFormProps): JSX.Element;
+export function FormComponent(props: FormProps): JSX.Element;
 
-export function Form(props: iFormProps): JSX.Element;
+export function Form(props: FormExtendedProps): JSX.Element;
 
-// form input components
+// input components
 
-export interface iFormInputProps {
+export interface InputProps {
   alt?: string;
   autoComplete?: string;
   autoFocus?: boolean;
   checked?: boolean;
   className?: string;
-  children?: React.ReactNode;
   component?: React.ComponentType;
-  destroy?: boolean;
   disabled?: boolean;
   id: string;
   list?: string;
@@ -234,6 +262,7 @@ export interface iFormInputProps {
   min?: number;
   minLength?: number;
   multiple?: number;
+  name?: string;
   onBlur?: Function;
   onChange?: Function;
   onFocus?: Function;
@@ -244,22 +273,28 @@ export interface iFormInputProps {
   step?: number;
   style?: object;
   type?: string;
-  validate?: Function;
   value?: string;
 }
 
-export function WrappedFormInput(props: iFormInputProps): JSX.Element;
+export interface InputExtendedProps extends InputProps {
+  destroy?: boolean;
+  validate?: Function;
+}
 
-export function FormInput(props: iFormInputProps): JSX.Element;
+export function InputComponent(props: InputProps): JSX.Element;
+
+export function Input(props: InputExtendedProps): JSX.Element;
 
 // form helpers
 
 export function FormContext(): object;
 
-export function withForm<P extends object>(Component: React.ComponentType<P>): React.ComponentClass<P & iFormProps>;
-
-// form input helpers
-
-export function withFormInput<P extends object>(
+export function withForm<P extends object>(
   Component: React.ComponentType<P>
-): React.ComponentClass<P & iFormInputProps>;
+): React.ComponentClass<P & FormExtendedProps>;
+
+// input helpers
+
+export function withInput<P extends object>(
+  Component: React.ComponentType<P>
+): React.ComponentClass<P & InputExtendedProps>;

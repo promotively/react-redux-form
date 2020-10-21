@@ -1,10 +1,12 @@
-/*
- * @promotively/react-redux-form
+/**
+ * promotively/react-redux-form
  *
- * @copyright (c) 2018-2020, Promotively
+ * @copyright Promotively (c) 2020
  * @author Steven Ewing <steven.ewing@promotively.com>
- * @see {@link https://github.com/promotively/react-redux-form}
  * @license MIT
+ *
+ * @see {@link https://promotively.com}
+ * @see {@link https://github.com/promotively/react-redux-form}
  */
 
 import configureStore from 'redux-mock-store';
@@ -19,16 +21,18 @@ import {
   FORM_ERROR,
   FORM_LOADING,
   FORM_DESTROY,
+  FORM_RESET,
   destroyForm,
+  resetForm,
   submitForm
 } from 'actions/form';
 
 const createMockStore = configureStore([thunk]);
 
 const formId = 'test-form';
-const mockData = { test: true };
+const mockPayload = { test: true };
+const mockResponse = { test: true };
 const mockError = new Error('test-error');
-const mockResponse = { error: false };
 
 describe('actions/form.js', () => {
   it('should handle creating a form.', () => {
@@ -54,9 +58,9 @@ describe('actions/form.js', () => {
   });
 
   it('should handle setting the complete state on a form.', () => {
-    expect(completeForm(formId, mockData)).toEqual({
-      data: mockData,
+    expect(completeForm(formId, mockPayload)).toEqual({
       id: formId,
+      payload: mockPayload,
       type: FORM_COMPLETE
     });
   });
@@ -68,16 +72,38 @@ describe('actions/form.js', () => {
     });
   });
 
-  it('should handle submitting a form.', async () => {
+  it('should handle resetting a form.', () => {
+    expect(resetForm(formId)).toEqual({
+      id: formId,
+      type: FORM_RESET
+    });
+  });
+
+  it('should handle submitting a form with a custom action.', async () => {
     const mockStore = createMockStore();
     const formAction = () => Promise.resolve();
 
-    await mockStore.dispatch(submitForm(formId, mockData, formAction));
+    await mockStore.dispatch(submitForm(formId, mockPayload, formAction));
 
     const actions = mockStore.getActions();
 
     expect(actions[0]).toEqual({
       id: formId,
+      payload: mockPayload,
+      type: FORM_LOADING
+    });
+  });
+
+  it('should handle submitting a form without a custom action.', async () => {
+    const mockStore = createMockStore();
+
+    await mockStore.dispatch(submitForm(formId, mockPayload));
+
+    const actions = mockStore.getActions();
+
+    expect(actions[0]).toEqual({
+      id: formId,
+      payload: mockPayload,
       type: FORM_LOADING
     });
   });
@@ -87,7 +113,7 @@ describe('actions/form.js', () => {
     const formAction = () => Promise.reject(mockError);
 
     try {
-      await mockStore.dispatch(submitForm(formId, mockData, formAction));
+      await mockStore.dispatch(submitForm(formId, mockPayload, formAction));
     } catch (error) {
       const actions = mockStore.getActions();
 
@@ -103,13 +129,14 @@ describe('actions/form.js', () => {
     const mockStore = createMockStore();
     const formAction = () => Promise.resolve(mockResponse);
 
-    await mockStore.dispatch(submitForm(formId, mockResponse, formAction));
+    await mockStore.dispatch(submitForm(formId, mockPayload, formAction));
 
     const actions = mockStore.getActions();
 
     expect(actions[1]).toEqual({
-      data: mockResponse,
       id: formId,
+      payload: mockPayload,
+      response: mockResponse,
       type: FORM_COMPLETE
     });
   });
@@ -127,12 +154,12 @@ describe('actions/form.js', () => {
         resolve();
       });
 
-    await mockStore.dispatch(submitForm(formId, mockData, formAction));
+    await mockStore.dispatch(submitForm(formId, mockPayload, formAction));
 
     const actions = mockStore.getActions();
 
     expect(actions[1]).toEqual({
-      data: mockData,
+      data: mockResponse,
       type: FORM_ACTION_TEST
     });
   });
